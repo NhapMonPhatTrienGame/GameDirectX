@@ -3,6 +3,8 @@
 #include "GameState/JumpState/JumpState.h"
 #include "../../GameComponents/GameGlobal.h"
 #include "GameState/SlideState/SlideHorizontalState/SlideHorizontalState.h"
+#include "GameState/AppearState/AppearState.h"
+#include <iostream>
 
 GamePlayer::GamePlayer()
 {
@@ -18,7 +20,7 @@ GamePlayer::GamePlayer()
 
 	vx = 0;
 	vy = 0;
-	setState(new FallState(this));
+	setState(new AppearState(this));
 }
 
 GamePlayer::~GamePlayer() {}
@@ -27,6 +29,9 @@ void GamePlayer::ChangeAnimation(StateName state)
 {
 	switch (state)
 	{
+		case Appear:
+			pAnimation->setAnimation(0, 5, 0.5);
+			break;
 		case Standing:
 			pAnimation->setAnimation(1, 4, 0.15);
 			break;
@@ -76,10 +81,10 @@ GamePlayer::MoveDirection GamePlayer::getMoveDirection() const
 	return None;
 }
 
-void GamePlayer::HandleKeyboard(const std::map<int, bool>& keys) const
+void GamePlayer::HandleKeyboard(const std::map<int, bool>& keys, float dt) const
 {
 	if (pState)
-		pState->HandleKeyboard(keys);
+		pState->HandleKeyboard(keys, dt);
 }
 
 void GamePlayer::OnKeyDown(int Key)
@@ -175,6 +180,11 @@ void GamePlayer::SetReverse(bool flag)
 	isCurrentReverse = flag;
 }
 
+bool GamePlayer::getReverse() const
+{
+	return isCurrentReverse;
+}
+
 RECT GamePlayer::getBound()
 {
 
@@ -232,6 +242,8 @@ void GamePlayer::OnCollision(CollisionReturn data, SideCollisions side)
 
 void GamePlayer::OnNoCollisionWithBottom()
 {
-	if (currentState != MegaManState::Jumping && currentState != MegaManState::Falling)
+	if (currentState == Appear)
+		return;
+	if (currentState != Jumping && currentState != Falling)
 		setState(new FallState(this));
 }

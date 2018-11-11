@@ -14,7 +14,7 @@ RunState::RunState(GamePlayer* gp) : GameState(gp)
 
 void RunState::Update(float dt) { }
 
-void RunState::HandleKeyboard(std::map<int, bool> keys)
+void RunState::HandleKeyboard(std::map<int, bool> keys, float dt)
 {
 	if (keys[VK_RIGHT])
 	{

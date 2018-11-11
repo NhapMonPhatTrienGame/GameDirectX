@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="FrameWork">
       <UniqueIdentifier>{197b388b-ceee-4cc5-84c9-8fa7dd6cc7a9}</UniqueIdentifier>
     </Filter>
@@ -52,6 +48,9 @@
     </Filter>
     <Filter Include="FrameWork\GameObjects\Player\GameState\SlideState">
       <UniqueIdentifier>{d471a86d-2d88-463c-b3a6-69bfa402a134}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Player\GameState\AppearState">
+      <UniqueIdentifier>{49eb3af4-f4e5-4cdd-b64d-fc38522ee3a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -163,9 +162,6 @@
     <ClCompile Include="GameObjects\Entity\Entity.cpp">
       <Filter>FrameWork\GameObjects\Enity</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MapReader\tinyxml.cpp">
       <Filter>FrameWork\MapReader</Filter>
     </ClCompile>
@@ -200,6 +196,13 @@
       <Filter>FrameWork\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideHorizontalState.cpp">
+      <Filter>FrameWork\GameObjects\Player\GameState\SlideState</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="GameObjects\Player\GameState\AppearState\AppearState.cpp">
+      <Filter>FrameWork\GameObjects\Player\GameState\AppearState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideVerticalState.cpp">
       <Filter>FrameWork\GameObjects\Player\GameState\SlideState</Filter>
     </ClCompile>
   </ItemGroup>
@@ -352,6 +355,12 @@
       <Filter>FrameWork\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideHorizontalState.h">
+      <Filter>FrameWork\GameObjects\Player\GameState\SlideState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Player\GameState\AppearState\AppearState.h">
+      <Filter>FrameWork\GameObjects\Player\GameState\AppearState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideVerticalState.h">
       <Filter>FrameWork\GameObjects\Player\GameState\SlideState</Filter>
     </ClInclude>
   </ItemGroup>

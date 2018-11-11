@@ -14,7 +14,7 @@ StandState::StandState(GamePlayer* gp) : GameState(gp)
 
 void StandState::Update(float dt) {}
 
-void StandState::HandleKeyboard(std::map<int, bool> keys)
+void StandState::HandleKeyboard(std::map<int, bool> keys, float dt)
 {
 	if (keys[VK_LEFT] || keys[VK_RIGHT])
 		gp->setState(new RunState(gp));

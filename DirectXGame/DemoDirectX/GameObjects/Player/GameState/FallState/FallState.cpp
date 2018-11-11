@@ -2,6 +2,7 @@
 #include "../../GamePlayer.h"
 #include "../RunState/RunState.h"
 #include "../StandState/StandState.h"
+#include "../SlideState/SlideHorizontalState/SlideVerticalState.h"
 
 FallState::FallState(GamePlayer* gp) : GameState(gp)
 {
@@ -25,7 +26,7 @@ void FallState::Update(float dt)
 		gp->setVy(Define::PLAYER_MAX_JUMP_VELOCITY);
 }
 
-void FallState::HandleKeyboard(std::map<int, bool> keys)
+void FallState::HandleKeyboard(std::map<int, bool> keys, float dt)
 {
 	if (keys[VK_RIGHT])
 	{

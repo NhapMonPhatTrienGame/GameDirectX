@@ -61,7 +61,7 @@
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3dx9.lib;d3d9.lib;dxguid.lib;dinput8.lib;winmm.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -102,11 +102,13 @@
     <ClCompile Include="GameObjects\MapObjects\BrickNormal.cpp" />
     <ClCompile Include="GameObjects\MapObjects\GameObject.cpp" />
     <ClCompile Include="GameObjects\Player\GamePlayer.cpp" />
+    <ClCompile Include="GameObjects\Player\GameState\AppearState\AppearState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\FallState\FallState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\GameState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\JumpState\JumpState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\RunState\RunState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideHorizontalState.cpp" />
+    <ClCompile Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideVerticalState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\StandState\StandState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapReader\base64.cpp" />
@@ -154,11 +156,13 @@
     <ClInclude Include="GameObjects\MapObjects\BrickNormal.h" />
     <ClInclude Include="GameObjects\MapObjects\GameObject.h" />
     <ClInclude Include="GameObjects\Player\GamePlayer.h" />
+    <ClInclude Include="GameObjects\Player\GameState\AppearState\AppearState.h" />
     <ClInclude Include="GameObjects\Player\GameState\FallState\FallState.h" />
     <ClInclude Include="GameObjects\Player\GameState\GameState.h" />
     <ClInclude Include="GameObjects\Player\GameState\JumpState\JumpState.h" />
     <ClInclude Include="GameObjects\Player\GameState\RunState\RunState.h" />
     <ClInclude Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideHorizontalState.h" />
+    <ClInclude Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideVerticalState.h" />
     <ClInclude Include="GameObjects\Player\GameState\StandState\StandState.h" />
     <ClInclude Include="MapReader\base64.h" />
     <ClInclude Include="MapReader\tinystr.h" />

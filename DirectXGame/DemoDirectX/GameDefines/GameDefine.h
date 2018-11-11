@@ -85,7 +85,7 @@ namespace Define
 	const float PLAYER_MAX_RUNNING_SPEED = 350.0f;		//Max speed of layer
 	// The collision side with the bottom of the bottom collision is smaller that layer will fall down
 	const float PLAYER_BOTTOM_RANGE_FALLING = 6.0f;
-	const float PLAYER_MAX_SLIDE_SPEED = 50.0f;
+	const float PLAYER_MAX_SLIDE_SPEED = 350.0f;
 }
 
 #endif

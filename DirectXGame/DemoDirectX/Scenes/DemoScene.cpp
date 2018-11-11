@@ -32,7 +32,7 @@ void DemoScene::Update(float dt)
 	CheckCollision();
 	pMap->Update(dt);
 
-	gp->HandleKeyboard(keys);
+	gp->HandleKeyboard(keys, dt);
 	gp->Update(dt);
 
 	CheckCameraAndWorldMap();
@@ -126,7 +126,8 @@ void DemoScene::CheckCollision() const
 			i->OnCollision(r, player_with_entity);
 
 			//Does Player check out touch at the bottom???
-			if (entity_with_player == Entity::Bottom || entity_with_player == Entity::BottomLeft
+			if (entity_with_player == Entity::Bottom 
+				|| entity_with_player == Entity::BottomLeft
 				|| entity_with_player == Entity::BottomRight)
 			{
 				//Check out the length that mario is touching at the bottom
@@ -138,7 +139,6 @@ void DemoScene::CheckCollision() const
 		}
 	}
 
-	//If mario stands out from the edge then this will drop mario to the ground   
 	if (widthBottom < Define::PLAYER_BOTTOM_RANGE_FALLING)
 		gp->OnNoCollisionWithBottom();
 }

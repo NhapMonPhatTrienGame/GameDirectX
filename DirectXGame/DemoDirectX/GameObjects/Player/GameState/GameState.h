@@ -19,7 +19,7 @@ public:
 
 	virtual void Update(float dt);
 
-	virtual void HandleKeyboard(std::map<int, bool> keys);
+	virtual void HandleKeyboard(std::map<int, bool> keys, float dt);
 
 	// The side will collide with player
 	virtual void OnCollision(Entity::CollisionReturn data, Entity::SideCollisions side);

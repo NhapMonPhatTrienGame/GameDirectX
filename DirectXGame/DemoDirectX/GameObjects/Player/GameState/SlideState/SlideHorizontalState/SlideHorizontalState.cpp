@@ -1,24 +1,27 @@
 ﻿#include "SlideHorizontalState.h"
 #include "../../../GamePlayer.h"
 #include "../../StandState/StandState.h"
+#include <iostream>
 
 SlideHorizontalState::SlideHorizontalState() {}
 SlideHorizontalState::SlideHorizontalState(GamePlayer* gp) : GameState(gp)
 {
-	translateX = 10.0f;
+	translateX = 25.0f;
+	countPress = 0;
 }
 SlideHorizontalState::~SlideHorizontalState() {}
 
 void SlideHorizontalState::Update(float dt) {}
 
-void SlideHorizontalState::HandleKeyboard(std::map<int, bool> keys)
+void SlideHorizontalState::HandleKeyboard(std::map<int, bool> keys, float dt)
 {
-	if(keys[VK_SLIDE])
+	countPress += dt;
+	if (countPress <= 0.45f)
 	{
-		if(gp->slideRight)
+		if (gp->slideRight)
 		{
 			gp->SetReverse(false);
-			if(gp->getVx() < Define::PLAYER_MAX_SLIDE_SPEED)
+			if (gp->getVx() < Define::PLAYER_MAX_SLIDE_SPEED)
 			{
 				gp->addVx(translateX);
 				if (gp->getVx() >= Define::PLAYER_MAX_SLIDE_SPEED)

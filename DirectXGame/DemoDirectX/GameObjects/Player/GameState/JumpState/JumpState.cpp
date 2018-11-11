@@ -51,7 +51,7 @@ void JumpState::Update(float dt)
 	}
 }
 
-void JumpState::HandleKeyboard(std::map<int, bool> keys)
+void JumpState::HandleKeyboard(std::map<int, bool> keys, float dt)
 {
 	if (keys[VK_RIGHT])
 	{
