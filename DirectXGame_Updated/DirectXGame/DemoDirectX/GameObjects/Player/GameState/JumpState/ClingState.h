@@ -1,15 +1,16 @@
-﻿#pragma once
+#pragma once
 #include "../GameState.h"
 
-class JumpState : public GameState
+class ClingState : public GameState
 {
+protected:
 	float translateY;
+	float speed, countPress;
 	bool Pressed;
-	float countPress;
 public:
-	explicit JumpState(GamePlayer *gp);
-	JumpState() = default;
-	~JumpState() override = default;
+	explicit ClingState(GamePlayer *gp, bool dash = false);
+	ClingState() = default;
+	~ClingState() override = default;
 
 
 	void Update(float dt) override;

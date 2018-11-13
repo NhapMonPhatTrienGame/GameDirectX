@@ -1,9 +1,7 @@
 ﻿#include "RunState.h"
 #include "../StandState/StandState.h"
 #include "../../GamePlayer.h"
-#include "../JumpState/JumpState.h"
 
-RunState::RunState() {}
 
 RunState::RunState(GamePlayer* gp) : GameState(gp)
 {
@@ -44,11 +42,10 @@ void RunState::OnCollision(Entity::SideCollisions side)
 		case Entity::Left:
 		case Entity::Right:
 		{
-			gp->setState(new StandState(gp));
+			//gp->setState(new StandState(gp));
+			gp->setPosition(gp->getPosition());
 			break;
 		}
 		default:break;
 	}
 }
-
-RunState::~RunState() {}

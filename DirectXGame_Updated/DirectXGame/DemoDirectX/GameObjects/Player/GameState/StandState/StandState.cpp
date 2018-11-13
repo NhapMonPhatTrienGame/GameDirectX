@@ -2,9 +2,6 @@
 #include "../RunState/RunState.h"
 #include "../../GamePlayer.h"
 
-StandState::StandState() {}
-
-StandState::~StandState() {}
 
 StandState::StandState(GamePlayer* gp) : GameState(gp)
 {

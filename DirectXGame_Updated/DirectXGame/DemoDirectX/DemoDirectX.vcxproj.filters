@@ -52,6 +52,27 @@
     <Filter Include="FrameWork\GameObjects\Player\GameState\AppearState">
       <UniqueIdentifier>{49eb3af4-f4e5-4cdd-b64d-fc38522ee3a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FrameWork\GameObjects\Player\GameState\DieState">
+      <UniqueIdentifier>{14c1f6cf-a9e0-4036-9673-7b4403933b85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Player\GameState\FinishState">
+      <UniqueIdentifier>{12323f2b-d8a8-47d6-978d-992ce3d30184}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Player\GameState\BleedState">
+      <UniqueIdentifier>{574d26d8-91c9-4b58-8cc3-51e14cce38f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Weapons">
+      <UniqueIdentifier>{150de4de-6057-4777-83d9-1e04c62dc309}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Items">
+      <UniqueIdentifier>{e36e7561-0c3b-435a-8a6d-28e65c1b4d35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Enemies">
+      <UniqueIdentifier>{94f18298-9b91-4f56-9796-8d74e3307c94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\BlastHornet Boss">
+      <UniqueIdentifier>{b59be9fc-6109-4f28-ad5f-73bec3580463}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameComponents\Game.cpp">
@@ -204,6 +225,18 @@
     </ClCompile>
     <ClCompile Include="GameObjects\Player\GameState\SlideState\SlideVerticalState\SlideVerticalState.cpp">
       <Filter>FrameWork\GameObjects\Player\GameState\SlideState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Player\GameState\JumpState\ClingState.cpp">
+      <Filter>FrameWork\GameObjects\Player\GameState\JumpState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Player\GameState\BleedState\BleedState.cpp">
+      <Filter>FrameWork\GameObjects\Player\GameState\BleedState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Player\GameState\DieState\DieState.cpp">
+      <Filter>FrameWork\GameObjects\Player\GameState\DieState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Player\GameState\WinState\FinishState.cpp">
+      <Filter>FrameWork\GameObjects\Player\GameState\FinishState</Filter>
     </ClCompile>
     <ClCompile Include="GameObjects\Player\GameState\JumpState\ClimbState.cpp">
       <Filter>FrameWork\GameObjects\Player\GameState\JumpState</Filter>
@@ -365,6 +398,18 @@
     </ClInclude>
     <ClInclude Include="GameObjects\Player\GameState\SlideState\SlideVerticalState\SlideVerticalState.h">
       <Filter>FrameWork\GameObjects\Player\GameState\SlideState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Player\GameState\JumpState\ClingState.h">
+      <Filter>FrameWork\GameObjects\Player\GameState\JumpState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Player\GameState\BleedState\BleedState.hpp">
+      <Filter>FrameWork\GameObjects\Player\GameState\BleedState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Player\GameState\DieState\DieState.h">
+      <Filter>FrameWork\GameObjects\Player\GameState\DieState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Player\GameState\WinState\FinishState.h">
+      <Filter>FrameWork\GameObjects\Player\GameState\FinishState</Filter>
     </ClInclude>
     <ClInclude Include="GameObjects\Player\GameState\JumpState\ClimbState.h">
       <Filter>FrameWork\GameObjects\Player\GameState\JumpState</Filter>

@@ -2,12 +2,10 @@
 #include "../../GamePlayer.h"
 #include "../StandState/StandState.h"
 
-AppearState::AppearState() {}
 AppearState::AppearState(GamePlayer* gp) : GameState(gp)
 {
 	translateY = 25.0f;
 }
-AppearState::~AppearState() {}
 
 void AppearState::Update(float dt)
 {

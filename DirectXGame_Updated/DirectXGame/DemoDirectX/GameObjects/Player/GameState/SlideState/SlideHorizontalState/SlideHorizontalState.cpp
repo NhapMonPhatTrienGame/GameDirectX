@@ -3,13 +3,11 @@
 #include "../../StandState/StandState.h"
 #include <iostream>
 
-SlideHorizontalState::SlideHorizontalState() {}
 SlideHorizontalState::SlideHorizontalState(GamePlayer* gp) : GameState(gp)
 {
 	translateX = 25.0f;
 	countPress = 0;
 }
-SlideHorizontalState::~SlideHorizontalState() {}
 
 void SlideHorizontalState::Update(float dt) {}
 
@@ -51,7 +49,7 @@ void SlideHorizontalState::OnCollision(Entity::SideCollisions side)
 
 }
 
-MegaManState::StateName SlideHorizontalState::getState()
+StateName SlideHorizontalState::getState()
 {
-	return MegaManState::SlideHorizontal;
+	return SlideHorizontal;
 }

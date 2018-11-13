@@ -2,7 +2,7 @@
 
 Entity::Entity()
 {
-    Tag = None;
+    Tag = Unknown;
 	vx = 0, vy = 0;
 	collision_time_min = 1.0f;
 }

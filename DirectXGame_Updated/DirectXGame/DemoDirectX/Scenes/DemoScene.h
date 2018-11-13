@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __DEMO_SCENE_H__
+#define __DEMO_SCENE_H__
 
 #include "../GameComponents/Scene.h"
 #include "../GameComponents/GameMap.h"
@@ -30,3 +31,4 @@ public:
 	void OnKeyUp(int keyCode) override;
 	void OnMouseDown(float x, float y) override;
 };
+#endif

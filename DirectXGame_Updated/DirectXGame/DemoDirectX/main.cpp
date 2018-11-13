@@ -1,12 +1,11 @@
 ﻿#include <d3d9.h>
 #include <d3dx9.h>
 #include <Windows.h>
-#include <iostream>
 #include <sstream>
 #include <windowsx.h>
-#include "GameComponents\GameGlobal.h"
-#include "GameComponents\Game.h"
-#include "GameControllers\SceneManager.h"
+#include "GameComponents/GameGlobal.h"
+#include "GameComponents/Game.h"
+#include "GameControllers/SceneManager.h"
 
 using namespace std;
 

@@ -7,13 +7,10 @@
 FallState::FallState(GamePlayer* gp, bool dash) : GameState(gp)
 {
 	gp->setVy(0);
-	acceleratorY = 25.0f;
+	translateY = 25.0f;
 	Pressed = dash;
-
 }
 
-FallState::FallState() {}
-FallState::~FallState() {}
 
 void FallState::Update(float dt)
 {
@@ -41,7 +38,7 @@ void FallState::HandleKeyboard(std::map<int, bool> keys, float dt)
 	}
 	gp->setVx(speed);
 
-	gp->addVy(acceleratorY);
+	gp->addVy(translateY);
 
 	if (gp->getVy() > Define::PLAYER_MAX_JUMP_VELOCITY)
 		gp->setVy(Define::PLAYER_MAX_JUMP_VELOCITY);

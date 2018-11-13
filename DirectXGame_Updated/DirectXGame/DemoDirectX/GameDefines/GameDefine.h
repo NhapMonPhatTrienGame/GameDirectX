@@ -4,7 +4,7 @@
 template<class T>
 void SafeDelete(T& pValue)
 {
-	if(pValue)
+	if (pValue)
 	{
 		delete pValue;
 		pValue = nullptr;
@@ -51,7 +51,7 @@ constexpr auto VK_Y = 0x59;
 constexpr auto VK_Z = 0x5A;
 
 constexpr auto VK_SLIDE = 0x43;
-constexpr auto VK_JUMP = 0x58;
+constexpr auto VK_JUMP  = 0x58;
 constexpr auto VK_SHOOT = 0x5A;
 
 namespace MegaManState
@@ -67,6 +67,7 @@ namespace MegaManState
 		Climb,
 		SlideVertical,
 		SlideHorizontal,
+		Bleed,
 		Win,
 		Die
 	};

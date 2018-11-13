@@ -22,7 +22,7 @@ public:
 	int GetCurrentColumn() const;
 	void SetShoot(bool shoot);
 	void SetPause(bool pause);
-	void SetLoopAnimation(bool loopAnimation);
+	void SetLoopAnimation(bool allowLoopAnimation);
 	void SetAnimation(int currentRow, int framePerRow, float timePerFrame = 0.1f, bool loopAnimation = true);
     virtual void Update(float dt);
 

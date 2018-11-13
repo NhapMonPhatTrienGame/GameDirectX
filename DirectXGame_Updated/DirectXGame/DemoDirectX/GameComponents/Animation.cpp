@@ -41,9 +41,9 @@ void Animation::SetPause(bool pause)
 	this->mPause = pause;
 }
 
-void Animation::SetLoopAnimation(bool allowloopanimation)
+void Animation::SetLoopAnimation(bool allowLoopAnimation)
 {
-	this->mLoopAnimation = allowloopanimation;
+	this->mLoopAnimation = allowLoopAnimation;
 }
 
 void Animation::SetAnimation(int currentRow, int framePerRow, float timePerFrame, bool loopAnimation)

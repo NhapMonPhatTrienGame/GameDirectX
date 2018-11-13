@@ -9,15 +9,10 @@ SlideVerticalState::SlideVerticalState(GamePlayer* gp) :GameState(gp)
 	isSlide = true;
 }
 
-SlideVerticalState::SlideVerticalState() {}
-SlideVerticalState::~SlideVerticalState() {}
-
 void SlideVerticalState::Update(float dt) 
 {
 	if (!isSlide)
-	{
 		gp->setState(new FallState(gp));
-	}
 
 	isSlide = false;
 }

@@ -15,26 +15,21 @@ class GamePlayer : public Entity
 {
 	GameState		*pState;
 	Camera			*pCamera;
-
 	Animation		*pAnimation;
-
-	bool			isCurrentReverse;
-		
+	bool			isCurrentReverse;		
 	StateName		currentState;
-
 	float			mTimeShoot;
 	float			mTimeCurrentShoot;
 	bool			mShoot;
-
 	bool			allowJump;
 	bool			allowShoot;
+	bool			allowSlide;
+	float			HP;
 
 public:	
-	bool			allowSlide;
-
-
+	
 	GamePlayer();
-	~GamePlayer();
+	~GamePlayer() = default;
 
 	enum MoveDirection
 	{
@@ -49,6 +44,10 @@ public:
 	StateName getState() const;
 	Animation *GetAnimation() const;
 	void SetCamera(Camera *camera);
+
+	float getHP() const;
+	void setHP(float hp);
+	void addHP(float hp);
 
 	MoveDirection getMoveDirection() const;
 

@@ -8,7 +8,8 @@ class GameCollision
 {
 public:
     
-    GameCollision();
+    GameCollision() = default;
+
     //Check collision Rect and Rect
     static Entity::CollisionReturn RectAndRect(RECT rect1, RECT rect2);
 
@@ -36,5 +37,5 @@ public:
 	//Axis-Aligned Bounding Box collision
 	static float SweptAABB(RECT obj, RECT other, D3DXVECTOR2 distance, Entity::SideCollisions & sideCollision);
 
-    ~GameCollision();
+    ~GameCollision() = default;
 };

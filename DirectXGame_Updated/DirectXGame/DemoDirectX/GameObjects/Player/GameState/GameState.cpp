@@ -1,8 +1,6 @@
 ﻿#include "GameState.h"
 
 GameState::GameState(GamePlayer* gp) : gp(gp) { }
-GameState::GameState() {}
-GameState::~GameState() {}
 
 void GameState::Update(float dt) { }
 

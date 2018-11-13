@@ -1,14 +1,16 @@
 #include "GamePlayer.h"
 #include "GameState/FallState/FallState.h"
 #include "GameState/JumpState/JumpState.h"
-#include "GameState/JumpState/ClimbState.h"
+#include "GameState/JumpState/ClingState.h"
 #include "../../GameComponents/GameGlobal.h"
 #include "GameState/SlideState/SlideHorizontalState/SlideHorizontalState.h"
 #include "GameState/AppearState/AppearState.h"
 #include <iostream>
 
+
 GamePlayer::GamePlayer()
 {
+	Tag = Rockman;
 	pAnimation = new Animation(Define::ANIMATION_ROCKMAN, 21, 10, 49, 49, 0.15, D3DCOLOR_XRGB(100, 100, 100));
 
 	allowJump = true;
@@ -21,11 +23,10 @@ GamePlayer::GamePlayer()
 
 	vx = 0;
 	vy = 0;
+	HP = 20;
 	currentState = Falling;
 	setState(new AppearState(this));
 }
-
-GamePlayer::~GamePlayer() {}
 
 void GamePlayer::ChangeAnimation(StateName state)
 {
@@ -55,7 +56,11 @@ void GamePlayer::ChangeAnimation(StateName state)
 		case SlideHorizontal:
 			pAnimation->SetAnimation(15, 2, 0.1, false);
 			break;
-		
+		case Climb:
+		case Bleed:
+		case Die:
+		case Win:break;
+
 		default: break;
 	}
 
@@ -86,6 +91,19 @@ void GamePlayer::SetCamera(Camera* camera)
 	pCamera = camera;
 }
 
+float GamePlayer::getHP() const
+{
+	return HP;
+}
+void GamePlayer::setHP(float hp)
+{
+	HP = hp;
+}
+void GamePlayer::addHP(float hp)
+{
+	HP += hp;
+}
+
 GamePlayer::MoveDirection GamePlayer::getMoveDirection() const
 {
 	if (vx > 0) return MoveToRight;
@@ -106,7 +124,7 @@ void GamePlayer::OnKeyDown(std::map<int, bool> keys, int Key)
 		allowJump = false;
 		switch (currentState)
 		{
-			case Standing: case Running: case SlideHorizontal:
+			case Standing:case Running:case SlideHorizontal:
 			{
 				setState(new JumpState(this));
 				break;
@@ -114,11 +132,9 @@ void GamePlayer::OnKeyDown(std::map<int, bool> keys, int Key)
 			case SlideVertical:
 			{
 				if (keys[VK_SLIDE])
-				{
-					setState(new ClimbState(this, true));
-				}
+					setState(new ClingState(this, true));
 				else 
-					setState(new ClimbState(this));
+					setState(new ClingState(this));
 				break;
 			}
 			default: break;
@@ -138,8 +154,7 @@ void GamePlayer::OnKeyDown(std::map<int, bool> keys, int Key)
 
 		switch(currentState)
 		{
-			case Standing: 
-			case Running:
+			case Standing:case Running:
 				setState(new SlideHorizontalState(this));
 				break;
 			default: break;
@@ -154,13 +169,11 @@ void GamePlayer::OnKeyUp(int Key)
 		vy = 0;
 		allowJump = true;
 	}
-	else
-	if (Key == VK_SHOOT)
+	else if (Key == VK_SHOOT)
 	{
 		allowShoot = true;
 	}
-	else
-	if(Key == VK_SLIDE)
+	else if(Key == VK_SLIDE)
 	{
 		allowSlide = true;
 	}

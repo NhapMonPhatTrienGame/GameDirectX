@@ -23,7 +23,7 @@ void DemoScene::LoadContent()
 
 	gp = new GamePlayer();
 
-	gp->setPosition((float)GameGlobal::GetWidth() / 2, 0);
+	gp->setPosition(GameGlobal::GetWidth() / 2.0f, 0);
 	gp->SetCamera(pCamera);
 }
 
@@ -55,9 +55,7 @@ void DemoScene::OnKeyUp(int keyCode)
 	gp->OnKeyUp(keyCode);
 }
 
-void DemoScene::OnMouseDown(float x, float y)
-{
-}
+void DemoScene::OnMouseDown(float x, float y) {}
 
 void DemoScene::CheckCameraAndWorldMap() const
 {
@@ -67,17 +65,17 @@ void DemoScene::CheckCameraAndWorldMap() const
 	{
 		//The position of camera is now in the center
 		//The position of camera hits the left of the real world
-		pCamera->SetPosition((float)pCamera->GetWidth() / 2, pCamera->GetPosition().y);
+		pCamera->SetPosition(pCamera->GetWidth() / 2.0f, pCamera->GetPosition().y);
 		if (gp->getBound().left < 0)
-			gp->setPosition((float)gp->getWidth() / 2, gp->getPosition().y);
+			gp->setPosition(gp->getWidth() / 4.0f, gp->getPosition().y);
 	}
 
 	if (pCamera->GetBound().right > pMap->GetWidth())
 	{
 		//The position of camera hits the right side of the real world
-		pCamera->SetPosition(pMap->GetWidth() - (float)pCamera->GetWidth() / 2, pCamera->GetPosition().y);
+		pCamera->SetPosition(pMap->GetWidth() - pCamera->GetWidth() / 2.0f, pCamera->GetPosition().y);
 		if (gp->getBound().right > pMap->GetWidth())
-			gp->setPosition(pMap->GetWidth() - (float)gp->getWidth() / 2, gp->getPosition().y);
+			gp->setPosition(pMap->GetWidth() - gp->getWidth() / 4.0f, gp->getPosition().y);
 	}
 
 	if (pCamera->GetBound().top < 0)
@@ -85,7 +83,7 @@ void DemoScene::CheckCameraAndWorldMap() const
 		//Now. The position of camera hits the top of the real world
 		pCamera->SetPosition(pCamera->GetPosition().x, pCamera->GetHeight() / 2.0f);
 		if (gp->getBound().top < 0)
-			gp->setPosition(gp->getPosition().x, (float)gp->getHeight() / 2);
+			gp->setPosition(gp->getPosition().x, gp->getHeight() / 4.0f);
 	}
 
 	if (pCamera->GetBound().bottom > pMap->GetHeight())

@@ -2,11 +2,6 @@
 #include <iostream>
 using namespace std;
 
-GameCollision::GameCollision()
-{}
-
-GameCollision::~GameCollision()
-{}
 
 Entity::CollisionReturn GameCollision::RectAndRect(RECT rect1, RECT rect2)
 {
@@ -141,7 +136,7 @@ float GameCollision::SweptAABB(RECT obj, RECT other, D3DXVECTOR2 distance, Entit
 
 	if (entryTime > exitTime || (txEntry < 0.0f && tyEntry < 0.0f) || txEntry > 1.0f || tyEntry > 1.0f)
 	{
-		sideCollision = Entity::Unknown;
+		sideCollision = Entity::None;
 		return 1.0f;
 	}
 
@@ -212,7 +207,7 @@ Entity::SideCollisions GameCollision::getSideCollision(Entity *e1, Entity *e2)
 		return Entity::Bottom;
 	}
 	//Don't collide
-	return Entity::Unknown;
+	return Entity::None;
 }
 
 Entity::SideCollisions GameCollision::getSideCollision(Entity *e1, Entity::CollisionReturn data)

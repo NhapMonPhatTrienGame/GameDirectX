@@ -13,9 +13,9 @@ protected:
 
 public:
 	explicit GameState(GamePlayer *gp);
-	GameState();
+	GameState() = default;
 
-	virtual ~GameState();
+	virtual ~GameState() = default;
 
 	virtual void Update(float dt);
 

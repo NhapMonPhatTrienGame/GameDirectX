@@ -3,8 +3,8 @@
 
 class FallState : public GameState
 {
-	float acceleratorY;
-	float acceleratorX;
+	float translateY;
+	float translateX;
 	bool Pressed;
 	//First Velocity equal zero in case speed won't decrease 
 	bool allowMoveX;
@@ -12,11 +12,14 @@ class FallState : public GameState
 	bool isLeftOrRightKeyPressed;
 public:
 	explicit FallState(GamePlayer *gp, bool dash = false);
-	FallState();
-	~FallState() override;
+	FallState() = default;
+	~FallState() override = default;
 
 	void Update(float dt) override;
+
 	void HandleKeyboard(std::map<int, bool> keys, float dt) override;
+
 	void OnCollision(Entity::SideCollisions side) override;
+
 	MegaManState::StateName getState() override;
 };

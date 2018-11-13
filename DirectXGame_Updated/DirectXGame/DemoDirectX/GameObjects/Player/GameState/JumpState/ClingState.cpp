@@ -1,34 +1,56 @@
-﻿#include "JumpState.h"
+#include "ClingState.h"
 #include "../FallState/FallState.h"
 #include "../StandState/StandState.h"
 #include "../SlideState/SlideVerticalState/SlideVerticalState.h"
 #include "../../GamePlayer.h"
 
-JumpState::JumpState(GamePlayer* gp) : GameState(gp)
+ClingState::ClingState(GamePlayer* gp, bool dash) : GameState(gp)
 {
+	speed = 0.0f;
+	countPress = 0;
 	this->gp->setVy(Define::PLAYER_MIN_JUMP_VELOCITY);
 	translateY = 15.0f;
-	countPress = 0;
-	Pressed = false;
-	if (gp->getState() == SlideHorizontal)
-		Pressed = true;
+
+	Pressed = dash;
 }
 
-void JumpState::Update(float dt)
+
+void ClingState::Update(float dt)
 {
 	if (gp->getVy() > 0)
 		gp->setState(new FallState(gp, Pressed));
-
 }
 
-void JumpState::HandleKeyboard(std::map<int, bool> keys, float dt)
+void ClingState::HandleKeyboard(std::map<int, bool> keys, float dt)
 {
-	countPress += dt;//tranhs loi va cham
-	float speed = 0.0f;
+	countPress += dt;
+	if (countPress < 0.3f)
+	{
+		if (gp->getReverse())
+		{
+			speed = Define::PLAYER_MAX_CLIING_SPEED;
+			gp->UpdateColision(1.5, Entity::Left, dt);
+
+			if (keys[VK_RIGHT])
+				countPress = 0.3;
+		}
+		else
+		{
+			speed = -Define::PLAYER_MAX_CLIING_SPEED;
+			gp->UpdateColision(1.5, Entity::Right, dt);
+
+			if (keys[VK_LEFT])
+				countPress = 0.3;
+		}
+		gp->setVx(speed);
+		gp->addVy(translateY);
+		return;
+	}
+
 	if (keys[VK_RIGHT])
 	{
 		gp->SetReverse(false);
-		
+
 		if (Pressed)
 			speed = Define::PLAYER_MAX_SLIDE_SPEED;
 		else
@@ -43,19 +65,16 @@ void JumpState::HandleKeyboard(std::map<int, bool> keys, float dt)
 			speed = -Define::PLAYER_MAX_RUNNING_SPEED;
 	}
 	gp->setVx(speed);
-
 	gp->addVy(translateY);
 }
 
-void JumpState::OnCollision(Entity::SideCollisions side)
+void ClingState::OnCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{
 		case Entity::Left:
 		case Entity::Right:
 		{
-			if (countPress < 0.3f)
-				break;
 			gp->setState(new SlideVerticalState(gp));
 			break;
 		}
@@ -73,7 +92,7 @@ void JumpState::OnCollision(Entity::SideCollisions side)
 	}
 }
 
-StateName JumpState::getState()
+StateName ClingState::getState()
 {
-	return Jumping;
+	return Cling;
 }
