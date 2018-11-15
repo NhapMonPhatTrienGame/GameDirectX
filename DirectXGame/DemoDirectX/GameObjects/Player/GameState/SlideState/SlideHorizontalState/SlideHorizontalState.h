@@ -7,11 +7,15 @@ class SlideHorizontalState : public GameState
 	float countPress;
 
 public:
-	SlideHorizontalState();
+	SlideHorizontalState() = default;
 	explicit SlideHorizontalState(GamePlayer *gp);
-	~SlideHorizontalState() override;
+	~SlideHorizontalState() override = default;
+
 	void Update(float dt) override;
+
 	void HandleKeyboard(std::map<int, bool> keys, float dt) override;
-	void OnCollision(Entity::CollisionReturn data, Entity::SideCollisions side) override;
+
+	void OnCollision(Entity::SideCollisions side) override;
+
 	MegaManState::StateName getState() override;
 };

@@ -85,6 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Enemies.cpp" />
     <ClCompile Include="GameComponents\Animation.cpp" />
     <ClCompile Include="GameComponents\Camera.cpp" />
     <ClCompile Include="GameComponents\Game.cpp" />
@@ -103,13 +104,18 @@
     <ClCompile Include="GameObjects\MapObjects\GameObject.cpp" />
     <ClCompile Include="GameObjects\Player\GamePlayer.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\AppearState\AppearState.cpp" />
+    <ClCompile Include="GameObjects\Player\GameState\BleedState\BleedState.cpp" />
+    <ClCompile Include="GameObjects\Player\GameState\DieState\DieState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\FallState\FallState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\GameState.cpp" />
+    <ClCompile Include="GameObjects\Player\GameState\JumpState\ClimbState.cpp" />
+    <ClCompile Include="GameObjects\Player\GameState\JumpState\ClingState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\JumpState\JumpState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\RunState\RunState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideHorizontalState.cpp" />
-    <ClCompile Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideVerticalState.cpp" />
+    <ClCompile Include="GameObjects\Player\GameState\SlideState\SlideVerticalState\SlideVerticalState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\StandState\StandState.cpp" />
+    <ClCompile Include="GameObjects\Player\GameState\WinState\FinishState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapReader\base64.cpp" />
     <ClCompile Include="MapReader\miniz.c" />
@@ -138,6 +144,7 @@
     <ClCompile Include="Scenes\DemoScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemies.h" />
     <ClInclude Include="GameComponents\Animation.h" />
     <ClInclude Include="GameComponents\Camera.h" />
     <ClInclude Include="GameComponents\Game.h" />
@@ -157,13 +164,18 @@
     <ClInclude Include="GameObjects\MapObjects\GameObject.h" />
     <ClInclude Include="GameObjects\Player\GamePlayer.h" />
     <ClInclude Include="GameObjects\Player\GameState\AppearState\AppearState.h" />
+    <ClInclude Include="GameObjects\Player\GameState\BleedState\BleedState.hpp" />
+    <ClInclude Include="GameObjects\Player\GameState\DieState\DieState.h" />
     <ClInclude Include="GameObjects\Player\GameState\FallState\FallState.h" />
     <ClInclude Include="GameObjects\Player\GameState\GameState.h" />
+    <ClInclude Include="GameObjects\Player\GameState\JumpState\ClimbState.h" />
+    <ClInclude Include="GameObjects\Player\GameState\JumpState\ClingState.h" />
     <ClInclude Include="GameObjects\Player\GameState\JumpState\JumpState.h" />
     <ClInclude Include="GameObjects\Player\GameState\RunState\RunState.h" />
     <ClInclude Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideHorizontalState.h" />
-    <ClInclude Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideVerticalState.h" />
+    <ClInclude Include="GameObjects\Player\GameState\SlideState\SlideVerticalState\SlideVerticalState.h" />
     <ClInclude Include="GameObjects\Player\GameState\StandState\StandState.h" />
+    <ClInclude Include="GameObjects\Player\GameState\WinState\FinishState.h" />
     <ClInclude Include="MapReader\base64.h" />
     <ClInclude Include="MapReader\tinystr.h" />
     <ClInclude Include="MapReader\tinyxml.h" />

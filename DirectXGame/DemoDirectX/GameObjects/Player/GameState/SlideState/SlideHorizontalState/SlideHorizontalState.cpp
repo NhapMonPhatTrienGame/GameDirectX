@@ -3,80 +3,45 @@
 #include "../../StandState/StandState.h"
 #include <iostream>
 
-SlideHorizontalState::SlideHorizontalState() {}
 SlideHorizontalState::SlideHorizontalState(GamePlayer* gp) : GameState(gp)
 {
 	translateX = 25.0f;
 	countPress = 0;
 }
-SlideHorizontalState::~SlideHorizontalState() {}
 
 void SlideHorizontalState::Update(float dt) {}
 
 void SlideHorizontalState::HandleKeyboard(std::map<int, bool> keys, float dt)
 {
+	gp->setVy(Define::PLAYER_MAX_JUMP_VELOCITY);
 	countPress += dt;
 	if (countPress <= 0.45f)
 	{
-		if (gp->slideRight)
+		if (!gp->getReverse())
 		{
-			gp->SetReverse(false);
-			if (gp->getVx() < Define::PLAYER_MAX_SLIDE_SPEED)
-			{
-				gp->addVx(translateX);
-				if (gp->getVx() >= Define::PLAYER_MAX_SLIDE_SPEED)
-					gp->setVx(Define::PLAYER_MAX_SLIDE_SPEED);
-			}
+			gp->setVx(Define::PLAYER_MAX_SLIDE_SPEED);
+			if (keys[VK_LEFT])
+				gp->setState(new StandState(gp));
 		}
-		else if (gp->slideLeft)
+		else 
 		{
-			gp->SetReverse(true);
-			if (gp->getVx() > -Define::PLAYER_MAX_SLIDE_SPEED)
-			{
-				gp->addVx(-translateX);
-				if (gp->getVx() < -Define::PLAYER_MAX_SLIDE_SPEED)
-					gp->setVx(-Define::PLAYER_MAX_SLIDE_SPEED);
-			}
+			gp->setVx(-Define::PLAYER_MAX_SLIDE_SPEED);
+			if (keys[VK_RIGHT])
+				gp->setState(new StandState(gp));
 		}
 	}
 	else
 		gp->setState(new StandState(gp));
 }
 
-void SlideHorizontalState::OnCollision(Entity::CollisionReturn data, Entity::SideCollisions side)
+void SlideHorizontalState::OnCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{
 		case Entity::Left:
-		{
-			//Collision left of player side
-			if (gp->getMoveDirection() == GamePlayer::MoveToLeft)
-			{
-				gp->slideLeft = false;
-				//Player is pushed right that player not through object
-				gp->addPosition(data.RegionCollision.right - data.RegionCollision.left, 0);
-
-				//gp->setState(new StandState(gp));
-				gp->setPosition(gp->getPosition());
-			}
-			break;
-		}
 		case Entity::Right:
 		{
-			//Collision right of player side
-			if (gp->getMoveDirection() == GamePlayer::MoveToRight)
-			{
-				gp->slideRight = false;
-				gp->addPosition(-(data.RegionCollision.right - data.RegionCollision.left), 0);
-				//gp->setState(new StandState(gp));
-				gp->setPosition(gp->getPosition());
-			}
-			break;
-		}
-		case Entity::Bottom: case Entity::BottomLeft: case Entity::BottomRight:
-		{
-			gp->addPosition(0, -(data.RegionCollision.bottom - data.RegionCollision.top));
-			gp->setVy(0);
+			gp->setState(new StandState(gp));
 			break;
 		}
 		default:break;
@@ -84,7 +49,7 @@ void SlideHorizontalState::OnCollision(Entity::CollisionReturn data, Entity::Sid
 
 }
 
-MegaManState::StateName SlideHorizontalState::getState()
+StateName SlideHorizontalState::getState()
 {
-	return MegaManState::SlideHorizontal;
+	return SlideHorizontal;
 }

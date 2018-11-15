@@ -1,14 +1,17 @@
 #include "GamePlayer.h"
 #include "GameState/FallState/FallState.h"
 #include "GameState/JumpState/JumpState.h"
+#include "GameState/JumpState/ClingState.h"
 #include "../../GameComponents/GameGlobal.h"
 #include "GameState/SlideState/SlideHorizontalState/SlideHorizontalState.h"
 #include "GameState/AppearState/AppearState.h"
 #include <iostream>
 
+
 GamePlayer::GamePlayer()
 {
-	pAnimation = new Animation("Resources/mario/Rockman_49x49_backfround(100,100,100).png", 21, 10, 49, 49, 0.15, D3DCOLOR_XRGB(100, 100, 100));
+	Tag = Rockman;
+	pAnimation = new Animation(Define::ANIMATION_ROCKMAN, 21, 10, 49, 49, 0.15, D3DCOLOR_XRGB(100, 100, 100));
 
 	allowJump = true;
 	allowShoot = true;
@@ -20,36 +23,44 @@ GamePlayer::GamePlayer()
 
 	vx = 0;
 	vy = 0;
+	HP = 20;
+	currentState = Falling;
 	setState(new AppearState(this));
 }
-
-GamePlayer::~GamePlayer() {}
 
 void GamePlayer::ChangeAnimation(StateName state)
 {
 	switch (state)
 	{
 		case Appear:
-			pAnimation->setAnimation(0, 5, 0.5);
+			pAnimation->SetAnimation(0, 5, 0.15, false);
 			break;
 		case Standing:
-			pAnimation->setAnimation(1, 4, 0.15);
+			pAnimation->SetAnimation(1, 4, 0.1);
 			break;
 		case Running:
-			pAnimation->setAnimation(3, 10, 0.1);
+			pAnimation->SetAnimation(3, 10, 0.1);
 			break;
 		case Jumping:
-			pAnimation->setAnimation(5, 3, 0.5, 1);
+			pAnimation->SetAnimation(5, 3, 0.1, false);
 			break;
 		case Falling:
-			pAnimation->setAnimation(7, 3, 0.5, 1);
+			pAnimation->SetAnimation(7, 3, 0.1, false);
 			break;
-		case SlideHorizontal:
-			pAnimation->setAnimation(15, 2, 0.15);
+		case Cling:
+			pAnimation->SetAnimation(9, 3, 0.1, false);
 			break;
 		case SlideVertical:
-			pAnimation->setAnimation(11, 2, 0.15, 1);
+			pAnimation->SetAnimation(11, 3, 0.1, false);
 			break;
+		case SlideHorizontal:
+			pAnimation->SetAnimation(15, 2, 0.1, false);
+			break;
+		case Climb:
+		case Bleed:
+		case Die:
+		case Win:break;
+
 		default: break;
 	}
 
@@ -59,6 +70,8 @@ void GamePlayer::ChangeAnimation(StateName state)
 
 void GamePlayer::setState(GameState* newState)
 {
+	if (currentState == newState->getState())
+		return;
 	SAFE_DELETE(pState);
 	pState = newState;
 	ChangeAnimation(newState->getState());
@@ -68,10 +81,27 @@ StateName GamePlayer::getState() const
 {
 	return currentState;
 }
+Animation* GamePlayer::GetAnimation() const
+{
+	return pAnimation;
+}
 
 void GamePlayer::SetCamera(Camera* camera)
 {
 	pCamera = camera;
+}
+
+float GamePlayer::getHP() const
+{
+	return HP;
+}
+void GamePlayer::setHP(float hp)
+{
+	HP = hp;
+}
+void GamePlayer::addHP(float hp)
+{
+	HP += hp;
 }
 
 GamePlayer::MoveDirection GamePlayer::getMoveDirection() const
@@ -87,51 +117,44 @@ void GamePlayer::HandleKeyboard(const std::map<int, bool>& keys, float dt) const
 		pState->HandleKeyboard(keys, dt);
 }
 
-void GamePlayer::OnKeyDown(int Key)
+void GamePlayer::OnKeyDown(std::map<int, bool> keys, int Key)
 {
 	if (Key == VK_JUMP && allowJump)
 	{
 		allowJump = false;
-
 		switch (currentState)
 		{
-			case Standing: case Running: case SlideHorizontal:
+			case Standing:case Running:case SlideHorizontal:
+			{
 				setState(new JumpState(this));
 				break;
+			}
+			case SlideVertical:
+			{
+				if (keys[VK_SLIDE])
+					setState(new ClingState(this, true));
+				else 
+					setState(new ClingState(this));
+				break;
+			}
 			default: break;
 		}
 	}
-	else if (Key == VK_SHOOT && allowShoot)
+	
+	if (Key == VK_SHOOT && allowShoot && !mShoot)
 	{
+		mShoot = true;
+		pAnimation->SetShoot(mShoot);
 		allowShoot = false;
-
-		switch (currentState)
-		{
-			case Standing:
-				pAnimation->setAnimation(2, 2, 0.5);
-				break;
-			case Running:
-				pAnimation->setAnimation(4, 10, 0.1);
-				break;
-			case Jumping:
-				pAnimation->setAnimation(6, 3, 0.5, 1);
-				break;
-			case Falling:
-				pAnimation->setAnimation(8, 3, 0.5, 1);
-				break;
-			case SlideHorizontal:
-				pAnimation->setAnimation(16, 2, 0.15);
-				break;
-			default: break;
-		}
 	}
-	else if(Key == VK_SLIDE && allowSlide)
+	
+	if(Key == VK_SLIDE && allowSlide)
 	{
 		allowSlide = false;
 
 		switch(currentState)
 		{
-			case Standing: case Running:
+			case Standing:case Running:
 				setState(new SlideHorizontalState(this));
 				break;
 			default: break;
@@ -142,36 +165,17 @@ void GamePlayer::OnKeyDown(int Key)
 void GamePlayer::OnKeyUp(int Key)
 {
 	if (Key == VK_JUMP)
+	{
+		vy = 0;
 		allowJump = true;
-
+	}
 	else if (Key == VK_SHOOT)
 	{
 		allowShoot = true;
-
-		switch(currentState)
-		{
-			case Standing:
-				pAnimation->setAnimation(1, 4, 0.1);
-				break;
-			case Running:
-				pAnimation->setAnimation(3, 10, 0.1);
-				break;
-			case Jumping:
-				pAnimation->setAnimation(5, 3, 0.5, 1);
-				break;
-			case Falling:
-				pAnimation->setAnimation(7, 3, 0.5, 1);
-				break;
-			case SlideHorizontal:
-				pAnimation->setAnimation(15, 2, 0.15);
-				break;
-			default: break;
-		}
 	}
 	else if(Key == VK_SLIDE)
 	{
 		allowSlide = true;
-
 	}
 }
 
@@ -189,17 +193,17 @@ RECT GamePlayer::getBound()
 {
 
 	RECT rect;
-	rect.left = x - pAnimation->GetWidth() / 2.0f;
-	rect.right = rect.left + pAnimation->GetWidth();
-	rect.top = y - pAnimation->GetHeight() / 2.0f;
-	rect.bottom = rect.top + pAnimation->GetHeight();
+	rect.left = x - 15;
+	rect.right = x + 15;
+	rect.top = y - 17;
+	rect.bottom = y + 49 / 2.0f;
 
 	return rect;
 }
 
 void GamePlayer::Update(float dt)
 {
-	/*if(mShoot)
+	if(mShoot)
 	{
 		mTimeCurrentShoot += dt;
 		if(mTimeCurrentShoot > mTimeShoot)
@@ -208,7 +212,7 @@ void GamePlayer::Update(float dt)
 			pAnimation->SetShoot(mShoot);
 			mTimeCurrentShoot = 0;
 		}
-	}*/
+	}
 
 	pAnimation->Update(dt);
 
@@ -235,15 +239,15 @@ void GamePlayer::Draw(D3DXVECTOR3 Position, RECT SourceRect, D3DXVECTOR2 Scale, 
 		pAnimation->Draw(D3DXVECTOR3(x, y, 0));
 }
 
-void GamePlayer::OnCollision(CollisionReturn data, SideCollisions side)
+void GamePlayer::OnCollision(SideCollisions side)
 {
-	pState->OnCollision(data, side);
+	pState->OnCollision(side);
 }
 
 void GamePlayer::OnNoCollisionWithBottom()
 {
-	if (currentState == Appear)
+	if (currentState == Appear || currentState == Falling || currentState == Jumping || currentState == SlideVertical || currentState == Cling)
 		return;
-	if (currentState != Jumping && currentState != Falling)
-		setState(new FallState(this));
+
+	setState(new FallState(this));
 }

@@ -5,14 +5,18 @@ class GamePlayer;
 
 class RunState : public GameState
 {
-	float accelerationX;
+	bool boot;
 public:
-	RunState();
+	RunState() = default;
 	explicit RunState(GamePlayer *gp);
 
 	void Update(float dt) override;
+
 	void HandleKeyboard(std::map<int, bool> keys, float dt) override;
+
 	MegaManState::StateName getState() override;
-	void OnCollision(Entity::CollisionReturn data, Entity::SideCollisions side) override;
-	~RunState() override;
+
+	void OnCollision(Entity::SideCollisions side) override;
+
+	~RunState() override = default;
 };

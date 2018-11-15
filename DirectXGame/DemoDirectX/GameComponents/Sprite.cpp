@@ -123,7 +123,7 @@ void Sprite::Draw(D3DXVECTOR3 Position, RECT SourceRect, D3DXVECTOR2 Scale, D3DX
 	_SpriteHandler->GetTransform(&oldMatrix);
 	_SpriteHandler->SetTransform(&_Matrix);
 
-	auto center = D3DXVECTOR3((float)_Width / 2, (float)_Height / 2, 0);
+	D3DXVECTOR3 center((float)_Width / 2, (float)_Height / 2, 0);
 
 	_SpriteHandler->Draw(
 		_Texture,

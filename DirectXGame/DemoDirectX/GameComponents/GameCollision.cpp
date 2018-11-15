@@ -2,11 +2,6 @@
 #include <iostream>
 using namespace std;
 
-GameCollision::GameCollision()
-{}
-
-GameCollision::~GameCollision()
-{}
 
 Entity::CollisionReturn GameCollision::RectAndRect(RECT rect1, RECT rect2)
 {
@@ -19,15 +14,11 @@ Entity::CollisionReturn GameCollision::RectAndRect(RECT rect1, RECT rect2)
 	}
 
 	result.IsCollided = true;
-
-	//Choice max left
-	result.RegionCollision.left = rect1.left > rect2.left ? rect1.left : rect2.left;
-	//Choice max right
-	result.RegionCollision.right = rect1.right < rect2.right ? rect1.right : rect2.right;
-	//Choice min bottom
-	result.RegionCollision.bottom = rect1.bottom < rect2.bottom ? rect1.bottom : rect2.bottom;
-	//Choice max top
-	result.RegionCollision.top = rect1.top > rect2.top ? rect1.top : rect2.top;
+		
+	result.RegionCollision.left = max(rect1.left, rect2.left);
+	result.RegionCollision.right = max(rect1.right, rect2.right);
+	result.RegionCollision.bottom = max(rect1.bottom, rect2.bottom);
+	result.RegionCollision.top = max(rect1.top, rect2.top);
 
 	return result;
 }
@@ -63,6 +54,13 @@ bool GameCollision::isCollision(RECT obj, RECT other)
 	return !(obj.left >= other.right || obj.right <= other.left || obj.top >= other.bottom || obj.bottom <= other.top);
 }
 
+D3DXVECTOR2 GameCollision::Distance(Entity *e1, Entity *e2, float dt)
+{
+	D3DXVECTOR2 distance;
+	distance.x = (e1->getVx() - e2->getVx())*dt;
+	distance.y = (e1->getVy() - e2->getVy())*dt;
+	return distance;
+}
 
 RECT GameCollision::GetBoard(RECT object, D3DXVECTOR2 distance)
 {
@@ -73,15 +71,15 @@ RECT GameCollision::GetBoard(RECT object, D3DXVECTOR2 distance)
 	else if (distance.x > 0)
 		board.right = object.right + distance.x;
 
-	if (distance.y < 0)
+	if (distance.y > 0)
 		board.bottom = object.bottom + distance.y;
-	else if (distance.y > 0)
+	else if (distance.y < 0)
 		board.top = object.top + distance.y;
 
 	return board;
 }
 
-float GameCollision::SweptAABB(RECT obj, RECT other, D3DXVECTOR2 distance, D3DXVECTOR2 & sideCollision)
+float GameCollision::SweptAABB(RECT obj, RECT other, D3DXVECTOR2 distance, Entity::SideCollisions & sideCollision)
 {
 	float dxEntry, dxExit;
 	float dyEntry, dyExit;
@@ -138,35 +136,30 @@ float GameCollision::SweptAABB(RECT obj, RECT other, D3DXVECTOR2 distance, D3DXV
 
 	if (entryTime > exitTime || (txEntry < 0.0f && tyEntry < 0.0f) || txEntry > 1.0f || tyEntry > 1.0f)
 	{
-		sideCollision.x = 0.0f;
-		sideCollision.y = 0.0f;
+		sideCollision = Entity::None;
 		return 1.0f;
 	}
 
-	if (txEntry > tyEntry)
+	if (txEntry < tyEntry)
 	{
-		if (dxEntry < 0.0f)
+		if (dyEntry < 0.0f)
 		{
-			sideCollision.x = 1.0f;
-			sideCollision.y = 0.0f;
+			sideCollision = Entity::Top;
 		}
 		else
 		{
-			sideCollision.x = -1.0f;
-			sideCollision.y = 0.0f;
+			sideCollision = Entity::Bottom;
 		}
 	}
 	else
 	{
-		if (dyEntry < 0.0f)
+		if (dxEntry < 0.0f)
 		{
-			sideCollision.x = 0.0f;
-			sideCollision.y = 1.0f;
+			sideCollision = Entity::Left;
 		}
 		else
 		{
-			sideCollision.x = 0.0f;
-			sideCollision.y = -1.0f;
+			sideCollision = Entity::Right;
 		}
 	}
 
@@ -182,7 +175,6 @@ Entity::SideCollisions GameCollision::getSideCollision(Entity *e1, Entity *e2)
 {
 	RECT rect1 = e1->getBound();
 	RECT rect2 = e2->getBound();
-
 	float w = (e1->getWidth() + e2->getWidth()) / 2.0f;
 	float h = (e1->getHeight() + e2->getHeight()) / 2.0f;
 
@@ -215,7 +207,7 @@ Entity::SideCollisions GameCollision::getSideCollision(Entity *e1, Entity *e2)
 		return Entity::Bottom;
 	}
 	//Don't collide
-	return Entity::Unknown;
+	return Entity::None;
 }
 
 Entity::SideCollisions GameCollision::getSideCollision(Entity *e1, Entity::CollisionReturn data)

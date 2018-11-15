@@ -1,12 +1,6 @@
 #include "GameObject.h"
 
-GameObject::~GameObject()
-{
-}
 
-GameObject::GameObject()
-{
-}
 
 void GameObject::Update(float dt)
 {
@@ -17,7 +11,7 @@ void GameObject::Draw(D3DXVECTOR3 position, RECT sourceRect, D3DXVECTOR2 scale, 
 
 }
 
-void GameObject::Draw(D3DXVECTOR2 transform)
+void GameObject::Draw(D3DXVECTOR2 transform) const
 {
     Draw(D3DXVECTOR3(), RECT(), D3DXVECTOR2(), transform);
 }

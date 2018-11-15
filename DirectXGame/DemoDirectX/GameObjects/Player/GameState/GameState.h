@@ -13,16 +13,16 @@ protected:
 
 public:
 	explicit GameState(GamePlayer *gp);
-	GameState();
+	GameState() = default;
 
-	virtual ~GameState();
+	virtual ~GameState() = default;
 
 	virtual void Update(float dt);
 
 	virtual void HandleKeyboard(std::map<int, bool> keys, float dt);
 
 	// The side will collide with player
-	virtual void OnCollision(Entity::CollisionReturn data, Entity::SideCollisions side);
+	virtual void OnCollision(Entity::SideCollisions side);
 
 	virtual MegaManState::StateName getState() = 0;
 };

@@ -1,6 +1,6 @@
 ﻿
-#ifndef __GAME_GLOBAL__
-#define __GAME_GLOBAL__
+#ifndef __GAME_GLOBAL_H__
+#define __GAME_GLOBAL_H__
 #include <d3dx9.h>
 #include <d3d9.h>
 #include <Windows.h>

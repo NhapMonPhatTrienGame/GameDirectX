@@ -16,6 +16,7 @@ protected:
 	//phan toc vx, vy
 	float vx, vy;
 
+	float collision_time_min;
 	//size cua entity
 	float width, height;
 
@@ -26,15 +27,15 @@ public:
 
     enum SideCollisions
     {
-        Left, //0
-        Right, //1
-        Top, //2
-        Bottom, //3
-        TopLeft, //4
-        TopRight, //5
-        BottomLeft, //6
-        BottomRight, //7
-        Unknown
+        Left,
+        Right,
+        Top,
+        Bottom,
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight,
+        None
     };
 
     struct CollisionReturn
@@ -43,21 +44,16 @@ public:
         RECT RegionCollision;
     };
 
-    enum EntityTypes
-    {
-        None,
-    	Brick,
-    	Enemy,
-    	Mario,
-    	Static,
-    	BrickGoldNormal,
-    	BrickGoldBeEaten
-    };
-
-	enum TheKindOfEntity
+	enum EntityTypes
 	{
-		
-	};
+		Rockman,
+		Brick,
+		Enemy,
+		Static,
+		BrickGoldNormal,
+		BrickGoldBeEaten,
+		Unknown
+    };
 
 	//To confirm type of Entity
     EntityTypes Tag;
@@ -87,10 +83,12 @@ public:
     virtual void setVy(float vy);
     virtual void addVy(float vy);
 
+	virtual void UpdateColision(float collision_time, SideCollisions side, float dt);
+
     virtual void Update(float dt);
 
     //Control collision
 	//When entity collide, this function will be called
-    virtual void OnCollision(CollisionReturn data, SideCollisions side);
+    virtual void OnCollision(SideCollisions side);
 
 };

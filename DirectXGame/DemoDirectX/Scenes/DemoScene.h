@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __DEMO_SCENE_H__
+#define __DEMO_SCENE_H__
 
 #include "../GameComponents/Scene.h"
 #include "../GameComponents/GameMap.h"
@@ -8,7 +9,7 @@
 class DemoScene : public Scene
 {
 protected:
-	void CheckCollision() const;
+	void CheckCollision(float dt) const;
 	void CheckCameraAndWorldMap() const;
 
 	GameMap		*pMap;
@@ -30,3 +31,4 @@ public:
 	void OnKeyUp(int keyCode) override;
 	void OnMouseDown(float x, float y) override;
 };
+#endif

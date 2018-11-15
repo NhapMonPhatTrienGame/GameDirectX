@@ -2,7 +2,9 @@
 
 Entity::Entity()
 {
-    Tag = None;
+    Tag = Unknown;
+	vx = 0, vy = 0;
+	collision_time_min = 1.0f;
 }
 
 RECT Entity::getBound()
@@ -17,7 +19,7 @@ RECT Entity::getBound()
     return bound;
 }
 
-void Entity::OnCollision(CollisionReturn data, Entity::SideCollisions side)
+void Entity::OnCollision(Entity::SideCollisions side)
 {
     vx = 0, vy = 0;
 }
@@ -25,8 +27,34 @@ void Entity::OnCollision(CollisionReturn data, Entity::SideCollisions side)
 void Entity::Update(float dt)
 {
     //velocity = pixel / s
-    x += vx * dt;
+    x += vx * dt * collision_time_min;
     y += vy * dt;
+	collision_time_min = 1.0f;
+}
+
+void Entity::UpdateColision(float collision_time, SideCollisions side, float dt)
+{
+	switch (side)
+	{
+		case Entity::Left:
+		case Entity::Right:
+		{
+			if (collision_time > collision_time_min)
+				return;
+			collision_time_min = collision_time;
+			vx = 0;
+			break;
+		}
+		case Entity::Top:
+		case Entity::Bottom:
+		{
+			y += vy * dt * collision_time;
+			vy = 0;
+			break;
+		}
+
+		default:break;
+	}
 }
 
 void Entity::onSetPosition(D3DXVECTOR3 pos)
