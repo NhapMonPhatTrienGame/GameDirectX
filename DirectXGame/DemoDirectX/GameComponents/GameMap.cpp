@@ -98,9 +98,9 @@ void GameMap::LoadMap(const char* filePath)
 							bound.bottom = bound.top + tileHeight;
 
 							const D3DXVECTOR3 position(n * tileWidth + tileWidth / 2.0f,
-								m * tileHeight + tileHeight / 2.0f, 0);
+							                           m * tileHeight + tileHeight / 2.0f, 0);
 
-							Brick *brick = nullptr;
+							Brick* brick = nullptr;
 
 							if (layer->GetName() == "coin")
 							{
@@ -136,9 +136,9 @@ void GameMap::LoadMap(const char* filePath)
 			//Get the object group rather than layer. The object group contains the body
 			const auto object = objectGroup->GetObjects().at(j);
 
-			auto*entity = new Entity();
+			auto* entity = new Entity();
 			entity->setPosition(object->GetX() + object->GetWidth() / 2.0f,
-				object->GetY() + object->GetHeight() / 2.0f);
+			                    object->GetY() + object->GetHeight() / 2.0f);
 
 			entity->setWidth(object->GetWidth());
 			entity->setHeight(object->GetHeight());
@@ -222,7 +222,7 @@ void GameMap::Update(float dt)
 void GameMap::Draw()
 {
 	const auto trans = D3DXVECTOR2(GameGlobal::GetWidth() / 2.0f - pCamera->GetPosition().x,
-		GameGlobal::GetHeight() / 2.0f - pCamera->GetPosition().y);
+	                               GameGlobal::GetHeight() / 2.0f - pCamera->GetPosition().y);
 
 #pragma region DRAW TILESET
 	for (size_t i = 0; i < pTmxMap->GetNumTileLayers(); i++)
@@ -262,7 +262,8 @@ void GameMap::Draw()
 
 						auto sprite = LisTileset[j];
 
-						const D3DXVECTOR3 position(n * tileWidth + tileWidth / 2.0f, m * tileHeight + tileHeight / 2.0f, 0);
+						const D3DXVECTOR3 position(n * tileWidth + tileWidth / 2.0f, m * tileHeight + tileHeight / 2.0f,
+						                           0);
 
 						if (pCamera != nullptr)
 						{
@@ -276,8 +277,8 @@ void GameMap::Draw()
 								continue;
 						}
 
-						sprite->SetWidth(tileWidth);
-						sprite->SetHeight(tileHeight);
+						sprite->setWidth(tileWidth);
+						sprite->setHeight(tileHeight);
 
 						sprite->Draw(position, sourceRECT, D3DXVECTOR2(), trans);
 					}
@@ -307,7 +308,7 @@ std::vector<Brick*> GameMap::GetListBrick() const
 	return ListBricks;
 }
 
-QuadTree * GameMap::GetQuadTree() const
+QuadTree* GameMap::GetQuadTree() const
 {
 	return pQuadTree;
 }

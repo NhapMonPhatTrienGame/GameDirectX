@@ -31,88 +31,89 @@
 
 #include "TmxPropertySet.h"
 
-namespace tinyxml2 {
-    class XMLNode;
+namespace tinyxml2
+{
+	class XMLNode;
 }
 
-namespace Tmx 
+namespace Tmx
 {
-    class Ellipse;
-    class Polygon;
-    class Polyline;
+	class Ellipse;
+	class Polygon;
+	class Polyline;
 
-    //-------------------------------------------------------------------------
-    // Class used for representing a single object from the objectgroup.
-    //-------------------------------------------------------------------------
-    class Object 
-    {
-    public:
-        Object();
-        ~Object();
+	//-------------------------------------------------------------------------
+	// Class used for representing a single object from the objectgroup.
+	//-------------------------------------------------------------------------
+	class Object
+	{
+	public:
+		Object();
+		~Object();
 
-        // Parse an object node.
-        void Parse(const tinyxml2::XMLNode *objectNode);
-    
-        // Get the name of the object.
-        const std::string &GetName() const { return name; }
-        
-        // Get the type of the object.
-        const std::string &GetType() const { return type; }
+		// Parse an object node.
+		void Parse(const tinyxml2::XMLNode* objectNode);
 
-        // Get the left side of the object, in pixels.
-        int GetX() const { return x; }
+		// Get the name of the object.
+		const std::string& GetName() const { return name; }
 
-        // Get the top side of the object, in pixels.
-        int GetY() const { return y; }
-        
-        // Get the width of the object, in pixels.
-        int GetWidth() const { return width; }
-        
-        // Get the height of the object, in pixels.
-        int GetHeight() const { return height; }
+		// Get the type of the object.
+		const std::string& GetType() const { return type; }
 
-        // Get the rotation of the object, in degrees.
-        double GetRot() const { return rotation; }
+		// Get the left side of the object, in pixels.
+		int GetX() const { return x; }
 
-        // Get the Global ID of the tile associated with this object.
-        int GetGid() const { return gid; }
+		// Get the top side of the object, in pixels.
+		int GetY() const { return y; }
 
-        // Get the ID of this object.
-        int GetId() const { return id; }
+		// Get the width of the object, in pixels.
+		int GetWidth() const { return width; }
 
-        // Get the visibility of the object.
-        bool IsVisible() const { return visible; }
+		// Get the height of the object, in pixels.
+		int GetHeight() const { return height; }
 
-        // Get the ellipse.
-        const Tmx::Ellipse *GetEllipse() const { return ellipse; }
+		// Get the rotation of the object, in degrees.
+		double GetRot() const { return rotation; }
 
-        // Get the Polygon.
-        const Tmx::Polygon *GetPolygon() const { return polygon; }
+		// Get the Global ID of the tile associated with this object.
+		int GetGid() const { return gid; }
 
-        // Get the Polyline.
-        const Tmx::Polyline *GetPolyline() const { return polyline; }
+		// Get the ID of this object.
+		int GetId() const { return id; }
 
-        // Get the property set.
-        const Tmx::PropertySet &GetProperties() const { return properties; }
+		// Get the visibility of the object.
+		bool IsVisible() const { return visible; }
 
-    private:
-        std::string name;
-        std::string type;
+		// Get the ellipse.
+		const Ellipse* GetEllipse() const { return ellipse; }
 
-        int x;
-        int y;
-        int width;
-        int height;
-        int gid;
-        int id;
+		// Get the Polygon.
+		const Polygon* GetPolygon() const { return polygon; }
 
-        double rotation;
-        bool visible;
+		// Get the Polyline.
+		const Polyline* GetPolyline() const { return polyline; }
 
-        Tmx::Ellipse *ellipse;
-        Tmx::Polygon *polygon;
-        Tmx::Polyline *polyline;
+		// Get the property set.
+		const PropertySet& GetProperties() const { return properties; }
 
-        Tmx::PropertySet properties;
-    };
+	private:
+		std::string name;
+		std::string type;
+
+		int x;
+		int y;
+		int width;
+		int height;
+		int gid;
+		int id;
+
+		double rotation;
+		bool visible;
+
+		Ellipse* ellipse;
+		Polygon* polygon;
+		Polyline* polyline;
+
+		PropertySet properties;
+	};
 }

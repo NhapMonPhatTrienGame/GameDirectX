@@ -5,23 +5,25 @@
 #include "../GameComponents/GameMap.h"
 #include "../GameComponents/Camera.h"
 #include "../GameObjects/Player/GamePlayer.h"
+#include "../Enemies.h"
 
 class DemoScene : public Scene
 {
 protected:
+
 	void CheckCollision(float dt) const;
 	void CheckCameraAndWorldMap() const;
 
-	GameMap		*pMap;
-	Camera		*pCamera;
-
-	GamePlayer	*gp;
+	GameMap*		pMap;
+	Camera*			pCamera;
+	GamePlayer*		gp;
+	Enemies*		pEnemies;
 
 	std::map<int, bool> keys;
 
 public:
 	DemoScene();
-	~DemoScene() = default;
+	~DemoScene();
 
 	void Update(float dt) override;
 	void LoadContent() override;
@@ -29,6 +31,6 @@ public:
 
 	void OnKeyDown(int keyCode) override;
 	void OnKeyUp(int keyCode) override;
-	void OnMouseDown(float x, float y) override;
+	void OnMouseDown(float x, float y) override;	
 };
 #endif

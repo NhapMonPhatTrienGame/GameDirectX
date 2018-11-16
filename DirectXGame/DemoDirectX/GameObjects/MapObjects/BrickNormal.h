@@ -1,9 +1,10 @@
 #pragma once
 #include "Brick.h"
+
 class BrickNormal : public Brick
 {
 public:
-    ~BrickNormal() = default;
+	~BrickNormal() = default;
 
 	explicit BrickNormal(D3DXVECTOR3 position);
 
@@ -13,4 +14,3 @@ public:
 	int Column() override;
 	float TimePerFrame() override;
 };
-

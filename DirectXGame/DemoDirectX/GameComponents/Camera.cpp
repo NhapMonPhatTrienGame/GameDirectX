@@ -1,8 +1,7 @@
 #include "Camera.h"
 
 
-Camera::Camera()
-{}
+Camera::Camera() {}
 
 Camera::Camera(int width, int height)
 {
@@ -12,8 +11,7 @@ Camera::Camera(int width, int height)
 	mPositionWorld = D3DXVECTOR3(0, 0, 0);
 }
 
-Camera::~Camera()
-{}
+Camera::~Camera() {}
 
 void Camera::SetPosition(float x, float y)
 {

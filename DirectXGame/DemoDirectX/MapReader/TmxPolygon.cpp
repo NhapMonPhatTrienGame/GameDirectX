@@ -26,32 +26,30 @@
 // Author: Tamir Atias
 //-----------------------------------------------------------------------------
 #include "tinyxml2.h"
-#include <cstdlib> 
+#include <cstdlib>
 
 #include "TmxPolygon.h"
 
-namespace Tmx 
+namespace Tmx
 {
-    Polygon::Polygon()
-        : points()
-    {
-    }
+	Polygon::Polygon()
+		: points() { }
 
-    void Polygon::Parse(const tinyxml2::XMLNode *polygonNode)
-    {
-        char *pointsLine = _strdup(polygonNode->ToElement()->Attribute("points"));
-        
-        char *token = strtok(pointsLine, " ");
-        while (token)
-        {
-            Point point;
-            sscanf(token, "%f,%f", &point.x, &point.y);
+	void Polygon::Parse(const tinyxml2::XMLNode* polygonNode)
+	{
+		char* pointsLine = _strdup(polygonNode->ToElement()->Attribute("points"));
 
-            points.push_back(point);
+		char* token = strtok(pointsLine, " ");
+		while (token)
+		{
+			Point point;
+			sscanf(token, "%f,%f", &point.x, &point.y);
 
-            token = strtok(0, " ");
-        }
+			points.push_back(point);
 
-        free(pointsLine);
-    }
+			token = strtok(nullptr, " ");
+		}
+
+		free(pointsLine);
+	}
 }

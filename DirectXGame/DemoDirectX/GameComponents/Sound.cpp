@@ -1,10 +1,9 @@
 #include "Sound.h"
-#include "GameLog.h"
 #include "GameGlobal.h"
 
 Sound* Sound::instance = nullptr;
 
-Sound* Sound:: getInstance()
+Sound* Sound::getInstance()
 {
 	if (instance == nullptr)
 		instance = new Sound(GameGlobal::getCurrentHWND());
@@ -20,12 +19,10 @@ Sound::Sound(HWND hWnd)
 
 	HRESULT result = DirectSoundCreate8(nullptr, &pDevice, nullptr);
 
-	if(FAILED(result))
-	{
-		GAMELOG("Can not create device");
-	}
+	if (FAILED(result))
+		return;
 
-	result = pDevice->SetCooperativeLevel(hWnd, DSSCL_PRIORITY); // set the cooperative level.
+	pDevice->SetCooperativeLevel(hWnd, DSSCL_PRIORITY); // set the cooperative level.
 
 	bufferDesc.dwSize = sizeof(DSBUFFERDESC);
 	bufferDesc.dwFlags = DSBCAPS_PRIMARYBUFFER | DSBCAPS_CTRLVOLUME;
@@ -34,12 +31,10 @@ Sound::Sound(HWND hWnd)
 	bufferDesc.lpwfxFormat = nullptr;
 	bufferDesc.guid3DAlgorithm = GUID_NULL;
 
-	result = pDevice -> CreateSoundBuffer(&bufferDesc, &primaryBuffer, nullptr);
+	result = pDevice->CreateSoundBuffer(&bufferDesc, &primaryBuffer, nullptr);
 
-	if(FAILED(result))
-	{
-		GAMELOG("Can not create primaryBuffer");
-	}
+	if (FAILED(result))
+		return;
 	volume = 100.0f;
 	isMute = false;
 }
@@ -48,40 +43,37 @@ Sound::~Sound()
 {
 	for (auto it = soundBufferMap.begin(); it != soundBufferMap.end(); ++it)
 	{
-		if(it -> second)
+		if (it->second)
 		{
-			it -> second -> Release();
-			it -> second = nullptr;
+			it->second->Release();
+			it->second = nullptr;
 		}
-		
 	}
-	if(primaryBuffer)
-		primaryBuffer ->Release();
-	if(pDevice)
-		pDevice -> Release();
+	if (primaryBuffer)
+		primaryBuffer->Release();
+	if (pDevice)
+		pDevice->Release();
 	pDevice = nullptr;
-	
-	primaryBuffer = nullptr;
 
-	
+	primaryBuffer = nullptr;
 }
 
-void Sound :: create(HWND hWnd)
+void Sound::create(HWND hWnd)
 {
-	if(instance == nullptr)
+	if (instance == nullptr)
 	{
 		instance = new Sound(hWnd);
 	}
 }
 
-float Sound :: getVolume() const
+float Sound::getVolume() const
 {
 	return volume;
 }
 
-void Sound :: loadSound(char* fileName, const std:: string& name)
+void Sound::loadSound(char* fileName, const std::string& name)
 {
-	if(soundBufferMap.find(name) != soundBufferMap.end())
+	if (soundBufferMap.find(name) != soundBufferMap.end())
 		return;
 	FILE* filePtr;
 	WaveHeaderStruct waveHeaderStruct;
@@ -92,20 +84,15 @@ void Sound :: loadSound(char* fileName, const std:: string& name)
 	unsigned long bufferSize;
 
 	int error = fopen_s(&filePtr, fileName, "rb");
-	if(error != 0)
-	{
-		GAMELOG(" Can not load: %s", fileName);
-		return ;
-	}
+	if (error != 0)
+		return;
 
 	fread(&waveHeaderStruct, sizeof(WaveHeaderStruct), 1, filePtr);
 	//fread(&waveFileHeader, sizeof(waveFileHeader), 1, filePtr);
 
-	if((waveHeaderStruct.format[0] != 'W') || (waveHeaderStruct.format[1] != 'A') ||
-	   (waveHeaderStruct.format[2] != 'V') || (waveHeaderStruct.format[3] != 'E'))
-	{
-		GAMELOG(" file format does not support: %s", fileName);
-	}
+	if ((waveHeaderStruct.format[0] != 'W') || (waveHeaderStruct.format[1] != 'A') ||
+		(waveHeaderStruct.format[2] != 'V') || (waveHeaderStruct.format[3] != 'E'))
+		return;
 
 	waveFormat.wFormatTag = WAVE_FORMAT_PCM;
 	waveFormat.nSamplesPerSec = waveHeaderStruct.sampleRate;
@@ -135,11 +122,8 @@ void Sound :: loadSound(char* fileName, const std:: string& name)
 	tempBuffer->Release();
 	tempBuffer = nullptr;
 
-	if(FAILED(result))
-	{
-		GAMELOG(" Can not create secondaryBuffer ");
+	if (FAILED(result))
 		return;
-	}
 
 	//fseek(filePtr, sizeof(WaveHeaderStruct), SEEK_SET); // move the filePointer cursor to data section
 
@@ -148,115 +132,109 @@ void Sound :: loadSound(char* fileName, const std:: string& name)
 
 	unsigned char* wavData = new unsigned char[ waveHeaderStruct.dataSize];
 
-	
 
 	fread(wavData, waveHeaderStruct.dataSize, 1, filePtr);
 
 	error = fclose(filePtr);
-	if(error != 0)
-	{
-		GAMELOG(" Can not close file ");
-	}
-
-	result = (*pSecondaryBuffer)->Lock(0, waveHeaderStruct.dataSize, (void**)&bufferPtr, (DWORD*)&bufferSize, nullptr, nullptr, 0);
-
-	if(FAILED(result))
-	{
+	if (error != 0)
 		return;
-	}
+
+	result = (*pSecondaryBuffer)->Lock(0, waveHeaderStruct.dataSize, (void**)&bufferPtr, (DWORD*)&bufferSize, nullptr,
+	                                   nullptr, 0);
+
+	if (FAILED(result))
+		return;
 
 	memcpy(bufferPtr, wavData, waveHeaderStruct.dataSize);
 
 	(*pSecondaryBuffer)->Unlock((void*)bufferPtr, bufferSize, nullptr, 0);
 
-	if(wavData != nullptr)
+	if (wavData != nullptr)
 	{
 		delete[] wavData;
 		wavData = nullptr;
 	}
-	
-	long tempVolume = (volume) / 100 *(- DSBVOLUME_MIN) + DSBVOLUME_MIN;
-	(*pSecondaryBuffer) -> SetVolume(tempVolume);
+
+	long tempVolume = (volume) / 100 * (- DSBVOLUME_MIN) + DSBVOLUME_MIN;
+	(*pSecondaryBuffer)->SetVolume(tempVolume);
 
 	soundBufferMap[name] = secondaryBuffer;
-
-
 }
 
-void Sound :: play(const std:: string& name, bool infiniteLoop, int times)
+void Sound::play(const std::string& name, bool infiniteLoop, int times)
 {
-	if(isMute)
-	{
+	if (isMute)
 		return;
-	}
+
 	std::map<std::string, IDirectSoundBuffer8*>::iterator it = soundBufferMap.find(name);
-	if(it == soundBufferMap.end())
+	if (it == soundBufferMap.end())
 		return;
-	if(infiniteLoop)
+	if (infiniteLoop)
 	{
-		it -> second -> Play(0, 0 , DSBPLAY_LOOPING);
+		it->second->Play(0, 0, DSBPLAY_LOOPING);
 	}
 	else
 	{
-		it -> second -> Stop();
-		it -> second -> SetCurrentPosition(0);
-		it -> second -> Play(0, 0, times - 1);
+		it->second->Stop();
+		it->second->SetCurrentPosition(0);
+		it->second->Play(0, 0, times - 1);
 	}
-
 }
 
-void Sound :: stop(const std::string& name)
+void Sound::stop(const std::string& name)
 {
-	if(name.empty())
+	if (name.empty())
 	{
-		for ( std::map< std::string, IDirectSoundBuffer8*> ::iterator it = soundBufferMap.begin(); it != soundBufferMap.end(); ++it)
+		for (std::map<std::string, IDirectSoundBuffer8*>::iterator it = soundBufferMap.begin(); it != soundBufferMap.
+		     end(); ++it)
 		{
-			it -> second ->Stop();
-			it -> second ->SetCurrentPosition(0);
+			it->second->Stop();
+			it->second->SetCurrentPosition(0);
 		}
 	}
 	else
 	{
 		std::map<std::string, IDirectSoundBuffer8*>::iterator it = soundBufferMap.find(name);
-		if(it == soundBufferMap.end())
+		if (it == soundBufferMap.end())
 			return;
-		else it -> second ->Stop();
+		it->second->Stop();
 	}
 }
 
-void Sound :: setVolume(float percentage, const std:: string& name)
+void Sound::setVolume(float percentage, const std::string& name)
 {
 	volume = percentage;
-	if(name.empty())
+	if (name.empty())
 	{
-		long volumne = (percentage) / 100 *(- DSBVOLUME_MIN) + DSBVOLUME_MIN;
-		for ( std::map< std::string, IDirectSoundBuffer8*> ::iterator it = soundBufferMap.begin(); it != soundBufferMap.end(); ++it)
+		long volumne = (percentage) / 100 * (- DSBVOLUME_MIN) + DSBVOLUME_MIN;
+		for (std::map<std::string, IDirectSoundBuffer8*>::iterator it = soundBufferMap.begin(); it != soundBufferMap.
+		     end(); ++it)
 		{
-			it -> second ->SetVolume(volumne);
+			it->second->SetVolume(volumne);
 		}
 	}
 	else
 	{
 		std::map<std::string, IDirectSoundBuffer8*>::iterator it = soundBufferMap.find(name);
-		if(it == soundBufferMap.end())
+		if (it == soundBufferMap.end())
 			return;
-		long volumne = (percentage) / 100 *(- DSBVOLUME_MIN) + DSBVOLUME_MIN;
-		it -> second ->SetVolume(volumne);
+		long volumne = (percentage) / 100 * (- DSBVOLUME_MIN) + DSBVOLUME_MIN;
+		it->second->SetVolume(volumne);
 	}
 }
 
-void Sound :: mute()
+void Sound::mute()
 {
 	isMute = true;
-	Sound::getInstance() -> stop();
+	getInstance()->stop();
 }
 
-void Sound :: unMute()
+void Sound::unMute()
 {
 	isMute = false;
 }
 
-void Sound :: cleanUp() const
+void Sound::cleanUp() const
 {
 	delete this;
 }

@@ -41,26 +41,25 @@
 
 int Tmx::Layer::nextParseOrder = 0;
 
-namespace Tmx 
+namespace Tmx
 {
-    Layer::Layer(const Tmx::Map *_map, const std::string _name, const int _x, const int _y, const int _width, const int _height, const float _opacity, const bool _visible, const LayerType _layerType) 
-        : map(_map)
-        , name(_name)
-        , x(_x)
-        , y(_y)
-        , width(_width)
-        , height(_height)
-        , opacity(_opacity)
-        , visible(_visible)
-        , zOrder(nextParseOrder)
-        , parseOrder(nextParseOrder)
-        , layerType(_layerType)
-        , properties()
-    {
-        ++nextParseOrder;
-    }
+	Layer::Layer(const Map* _map, const std::string _name, const int _x, const int _y, const int _width,
+	             const int _height, const float _opacity, const bool _visible, const LayerType _layerType)
+		: map(_map)
+		  , name(_name)
+		  , x(_x)
+		  , y(_y)
+		  , width(_width)
+		  , height(_height)
+		  , opacity(_opacity)
+		  , visible(_visible)
+		  , zOrder(nextParseOrder)
+		  , parseOrder(nextParseOrder)
+		  , layerType(_layerType)
+		  , properties()
+	{
+		++nextParseOrder;
+	}
 
-    Layer::~Layer() 
-    {
-    }
+	Layer::~Layer() { }
 }

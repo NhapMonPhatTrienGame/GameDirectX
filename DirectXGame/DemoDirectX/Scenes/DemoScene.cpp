@@ -9,6 +9,7 @@ DemoScene::DemoScene()
 	DemoScene::LoadContent();
 }
 
+
 void DemoScene::LoadContent()
 {
 	//Set color for scene. Here is blue scene color 
@@ -17,15 +18,17 @@ void DemoScene::LoadContent()
 	pMap = new GameMap(Define::WORLD_MAP);
 
 	pCamera = new Camera(GameGlobal::GetWidth(), GameGlobal::GetHeight());
-	pCamera->SetPosition(GameGlobal::GetWidth() / 2.0f,
-		pMap->GetHeight() - pCamera->GetHeight());
+	pCamera->SetPosition(GameGlobal::GetWidth() / 2.0f, pMap->GetHeight() - pCamera->GetHeight());
 
 	pMap->SetCamera(pCamera);
 
 	gp = new GamePlayer();
 
 	gp->setPosition(GameGlobal::GetWidth() / 2.0f, 0);
-	gp->SetCamera(pCamera);
+	gp->setCamera(pCamera);
+
+	pEnemies = new Enemies();
+	pEnemies->setPosition(300, 525);
 }
 
 void DemoScene::Update(float dt)
@@ -34,7 +37,7 @@ void DemoScene::Update(float dt)
 	CheckCollision(dt);
 	pMap->Update(dt);
 	gp->Update(dt);
-
+	pEnemies->Update(dt);
 	CheckCameraAndWorldMap();
 }
 
@@ -42,6 +45,7 @@ void DemoScene::Draw()
 {
 	pMap->Draw();
 	gp->Draw();
+	pEnemies->Draw();
 }
 
 void DemoScene::OnKeyDown(int keyCode)
@@ -97,6 +101,14 @@ void DemoScene::CheckCameraAndWorldMap() const
 			gp->setState(new DieState(gp));
 		}
 	}
+}
+
+DemoScene::~DemoScene()
+{
+	SAFE_DELETE(pMap);
+	SAFE_DELETE(pCamera);
+	SAFE_DELETE(gp);
+	SAFE_DELETE(pEnemies);
 }
 
 void DemoScene::CheckCollision(float dt) const

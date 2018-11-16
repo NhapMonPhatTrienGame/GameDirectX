@@ -30,46 +30,48 @@
 #include <map>
 #include <string>
 
-namespace tinyxml2 {
-    class XMLNode;
+namespace tinyxml2
+{
+	class XMLNode;
 }
 
 namespace Tmx
 {
-    //-----------------------------------------------------------------------------
-    // This class contains a map of properties.
-    //-----------------------------------------------------------------------------
-    class PropertySet
-    {
-    public:
-        PropertySet();
-        ~PropertySet();
+	//-----------------------------------------------------------------------------
+	// This class contains a map of properties.
+	//-----------------------------------------------------------------------------
+	class PropertySet
+	{
+	public:
+		PropertySet();
+		~PropertySet();
 
-        // Parse a node containing all the property nodes.
-        void Parse(const tinyxml2::XMLNode *propertiesNode);
+		// Parse a node containing all the property nodes.
+		void Parse(const tinyxml2::XMLNode* propertiesNode);
 
-        // Get a int property.
-        int GetIntProperty(const std::string &name, int defaultValue = 0) const;
-        // Get a float property.
-        float GetFloatProperty(const std::string &name, float defaultValue = 0.0f) const;
+		// Get a int property.
+		int GetIntProperty(const std::string& name, int defaultValue = 0) const;
+		// Get a float property.
+		float GetFloatProperty(const std::string& name, float defaultValue = 0.0f) const;
 
-        // Get a string property. Returns "" if no value.
-        std::string GetStringProperty(const std::string &name) const;
+		// Get a string property. Returns "" if no value.
+		std::string GetStringProperty(const std::string& name) const;
 
-        // Returns the amount of properties.
-        int GetSize() const { return properties.size(); }
+		// Returns the amount of properties.
+		int GetSize() const { return properties.size(); }
 
-        bool HasProperty( const std::string& name ) const;
+		bool HasProperty(const std::string& name) const;
 
-        // Returns the STL map of the properties.
-        std::map< std::string, std::string > GetList() const
-        { return properties; }
+		// Returns the STL map of the properties.
+		std::map<std::string, std::string> GetList() const
+		{
+			return properties;
+		}
 
-        // Returns whether there are no properties.
-        bool Empty() const { return properties.empty(); }
+		// Returns whether there are no properties.
+		bool Empty() const { return properties.empty(); }
 
-    private:
-        std::map< std::string, std::string > properties;
-
-    };
+	private:
+		std::map<std::string, std::string> properties;
+	};
 }

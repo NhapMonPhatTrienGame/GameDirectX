@@ -6,7 +6,7 @@
 
 class Game
 {
-	float                   mFPS;
+	float mFPS;
 
 	//Initialize for game loop
 	void InitLoop() const;
@@ -19,7 +19,7 @@ class Game
 
 public:
 	explicit Game(int fps = 60);
-    ~Game() = default;
+	~Game() = default;
 };
 
 #endif

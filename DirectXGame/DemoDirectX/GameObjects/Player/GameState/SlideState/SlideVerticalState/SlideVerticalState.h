@@ -6,11 +6,10 @@
 class SlideVerticalState : public GameState
 {
 protected:
-		bool isSlide;
+	bool isSlide;
 public:
-	SlideVerticalState() = default;
-	explicit SlideVerticalState(GamePlayer *gp);
-	~SlideVerticalState() override = default;
+	explicit SlideVerticalState(GamePlayer* gp);
+	~SlideVerticalState() = default;
 
 	void Update(float dt) override;
 

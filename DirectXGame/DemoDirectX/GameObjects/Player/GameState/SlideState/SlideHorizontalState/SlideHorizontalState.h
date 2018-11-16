@@ -3,15 +3,13 @@
 
 class SlideHorizontalState : public GameState
 {
+protected:
 	float translateX;
-	float countPress;
+	float m_TimePress;
 
 public:
-	SlideHorizontalState() = default;
-	explicit SlideHorizontalState(GamePlayer *gp);
-	~SlideHorizontalState() override = default;
-
-	void Update(float dt) override;
+	explicit SlideHorizontalState(GamePlayer* gp);
+	~SlideHorizontalState() = default;
 
 	void HandleKeyboard(std::map<int, bool> keys, float dt) override;
 

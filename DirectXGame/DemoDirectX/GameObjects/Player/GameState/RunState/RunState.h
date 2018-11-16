@@ -5,12 +5,11 @@ class GamePlayer;
 
 class RunState : public GameState
 {
+protected:
 	bool boot;
 public:
-	RunState() = default;
-	explicit RunState(GamePlayer *gp);
-
-	void Update(float dt) override;
+	explicit RunState(GamePlayer* gp) :GameState(gp) {}
+	~RunState() = default;
 
 	void HandleKeyboard(std::map<int, bool> keys, float dt) override;
 
@@ -18,5 +17,4 @@ public:
 
 	void OnCollision(Entity::SideCollisions side) override;
 
-	~RunState() override = default;
 };

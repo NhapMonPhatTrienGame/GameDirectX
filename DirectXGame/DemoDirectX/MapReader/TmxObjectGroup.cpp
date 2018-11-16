@@ -30,59 +30,57 @@
 #include "TmxObjectGroup.h"
 #include "TmxObject.h"
 
-namespace Tmx 
+namespace Tmx
 {
-    ObjectGroup::ObjectGroup(const Tmx::Map *_map)
-        : Layer(_map, std::string(), 0, 0, 0, 0, 1.0f, true, TMX_LAYERTYPE_OBJECTGROUP)
-        , color()
-        , objects()
-    {}
+	ObjectGroup::ObjectGroup(const Map* _map)
+		: Layer(_map, std::string(), 0, 0, 0, 0, 1.0f, true, TMX_LAYERTYPE_OBJECTGROUP)
+		  , color()
+		  , objects() {}
 
-    ObjectGroup::~ObjectGroup() 
-    {
-        for(std::size_t i = 0; i < objects.size(); i++)
-        {
-            Object *obj = objects.at(i);
-            delete obj;
-        }
-    }
+	ObjectGroup::~ObjectGroup()
+	{
+		for (std::size_t i = 0; i < objects.size(); i++)
+		{
+			Object* obj = objects.at(i);
+			delete obj;
+		}
+	}
 
-    void ObjectGroup::Parse(const tinyxml2::XMLNode *objectGroupNode) 
-    {
-        const tinyxml2::XMLElement *objectGroupElem = objectGroupNode->ToElement();
+	void ObjectGroup::Parse(const tinyxml2::XMLNode* objectGroupNode)
+	{
+		const tinyxml2::XMLElement* objectGroupElem = objectGroupNode->ToElement();
 
-        // Read the object group attributes.
-        name = objectGroupElem->Attribute("name");
+		// Read the object group attributes.
+		name = objectGroupElem->Attribute("name");
 
-        if (objectGroupElem->Attribute("color"))
-        {
-            color = objectGroupElem->Attribute("color");
-        }
-        
-        objectGroupElem->QueryFloatAttribute("opacity", &opacity);
-        objectGroupElem->QueryBoolAttribute("visible", &visible);
+		if (objectGroupElem->Attribute("color"))
+		{
+			color = objectGroupElem->Attribute("color");
+		}
 
-        // Read the properties.
-        const tinyxml2::XMLNode *propertiesNode = objectGroupNode->FirstChildElement("properties");
-        if (propertiesNode) 
-        {
-            properties.Parse(propertiesNode);
-        }
+		objectGroupElem->QueryFloatAttribute("opacity", &opacity);
+		objectGroupElem->QueryBoolAttribute("visible", &visible);
 
-        // Iterate through all of the object elements.
-        const tinyxml2::XMLNode *objectNode = objectGroupNode->FirstChildElement("object");
-        while (objectNode) 
-        {
-            // Allocate a new object and parse it.
-            Object *object = new Object();
-            object->Parse(objectNode);
-            
-            // Add the object to the list.
-            objects.push_back(object);
+		// Read the properties.
+		const tinyxml2::XMLNode* propertiesNode = objectGroupNode->FirstChildElement("properties");
+		if (propertiesNode)
+		{
+			properties.Parse(propertiesNode);
+		}
 
-            //objectNode = objectGroupNode->IterateChildren("object", objectNode); -- FIXME MAYBE
-            objectNode = objectNode->NextSiblingElement("object");
-        }
-    }
+		// Iterate through all of the object elements.
+		const tinyxml2::XMLNode* objectNode = objectGroupNode->FirstChildElement("object");
+		while (objectNode)
+		{
+			// Allocate a new object and parse it.
+			Object* object = new Object();
+			object->Parse(objectNode);
 
+			// Add the object to the list.
+			objects.push_back(object);
+
+			//objectNode = objectGroupNode->IterateChildren("object", objectNode); -- FIXME MAYBE
+			objectNode = objectNode->NextSiblingElement("object");
+		}
+	}
 }

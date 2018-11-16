@@ -35,62 +35,59 @@ using std::map;
 
 namespace Tmx
 {
+	PropertySet::PropertySet() : properties() {}
 
-    PropertySet::PropertySet() : properties()
-    {}
+	PropertySet::~PropertySet()
+	{
+		properties.clear();
+	}
 
-    PropertySet::~PropertySet()
-    {
-        properties.clear();
-    }
+	void PropertySet::Parse(const tinyxml2::XMLNode* propertiesNode)
+	{
+		// Iterate through all of the property nodes.
+		const tinyxml2::XMLNode* propertyNode = propertiesNode->FirstChildElement("property");
+		string propertyName;
+		string propertyValue;
 
-    void PropertySet::Parse(const tinyxml2::XMLNode *propertiesNode)
-    {
-        // Iterate through all of the property nodes.
-        const tinyxml2::XMLNode *propertyNode = propertiesNode->FirstChildElement("property");
-        string propertyName;
-        string propertyValue;
+		while (propertyNode)
+		{
+			const tinyxml2::XMLElement* propertyElem = propertyNode->ToElement();
 
-        while (propertyNode)
-        {
-            const tinyxml2::XMLElement* propertyElem = propertyNode->ToElement();
+			// Read the attributes of the property and add it to the map
+			propertyName = string(propertyElem->Attribute("name"));
+			propertyValue = string(propertyElem->Attribute("value"));
+			properties[propertyName] = propertyValue;
 
-            // Read the attributes of the property and add it to the map
-            propertyName = string(propertyElem->Attribute("name"));
-            propertyValue = string(propertyElem->Attribute("value"));
-            properties[propertyName] = propertyValue;
+			//propertyNode = propertiesNode->IterateChildren("property", propertyNode); FIXME MAYBE
+			propertyNode = propertyNode->NextSiblingElement("property");
+		}
+	}
 
-            //propertyNode = propertiesNode->IterateChildren("property", propertyNode); FIXME MAYBE
-            propertyNode = propertyNode->NextSiblingElement("property");
-        }
-    }
+	string PropertySet::GetStringProperty(const string& name) const
+	{
+		map<string, string>::const_iterator iter = properties.find(name);
 
-    string PropertySet::GetStringProperty(const string &name) const
-    {
-        map< string, string >::const_iterator iter = properties.find(name);
+		if (iter == properties.end())
+			return std::string();
 
-        if (iter == properties.end())
-            return std::string();
+		return iter->second;
+	}
 
-        return iter->second;
-    }
+	int PropertySet::GetIntProperty(const string& name, int defaultValue) const
+	{
+		std::string str = GetStringProperty(name);
+		return (str.size() == 0) ? defaultValue : atoi(GetStringProperty(name).c_str());
+	}
 
-    int PropertySet::GetIntProperty(const string &name, int defaultValue) const
-    {
-        std::string str = GetStringProperty(name);
-        return (str.size() == 0) ? defaultValue : atoi(GetStringProperty(name).c_str());
-    }
+	float PropertySet::GetFloatProperty(const string& name, float defaultValue) const
+	{
+		std::string str = GetStringProperty(name);
+		return (str.size() == 0) ? defaultValue : atof(GetStringProperty(name).c_str());
+	}
 
-    float PropertySet::GetFloatProperty(const string &name, float defaultValue) const
-    {
-        std::string str = GetStringProperty(name);
-        return (str.size() == 0) ? defaultValue : atof(GetStringProperty(name).c_str());
-    }
-
-    bool PropertySet::HasProperty( const string& name ) const
-    {
-        if( properties.empty() ) return false;
-        return ( properties.find(name) != properties.end() );
-    }
-
+	bool PropertySet::HasProperty(const string& name) const
+	{
+		if (properties.empty()) return false;
+		return (properties.find(name) != properties.end());
+	}
 }

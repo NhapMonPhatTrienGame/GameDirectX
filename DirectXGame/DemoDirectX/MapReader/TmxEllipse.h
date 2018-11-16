@@ -33,30 +33,30 @@
 
 namespace Tmx
 {
-    //-------------------------------------------------------------------------
-    // Class to store an Ellipse of an Object.
-    //-------------------------------------------------------------------------
-    class Ellipse
-    {
-    public:
-        Ellipse( int x, int y, int width, int height );
+	//-------------------------------------------------------------------------
+	// Class to store an Ellipse of an Object.
+	//-------------------------------------------------------------------------
+	class Ellipse
+	{
+	public:
+		Ellipse(int x, int y, int width, int height);
 
-        // Get the center of the object, in pixels.
-        int GetCenterX() const { return x; }
+		// Get the center of the object, in pixels.
+		int GetCenterX() const { return x; }
 
-        // Get the center of the object, in pixels.
-        int GetCenterY() const { return y; }
-        
-        // Get the RadiusX of the object, in pixels.
-        int GetRadiusX() const { return radiusX; }
-        
-        // Get the RadiusY of the object, in pixels.
-        int GetRadiusY() const { return radiusY; }
+		// Get the center of the object, in pixels.
+		int GetCenterY() const { return y; }
 
-    private:
-        int x;
-        int y;
-        int radiusX;
-        int radiusY;
-    };
+		// Get the RadiusX of the object, in pixels.
+		int GetRadiusX() const { return radiusX; }
+
+		// Get the RadiusY of the object, in pixels.
+		int GetRadiusY() const { return radiusY; }
+
+	private:
+		int x;
+		int y;
+		int radiusX;
+		int radiusY;
+	};
 }

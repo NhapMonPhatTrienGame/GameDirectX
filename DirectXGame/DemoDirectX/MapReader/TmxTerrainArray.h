@@ -31,26 +31,26 @@
 #include <string>
 #include <vector>
 
-namespace tinyxml2 {
-    class XMLNode;
+namespace tinyxml2
+{
+	class XMLNode;
 }
 
 namespace Tmx
 {
-    class Terrain;
+	class Terrain;
 
-    //-----------------------------------------------------------------------------
-    // Class to parse terrain types, which can be referenced from the
-    // terrain attribute of the tileset/tile element.
-    //-----------------------------------------------------------------------------
-    class TerrainArray
-    {
-    public:
-        TerrainArray();
-        ~TerrainArray();
+	//-----------------------------------------------------------------------------
+	// Class to parse terrain types, which can be referenced from the
+	// terrain attribute of the tileset/tile element.
+	//-----------------------------------------------------------------------------
+	class TerrainArray
+	{
+	public:
+		TerrainArray();
+		~TerrainArray();
 
-        // Parse a node containing all the terrain nodes.
-        void Parse(std::vector< Tmx::Terrain* > *terrainTypes, const tinyxml2::XMLNode *terrainArrayNode);
-
-    };
+		// Parse a node containing all the terrain nodes.
+		void Parse(std::vector<Terrain*>* terrainTypes, const tinyxml2::XMLNode* terrainArrayNode);
+	};
 }

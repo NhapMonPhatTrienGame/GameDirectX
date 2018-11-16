@@ -32,86 +32,80 @@
 
 namespace Tmx
 {
-    Tile::Tile() :
-            id(0), properties(), isAnimated(false),hasObjects(false), totalDuration(0)
-    {
-    }
-    Tile::Tile(int id) :
-            id(id), properties(), isAnimated(false),hasObjects(false), totalDuration(0)
-    {
-    }
+	Tile::Tile() :
+		id(0), properties(), isAnimated(false), hasObjects(false), totalDuration(0) { }
 
-    Tile::~Tile()
-    {
-    }
+	Tile::Tile(int id) :
+		id(id), properties(), isAnimated(false), hasObjects(false), totalDuration(0) { }
 
-    void Tile::Parse(const tinyxml2::XMLNode *tileNode)
-    {
-        const tinyxml2::XMLElement *tileElem = tileNode->ToElement();
+	Tile::~Tile() { }
 
-        // Parse the attributes.
-        id = tileElem->IntAttribute("id");
+	void Tile::Parse(const tinyxml2::XMLNode* tileNode)
+	{
+		const tinyxml2::XMLElement* tileElem = tileNode->ToElement();
 
-        // Parse the properties if any.
-        const tinyxml2::XMLNode *propertiesNode = tileNode->FirstChildElement(
-                "properties");
+		// Parse the attributes.
+		id = tileElem->IntAttribute("id");
 
-        if (propertiesNode)
-        {
-            properties.Parse(propertiesNode);
-        }
+		// Parse the properties if any.
+		const tinyxml2::XMLNode* propertiesNode = tileNode->FirstChildElement(
+			"properties");
 
-        // Parse the animation if there is one.
-        const tinyxml2::XMLNode *animationNode = tileNode->FirstChildElement(
-                "animation");
+		if (propertiesNode)
+		{
+			properties.Parse(propertiesNode);
+		}
 
-        if (animationNode)
-        {
-            isAnimated = true;
+		// Parse the animation if there is one.
+		const tinyxml2::XMLNode* animationNode = tileNode->FirstChildElement(
+			"animation");
 
-            const tinyxml2::XMLNode *frameNode =
-                    animationNode->FirstChildElement("frame");
-            unsigned int durationSum = 0;
+		if (animationNode)
+		{
+			isAnimated = true;
 
-            while (frameNode != NULL)
-            {
-                const tinyxml2::XMLElement *frameElement =
-                        frameNode->ToElement();
+			const tinyxml2::XMLNode* frameNode =
+				animationNode->FirstChildElement("frame");
+			unsigned int durationSum = 0;
 
-                const int tileID = frameElement->IntAttribute("tileid");
-                const unsigned int duration = frameElement->IntAttribute(
-                        "duration");
+			while (frameNode != nullptr)
+			{
+				const tinyxml2::XMLElement* frameElement =
+					frameNode->ToElement();
 
-                frames.push_back(AnimationFrame(tileID, duration));
-                durationSum += duration;
+				const int tileID = frameElement->IntAttribute("tileid");
+				const unsigned int duration = frameElement->IntAttribute(
+					"duration");
 
-                frameNode = frameNode->NextSiblingElement("frame");
-            }
+				frames.push_back(AnimationFrame(tileID, duration));
+				durationSum += duration;
 
-            totalDuration = durationSum;
-        }
+				frameNode = frameNode->NextSiblingElement("frame");
+			}
 
-        const tinyxml2::XMLNode *collisionNode = tileNode->FirstChildElement(
-                "objectgroup");
-        if (collisionNode)
-        {
-            const tinyxml2::XMLNode *objectNode =
-                    collisionNode->FirstChildElement("object");
-            hasObjects = true;
+			totalDuration = durationSum;
+		}
 
-            while (objectNode != NULL)
-            {
-                const tinyxml2::XMLElement *objectElement =
-                        objectNode->ToElement();
+		const tinyxml2::XMLNode* collisionNode = tileNode->FirstChildElement(
+			"objectgroup");
+		if (collisionNode)
+		{
+			const tinyxml2::XMLNode* objectNode =
+				collisionNode->FirstChildElement("object");
+			hasObjects = true;
 
-                Object *object = new Object();
-                object->Parse(objectElement);
+			while (objectNode != nullptr)
+			{
+				const tinyxml2::XMLElement* objectElement =
+					objectNode->ToElement();
 
-                objects.push_back(object);
+				Object* object = new Object();
+				object->Parse(objectElement);
 
-                objectNode = objectNode->NextSiblingElement("object");
-            }
-        }
+				objects.push_back(object);
 
-    }
+				objectNode = objectNode->NextSiblingElement("object");
+			}
+		}
+	}
 }

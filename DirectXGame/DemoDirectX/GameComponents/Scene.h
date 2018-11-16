@@ -8,15 +8,15 @@ protected:
 	D3DCOLOR mBackColor;
 
 public:
-	Scene();
 	virtual ~Scene() = default;
+	Scene();
 
 	virtual void Update(float dt);
-    virtual void LoadContent();
-    virtual void Draw();
+	virtual void LoadContent();
+	virtual void Draw();
 
-    virtual void OnKeyDown(int keyCode);
-    virtual void OnKeyUp(int keyCode);
+	virtual void OnKeyDown(int keyCode);
+	virtual void OnKeyUp(int keyCode);
 
 	virtual void OnMouseDown(float x, float y);
 
@@ -24,4 +24,3 @@ public:
 };
 
 #endif
-

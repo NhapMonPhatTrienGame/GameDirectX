@@ -5,7 +5,7 @@ class BrickGold : public Brick
 {
 public:
 	explicit BrickGold(D3DXVECTOR3 position);
-    ~BrickGold() = default;
+	~BrickGold() = default;
 
 	const char* FileName() override;
 	int TotalFrame() override;

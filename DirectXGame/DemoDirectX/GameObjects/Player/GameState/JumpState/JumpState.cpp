@@ -18,17 +18,16 @@ void JumpState::Update(float dt)
 {
 	if (gp->getVy() > 0)
 		gp->setState(new FallState(gp, Pressed));
-
 }
 
 void JumpState::HandleKeyboard(std::map<int, bool> keys, float dt)
 {
-	countPress += dt;//tranhs loi va cham
+	countPress += dt; //tranhs loi va cham
 	float speed = 0.0f;
 	if (keys[VK_RIGHT])
 	{
-		gp->SetReverse(false);
-		
+		gp->setReverse(false);
+
 		if (Pressed)
 			speed = Define::PLAYER_MAX_SLIDE_SPEED;
 		else
@@ -36,7 +35,7 @@ void JumpState::HandleKeyboard(std::map<int, bool> keys, float dt)
 	}
 	else if (keys[VK_LEFT])
 	{
-		gp->SetReverse(true);
+		gp->setReverse(true);
 		if (Pressed)
 			speed = -Define::PLAYER_MAX_SLIDE_SPEED;
 		else
@@ -51,25 +50,25 @@ void JumpState::OnCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{
-		case Entity::Left:
-		case Entity::Right:
-		{
-			if (countPress < 0.3f)
-				break;
-			gp->setState(new SlideVerticalState(gp));
+	case Entity::Left:
+	case Entity::Right:
+	{
+		if (countPress < 0.3f)
 			break;
-		}
-		case Entity::Top:
-		{
-			gp->setState(new FallState(gp, Pressed));
-			break;
-		}
-		case Entity::Bottom:
-		{
-			gp->setState(new StandState(gp));
-			break;
-		}
-		default: break;
+		gp->setState(new SlideVerticalState(gp));
+		break;
+	}
+	case Entity::Top:
+	{
+		gp->setState(new FallState(gp, Pressed));
+		break;
+	}
+	case Entity::Bottom:
+	{
+		gp->setState(new StandState(gp));
+		break;
+	}
+	default: break;
 	}
 }
 

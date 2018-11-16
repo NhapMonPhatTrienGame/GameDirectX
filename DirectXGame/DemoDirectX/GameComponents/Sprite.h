@@ -7,71 +7,70 @@ class Sprite
 {
 protected:
 
-	D3DXVECTOR3             _Position;				//Position of the sprite is located in the middle of texture image
-	LPDIRECT3DTEXTURE9      _Texture;				//Image will be saved here
-	LPD3DXSPRITE            _SpriteHandler;			//SpriteHandler: Image drawing support
-	D3DXIMAGE_INFO          _ImageInfo;				//The actual information of the image is taken
-	RECT                    _SourceRect;			//Rectangle is cut from the texture image
+	D3DXVECTOR3						m_Position; //Position of the sprite is located in the middle of texture image
+	LPDIRECT3DTEXTURE9				m_Texture; //Image will be saved here
+	LPD3DXSPRITE					m_SpriteHandler; //SpriteHandler: Image drawing support
+	D3DXIMAGE_INFO					m_ImageInfo; //The actual information of the image is taken
+	RECT							m_SourceRect; //Rectangle is cut from the texture image
 
-	int                     _Width, _Height;		//Size of texture image
+	int								m_Width, 
+									m_Height; //Size of texture image
 
-	float                   _Rotation;				//The spin angle of the sprite is calculated in radians
+	float							m_Rotation; //The spin angle of the sprite is calculated in radians
 
-	D3DXVECTOR2             _Scale;					// Vector custom zoom in or zoom out of texture
-	D3DXVECTOR2             _Translation;			//Image is translated from the sprite + mTranslate
-	D3DXMATRIX              _Matrix;				//Matrix of the sprite support for geometry
-	D3DXVECTOR2             _RotationCenter;		// (origin vector)
+	D3DXVECTOR2						m_Scale; // Vector custom zoom in or zoom out of texture
+	D3DXVECTOR2						m_Translation; //Image is translated from the sprite + mTranslate
+	D3DXMATRIX						m_Matrix; //Matrix of the sprite support for geometry
+	D3DXVECTOR2						m_RotationCenter; // (origin vector)
 
-	bool					_FlipX;
-	static bool _CheckRect(RECT SourceRect);
+	bool							m_FlipX;
+
+	static bool isCheckRect(RECT SourceRect);
 public:
 
 	explicit Sprite(const char* filePath, RECT sourceRect = RECT(), int width = 0, int height = 0,
 		D3DCOLOR colorKey = NULL);
-
-	Sprite() = default;
-
 	virtual ~Sprite();
 
-	LPDIRECT3DTEXTURE9 GetTexture() const;
+	LPDIRECT3DTEXTURE9 getTexture() const;
 
 	virtual void Draw(D3DXVECTOR3 Position = D3DXVECTOR3(), RECT SourceRect = RECT(),
 		D3DXVECTOR2 Scale = D3DXVECTOR2(), D3DXVECTOR2 Translate = D3DXVECTOR2(), float Angle = 0,
 		D3DXVECTOR2 RotationCenter = D3DXVECTOR2(), D3DXCOLOR Transcolor = D3DCOLOR_XRGB(255, 255, 255));
-	
-	void SetWidth(int width);
-	int GetWidth() const;
 
-	void SetHeight(int height);
-	int GetHeight() const;
+	void setWidth(int width);
+	int getWidth() const;
+
+	void setHeight(int height);
+	int getHeight() const;
 
 	// Get information about an image
-	D3DXIMAGE_INFO GetImageInfo() const;
+	D3DXIMAGE_INFO getImageInfo() const;
 
-	D3DXVECTOR3 GetPosition() const;
-	void SetPosition(float x, float y);
-	void SetPosition(D3DXVECTOR2 pos);
-	void SetPosition(D3DXVECTOR3 pos);
+	D3DXVECTOR3 getPosition() const;
+	void setPosition(float x, float y);
+	void setPosition(D3DXVECTOR2 pos);
+	void setPosition(D3DXVECTOR3 pos);
 
-	D3DXVECTOR2 GetScale() const;
-	void SetScale(D3DXVECTOR2 scale);
+	D3DXVECTOR2 getScale() const;
+	void setScale(D3DXVECTOR2 scale);
 
 	//The translation from the position of the World to the position of the View
-	D3DXVECTOR2 GetTranslation() const;
-	void SetTranslation(D3DXVECTOR2 translation);
+	D3DXVECTOR2 getTranslation() const;
+	void setTranslation(D3DXVECTOR2 translation);
 
-	D3DXVECTOR2 GetRotationCenter() const;
-	void SetRotationCenter(D3DXVECTOR2 rotationCenter);
+	D3DXVECTOR2 getRotationCenter() const;
+	void setRotationCenter(D3DXVECTOR2 rotationCenter);
 
 	//Rotate by radian
-	float GetRotation() const;
-	void SetRotation(float rotation);
+	float getRotation() const;
+	void setRotation(float rotation);
 
-	void SetSourceRect(RECT rect);
+	void setSourceRect(RECT rect);
 
 	//True: Flip horizontally
 	//False: Don't flip
-	void SetFlip(bool flag);
+	void setFlip(bool flag);
 };
 
 #endif

@@ -260,7 +260,7 @@
  for small objects.
 */
 
-                        /* Type declarations */
+/* Type declarations */
 
 #ifndef OF /* function prototypes */
 #  ifdef STDC
@@ -306,9 +306,9 @@
 #endif
 
 #if defined(WINDOWS) || defined(WIN32)
-   /* If building or using zlib as a DLL, define ZLIB_DLL.
-    * This is not mandatory, but it offers a little performance increase.
-    */
+/* If building or using zlib as a DLL, define ZLIB_DLL.
+ * This is not mandatory, but it offers a little performance increase.
+ */
 #  ifdef ZLIB_DLL
 #    if defined(WIN32) && (!defined(__BORLANDC__) || (__BORLANDC__ >= 0x500))
 #      ifdef ZLIB_INTERNAL
@@ -318,10 +318,10 @@
 #      endif
 #    endif
 #  endif  /* ZLIB_DLL */
-   /* If building or using zlib with the WINAPI/WINAPIV calling convention,
-    * define ZLIB_WINAPI.
-    * Caution: the standard ZLIB1.DLL is NOT compiled using ZLIB_WINAPI.
-    */
+/* If building or using zlib with the WINAPI/WINAPIV calling convention,
+ * define ZLIB_WINAPI.
+ * Caution: the standard ZLIB1.DLL is NOT compiled using ZLIB_WINAPI.
+ */
 #  ifdef ZLIB_WINAPI
 #    ifdef FAR
 #      undef FAR
@@ -365,26 +365,26 @@
 #endif
 
 #if !defined(__MACTYPES__)
-typedef unsigned char  Byte;  /* 8 bits */
+typedef unsigned char Byte; /* 8 bits */
 #endif
-typedef unsigned int   uInt;  /* 16 bits or more */
-typedef unsigned long  uLong; /* 32 bits or more */
+typedef unsigned int uInt; /* 16 bits or more */
+typedef unsigned long uLong; /* 32 bits or more */
 
 #ifdef SMALL_MEDIUM
    /* Borland C/C++ and some old MSC versions ignore FAR inside typedef */
 #  define Bytef Byte FAR
 #else
-   typedef Byte  FAR Bytef;
+typedef Byte FAR Bytef;
 #endif
-typedef char  FAR charf;
-typedef int   FAR intf;
-typedef uInt  FAR uIntf;
+typedef char FAR charf;
+typedef int FAR intf;
+typedef uInt FAR uIntf;
 typedef uLong FAR uLongf;
 
 #ifdef STDC
-   typedef void const *voidpc;
-   typedef void FAR   *voidpf;
-   typedef void       *voidp;
+typedef void const* voidpc;
+typedef void FAR * voidpf;
+typedef void* voidp;
 #else
    typedef Byte const *voidpc;
    typedef Byte FAR   *voidpf;
@@ -403,7 +403,7 @@ typedef uLong FAR uLongf;
 #endif
 
 #ifdef Z_U4
-   typedef Z_U4 z_crc_t;
+typedef Z_U4 z_crc_t;
 #else
    typedef unsigned long z_crc_t;
 #endif

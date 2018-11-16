@@ -3,6 +3,8 @@
 
 class FallState : public GameState
 {
+protected:
+
 	float translateY;
 	float translateX;
 	bool Pressed;
@@ -11,11 +13,8 @@ class FallState : public GameState
 
 	bool isLeftOrRightKeyPressed;
 public:
-	explicit FallState(GamePlayer *gp, bool dash = false);
-	FallState() = default;
-	~FallState() override = default;
-
-	void Update(float dt) override;
+	explicit FallState(GamePlayer* gp, bool dash = false);
+	~FallState() = default;
 
 	void HandleKeyboard(std::map<int, bool> keys, float dt) override;
 

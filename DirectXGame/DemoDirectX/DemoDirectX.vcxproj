@@ -61,7 +61,7 @@
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3dx9.lib;d3d9.lib;dxguid.lib;dinput8.lib;winmm.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -86,6 +86,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Enemies.cpp" />
+    <ClCompile Include="EnemiesAttackState.cpp" />
+    <ClCompile Include="EnemiesJumpState.cpp" />
+    <ClCompile Include="EnemiesStandState.cpp" />
+    <ClCompile Include="EnemiesState.cpp" />
     <ClCompile Include="GameComponents\Animation.cpp" />
     <ClCompile Include="GameComponents\Camera.cpp" />
     <ClCompile Include="GameComponents\Game.cpp" />
@@ -93,15 +97,16 @@
     <ClCompile Include="GameComponents\GameGlobal.cpp" />
     <ClCompile Include="GameComponents\GameMap.cpp" />
     <ClCompile Include="GameComponents\GameTime.cpp" />
+    <ClCompile Include="GameComponents\Keyboard.cpp" />
     <ClCompile Include="GameComponents\QuadTree.cpp" />
     <ClCompile Include="GameComponents\Scene.cpp" />
+    <ClCompile Include="GameComponents\Sound.cpp" />
     <ClCompile Include="GameComponents\Sprite.cpp" />
     <ClCompile Include="GameControllers\SceneManager.cpp" />
     <ClCompile Include="GameObjects\Entity\Entity.cpp" />
     <ClCompile Include="GameObjects\MapObjects\Brick.cpp" />
     <ClCompile Include="GameObjects\MapObjects\BrickGold.cpp" />
     <ClCompile Include="GameObjects\MapObjects\BrickNormal.cpp" />
-    <ClCompile Include="GameObjects\MapObjects\GameObject.cpp" />
     <ClCompile Include="GameObjects\Player\GamePlayer.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\AppearState\AppearState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\BleedState\BleedState.cpp" />
@@ -145,6 +150,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemies.h" />
+    <ClInclude Include="EnemiesAttackState.h" />
+    <ClInclude Include="EnemiesJumpState.h" />
+    <ClInclude Include="EnemiesStandState.h" />
+    <ClInclude Include="EnemiesState.h" />
     <ClInclude Include="GameComponents\Animation.h" />
     <ClInclude Include="GameComponents\Camera.h" />
     <ClInclude Include="GameComponents\Game.h" />
@@ -152,8 +161,10 @@
     <ClInclude Include="GameComponents\GameGlobal.h" />
     <ClInclude Include="GameComponents\GameMap.h" />
     <ClInclude Include="GameComponents\GameTime.h" />
+    <ClInclude Include="GameComponents\Keyboard.h" />
     <ClInclude Include="GameComponents\QuadTree.h" />
     <ClInclude Include="GameComponents\Scene.h" />
+    <ClInclude Include="GameComponents\Sound.h" />
     <ClInclude Include="GameComponents\Sprite.h" />
     <ClInclude Include="GameControllers\SceneManager.h" />
     <ClInclude Include="GameDefines\GameDefine.h" />
@@ -161,7 +172,6 @@
     <ClInclude Include="GameObjects\MapObjects\Brick.h" />
     <ClInclude Include="GameObjects\MapObjects\BrickGold.h" />
     <ClInclude Include="GameObjects\MapObjects\BrickNormal.h" />
-    <ClInclude Include="GameObjects\MapObjects\GameObject.h" />
     <ClInclude Include="GameObjects\Player\GamePlayer.h" />
     <ClInclude Include="GameObjects\Player\GameState\AppearState\AppearState.h" />
     <ClInclude Include="GameObjects\Player\GameState\BleedState\BleedState.hpp" />

@@ -3,23 +3,17 @@
 #include "../../GamePlayer.h"
 
 
-RunState::RunState(GamePlayer* gp) : GameState(gp)
-{
-}
-
-void RunState::Update(float dt) { }
-
 void RunState::HandleKeyboard(std::map<int, bool> keys, float dt)
 {
 	gp->setVy(Define::PLAYER_MAX_JUMP_VELOCITY);
 	if (keys[VK_RIGHT])
 	{
-		gp->SetReverse(false);
+		gp->setReverse(false);
 		gp->setVx(Define::PLAYER_MAX_RUNNING_SPEED);
 	}
 	else if (keys[VK_LEFT])
-	{		
-		gp->SetReverse(true);
+	{
+		gp->setReverse(true);
 		gp->setVx(-Define::PLAYER_MAX_RUNNING_SPEED);
 	}
 	else
@@ -27,7 +21,6 @@ void RunState::HandleKeyboard(std::map<int, bool> keys, float dt)
 		gp->setVx(0);
 		gp->setState(new StandState(gp));
 	}
-		
 }
 
 StateName RunState::getState()
@@ -39,13 +32,13 @@ void RunState::OnCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{
-		case Entity::Left:
-		case Entity::Right:
-		{
-			//gp->setState(new StandState(gp));
-			gp->setPosition(gp->getPosition());
-			break;
-		}
-		default:break;
+	case Entity::Left:
+	case Entity::Right:
+	{
+		//gp->setState(new StandState(gp));
+		gp->setPosition(gp->getPosition());
+		break;
+	}
+	default: break;
 	}
 }

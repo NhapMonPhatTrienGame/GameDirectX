@@ -28,11 +28,12 @@ public:
 		char dataChunkId[4];
 		unsigned long dataSize;
 	};
+
 	float volume;
 	void static create(HWND hWnd);
 	void setVolume(float percentage, const std::string& name = "");
 	void loadSound(char* fileName, const std::string& name);
-	void play(const std:: string& name , bool infiniteLoop, int times);
+	void play(const std::string& name, bool infiniteLoop, int times);
 	void stop(const std::string& name = "");
 	float getVolume() const;
 	~Sound();
@@ -42,11 +43,9 @@ public:
 	void cleanUp() const;
 private:
 	explicit Sound(HWND hWnd);
-	static Sound * instance;
+	static Sound* instance;
 	IDirectSound8* pDevice;
 	IDirectSoundBuffer* primaryBuffer;
 	std::map<std::string, IDirectSoundBuffer8*> soundBufferMap;
 	bool isMute;
-	
 };
-

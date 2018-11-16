@@ -38,321 +38,320 @@
 using std::vector;
 using std::string;
 
-namespace Tmx 
+namespace Tmx
 {
-    Map::Map() 
-        : file_name()
-        , file_path()
-        , background_color()
-        , version(0.0)
-        , orientation(TMX_MO_ORTHOGONAL)
-        , render_order(TMX_RIGHT_DOWN)
-        , stagger_axis(TMX_SA_NONE)
-        , stagger_index(TMX_SI_NONE)
-        , width(0)
-        , height(0)
-        , tile_width(0)
-        , tile_height(0)
-        , next_object_id(0)
-        , hexside_length(0)
-        , layers()
-        , tile_layers()
-        , object_groups()
-        , tilesets() 
-        , has_error(false)
-        , error_code(0)
-        , error_text()
-    {}
+	Map::Map()
+		: file_name()
+		  , file_path()
+		  , background_color()
+		  , version(0.0)
+		  , orientation(TMX_MO_ORTHOGONAL)
+		  , render_order(TMX_RIGHT_DOWN)
+		  , stagger_axis(TMX_SA_NONE)
+		  , stagger_index(TMX_SI_NONE)
+		  , width(0)
+		  , height(0)
+		  , tile_width(0)
+		  , tile_height(0)
+		  , next_object_id(0)
+		  , hexside_length(0)
+		  , layers()
+		  , tile_layers()
+		  , object_groups()
+		  , tilesets()
+		  , has_error(false)
+		  , error_code(0)
+		  , error_text() {}
 
-    Map::~Map() 
-    {
-        // Iterate through all of the object groups and delete each of them.
-        vector< ObjectGroup* >::iterator ogIter;
-        for (ogIter = object_groups.begin(); ogIter != object_groups.end(); ++ogIter) 
-        {
-            ObjectGroup *objectGroup = (*ogIter);
-            
-            if (objectGroup)
-            {
-                delete objectGroup;
-                objectGroup = NULL;
-            }
-        }
+	Map::~Map()
+	{
+		// Iterate through all of the object groups and delete each of them.
+		vector<ObjectGroup*>::iterator ogIter;
+		for (ogIter = object_groups.begin(); ogIter != object_groups.end(); ++ogIter)
+		{
+			ObjectGroup* objectGroup = (*ogIter);
 
-        // Iterate through all of the tile layers and delete each of them.
-        vector< TileLayer* >::iterator tlIter;
-        for (tlIter = tile_layers.begin(); tlIter != tile_layers.end(); ++tlIter) 
-        {
-            TileLayer *layer = (*tlIter);
+			if (objectGroup)
+			{
+				delete objectGroup;
+				objectGroup = nullptr;
+			}
+		}
 
-            if (layer) 
-            {
-                delete layer;
-                layer = NULL;
-            }
-        }
+		// Iterate through all of the tile layers and delete each of them.
+		vector<TileLayer*>::iterator tlIter;
+		for (tlIter = tile_layers.begin(); tlIter != tile_layers.end(); ++tlIter)
+		{
+			TileLayer* layer = (*tlIter);
 
-        // Iterate through all of the image layers and delete each of them.
-        vector< ImageLayer* >::iterator ilIter;
-        for (ilIter = image_layers.begin(); ilIter != image_layers.end(); ++ilIter) 
-        {
-            ImageLayer *layer = (*ilIter);
+			if (layer)
+			{
+				delete layer;
+				layer = nullptr;
+			}
+		}
 
-            if (layer) 
-            {
-                delete layer;
-                layer = NULL;
-            }
-        }
+		// Iterate through all of the image layers and delete each of them.
+		vector<ImageLayer*>::iterator ilIter;
+		for (ilIter = image_layers.begin(); ilIter != image_layers.end(); ++ilIter)
+		{
+			ImageLayer* layer = (*ilIter);
 
-        // Iterate through all of the tilesets and delete each of them.
-        vector< Tileset* >::iterator tsIter;
-        for (tsIter = tilesets.begin(); tsIter != tilesets.end(); ++tsIter) 
-        {
-            Tileset *tileset = (*tsIter);
-            
-            if (tileset) 
-            {
-                delete tileset;
-                tileset = NULL;
-            }
-        }
-    }
+			if (layer)
+			{
+				delete layer;
+				layer = nullptr;
+			}
+		}
 
-    void Map::ParseFile(const string &fileName) 
-    {
-        file_name = fileName;
+		// Iterate through all of the tilesets and delete each of them.
+		vector<Tileset*>::iterator tsIter;
+		for (tsIter = tilesets.begin(); tsIter != tilesets.end(); ++tsIter)
+		{
+			Tileset* tileset = (*tsIter);
 
-        int lastSlash = fileName.find_last_of("/");
+			if (tileset)
+			{
+				delete tileset;
+				tileset = nullptr;
+			}
+		}
+	}
 
-        // Get the directory of the file using substring.
-        if (lastSlash > 0) 
-        {
-            file_path = fileName.substr(0, lastSlash + 1);
-        } 
-        else 
-        {
-            file_path = "";
-        }
+	void Map::ParseFile(const string& fileName)
+	{
+		file_name = fileName;
 
-        // Create a tiny xml document and use it to parse the text.
-        tinyxml2::XMLDocument doc;
-        doc.LoadFile( fileName.c_str() );
+		int lastSlash = fileName.find_last_of("/");
 
-        // Check for parsing errors.
-        if (doc.Error())
-        {
-            has_error = true;
-            error_code = TMX_PARSING_ERROR;
-            error_text = doc.GetErrorStr1();
-            return;
-        }
+		// Get the directory of the file using substring.
+		if (lastSlash > 0)
+		{
+			file_path = fileName.substr(0, lastSlash + 1);
+		}
+		else
+		{
+			file_path = "";
+		}
 
-        tinyxml2::XMLNode *mapNode = doc.FirstChildElement("map");
-        Parse( mapNode );
-    }
+		// Create a tiny xml document and use it to parse the text.
+		tinyxml2::XMLDocument doc;
+		doc.LoadFile(fileName.c_str());
 
-    void Map::ParseText(const string &text) 
-    {
-        // Create a tiny xml document and use it to parse the text.
-        tinyxml2::XMLDocument doc;
-        doc.Parse(text.c_str());
-    
-        // Check for parsing errors.
-        if (doc.Error()) 
-        {
-            has_error = true;
-            error_code = TMX_PARSING_ERROR;
-            error_text = doc.GetErrorStr1();
-            return;
-        }
+		// Check for parsing errors.
+		if (doc.Error())
+		{
+			has_error = true;
+			error_code = TMX_PARSING_ERROR;
+			error_text = doc.GetErrorStr1();
+			return;
+		}
 
-        tinyxml2::XMLNode *mapNode = doc.FirstChildElement("map");
-        Parse( mapNode );
-    }
+		tinyxml2::XMLNode* mapNode = doc.FirstChildElement("map");
+		Parse(mapNode);
+	}
 
-    int Map::FindTilesetIndex(int gid) const
-    {
-        // Clean up the flags from the gid (thanks marwes91).
-        gid &= ~(FlippedHorizontallyFlag | FlippedVerticallyFlag | FlippedDiagonallyFlag);
+	void Map::ParseText(const string& text)
+	{
+		// Create a tiny xml document and use it to parse the text.
+		tinyxml2::XMLDocument doc;
+		doc.Parse(text.c_str());
 
-        for (int i = tilesets.size() - 1; i > -1; --i) 
-        {
-            // If the gid beyond the tileset gid return its index.
-            if (gid >= tilesets[i]->GetFirstGid()) 
-            {
-                return i;
-            }
-        }
-        
-        return -1;
-    }
+		// Check for parsing errors.
+		if (doc.Error())
+		{
+			has_error = true;
+			error_code = TMX_PARSING_ERROR;
+			error_text = doc.GetErrorStr1();
+			return;
+		}
 
-    const Tileset *Map::FindTileset(int gid) const 
-    {
-        for (int i = tilesets.size() - 1; i > -1; --i) 
-        {
-            // If the gid beyond the tileset gid return it.
-            if (gid >= tilesets[i]->GetFirstGid()) 
-            {
-                return tilesets[i];
-            }
-        }
-        
-        return NULL;
-    }
+		tinyxml2::XMLNode* mapNode = doc.FirstChildElement("map");
+		Parse(mapNode);
+	}
 
-    void Map::Parse(tinyxml2::XMLNode *mapNode)
-    {
-        tinyxml2::XMLElement* mapElem = mapNode->ToElement();
+	int Map::FindTilesetIndex(int gid) const
+	{
+		// Clean up the flags from the gid (thanks marwes91).
+		gid &= ~(FlippedHorizontallyFlag | FlippedVerticallyFlag | FlippedDiagonallyFlag);
 
-        // Read the map attributes.
-        version = mapElem->IntAttribute("version");
-        width = mapElem->IntAttribute("width");
-        height = mapElem->IntAttribute("height");
-        tile_width = mapElem->IntAttribute("tilewidth");
-        tile_height = mapElem->IntAttribute("tileheight");
-        next_object_id = mapElem->IntAttribute("nextobjectid");
+		for (int i = tilesets.size() - 1; i > -1; --i)
+		{
+			// If the gid beyond the tileset gid return its index.
+			if (gid >= tilesets[i]->GetFirstGid())
+			{
+				return i;
+			}
+		}
 
-        if (mapElem->Attribute("backgroundcolor"))
-        {
-            background_color = mapElem->Attribute("backgroundcolor");
-        }
+		return -1;
+	}
 
-        // Read the orientation
-        std::string orientationStr = mapElem->Attribute("orientation");
+	const Tileset* Map::FindTileset(int gid) const
+	{
+		for (int i = tilesets.size() - 1; i > -1; --i)
+		{
+			// If the gid beyond the tileset gid return it.
+			if (gid >= tilesets[i]->GetFirstGid())
+			{
+				return tilesets[i];
+			}
+		}
 
-        if (!orientationStr.compare("orthogonal"))
-        {
-            orientation = TMX_MO_ORTHOGONAL;
-        } 
-        else if (!orientationStr.compare("isometric"))
-        {
-            orientation = TMX_MO_ISOMETRIC;
-        }
-        else if (!orientationStr.compare("staggered"))
-        {
-            orientation = TMX_MO_STAGGERED;
-        }
-        else if (!orientationStr.compare("hexagonal"))
-        {
-            orientation = TMX_MO_HEXAGONAL;
-        }
+		return nullptr;
+	}
 
-        // Read the render order
-        if (mapElem->Attribute("renderorder"))
-        {
-            std::string renderorderStr = mapElem->Attribute("renderorder");
-            if (!renderorderStr.compare("right-down")) 
-            {
-                render_order = TMX_RIGHT_DOWN;
-            } 
-            else if (!renderorderStr.compare("right-up")) 
-            {
-                render_order = TMX_RIGHT_UP;
-            }
-            else if (!renderorderStr.compare("left-down")) 
-            {
-                render_order = TMX_LEFT_DOWN;
-            }
-            else if (!renderorderStr.compare("left-down")) 
-            {
-                render_order = TMX_LEFT_UP;
-            }        
-        }
+	void Map::Parse(tinyxml2::XMLNode* mapNode)
+	{
+		tinyxml2::XMLElement* mapElem = mapNode->ToElement();
 
-        // Read the stagger axis
-        if (mapElem->Attribute("staggeraxis"))
-        {
-            std::string staggerAxisStr = mapElem->Attribute("staggeraxis");
-            if (!staggerAxisStr.compare("x"))
-            {
-                stagger_axis = TMX_SA_X;
-            }
-            else if (!staggerAxisStr.compare("y"))
-            {
-                stagger_axis = TMX_SA_Y;
-            }
-        }
+		// Read the map attributes.
+		version = mapElem->IntAttribute("version");
+		width = mapElem->IntAttribute("width");
+		height = mapElem->IntAttribute("height");
+		tile_width = mapElem->IntAttribute("tilewidth");
+		tile_height = mapElem->IntAttribute("tileheight");
+		next_object_id = mapElem->IntAttribute("nextobjectid");
 
-        // Read the stagger index
-        if (mapElem->Attribute("staggerindex"))
-        {
-            std::string staggerIndexStr = mapElem->Attribute("staggerindex");
-            if (!staggerIndexStr.compare("even"))
-            {
-                stagger_index = TMX_SI_EVEN;
-            }
-            else if (!staggerIndexStr.compare("odd"))
-            {
-                stagger_index = TMX_SI_ODD;
-            }
-        }
+		if (mapElem->Attribute("backgroundcolor"))
+		{
+			background_color = mapElem->Attribute("backgroundcolor");
+		}
 
-        // read the hexside length
-        if (mapElem->IntAttribute("hexsidelength"))
-        {
-            hexside_length = mapElem->IntAttribute("hexsidelength");
-        }
+		// Read the orientation
+		std::string orientationStr = mapElem->Attribute("orientation");
 
-        // read all other attributes
-        const tinyxml2::XMLNode *node = mapElem->FirstChild();
-        while( node )
-        {
-            // Read the map properties.
-            if( strcmp( node->Value(), "properties" ) == 0 )
-            {
-                properties.Parse(node);         
-            }
+		if (!orientationStr.compare("orthogonal"))
+		{
+			orientation = TMX_MO_ORTHOGONAL;
+		}
+		else if (!orientationStr.compare("isometric"))
+		{
+			orientation = TMX_MO_ISOMETRIC;
+		}
+		else if (!orientationStr.compare("staggered"))
+		{
+			orientation = TMX_MO_STAGGERED;
+		}
+		else if (!orientationStr.compare("hexagonal"))
+		{
+			orientation = TMX_MO_HEXAGONAL;
+		}
 
-            // Iterate through all of the tileset elements.
-            if( strcmp( node->Value(), "tileset" ) == 0 )
-            {
-                // Allocate a new tileset and parse it.
-                Tileset *tileset = new Tileset();
-                tileset->Parse(node->ToElement(), file_path);
+		// Read the render order
+		if (mapElem->Attribute("renderorder"))
+		{
+			std::string renderorderStr = mapElem->Attribute("renderorder");
+			if (!renderorderStr.compare("right-down"))
+			{
+				render_order = TMX_RIGHT_DOWN;
+			}
+			else if (!renderorderStr.compare("right-up"))
+			{
+				render_order = TMX_RIGHT_UP;
+			}
+			else if (!renderorderStr.compare("left-down"))
+			{
+				render_order = TMX_LEFT_DOWN;
+			}
+			else if (!renderorderStr.compare("left-down"))
+			{
+				render_order = TMX_LEFT_UP;
+			}
+		}
 
-                // Add the tileset to the list.
-                tilesets.push_back(tileset);
-            }
+		// Read the stagger axis
+		if (mapElem->Attribute("staggeraxis"))
+		{
+			std::string staggerAxisStr = mapElem->Attribute("staggeraxis");
+			if (!staggerAxisStr.compare("x"))
+			{
+				stagger_axis = TMX_SA_X;
+			}
+			else if (!staggerAxisStr.compare("y"))
+			{
+				stagger_axis = TMX_SA_Y;
+			}
+		}
 
-            // Iterate through all of the "layer" (tile layer) elements.           
-            if( strcmp( node->Value(), "layer" ) == 0 )
-            {
-                // Allocate a new tile layer and parse it.
-                TileLayer *tileLayer = new TileLayer(this);
-                tileLayer->Parse(node);
+		// Read the stagger index
+		if (mapElem->Attribute("staggerindex"))
+		{
+			std::string staggerIndexStr = mapElem->Attribute("staggerindex");
+			if (!staggerIndexStr.compare("even"))
+			{
+				stagger_index = TMX_SI_EVEN;
+			}
+			else if (!staggerIndexStr.compare("odd"))
+			{
+				stagger_index = TMX_SI_ODD;
+			}
+		}
 
-                // Add the tile layer to the lists.
-                tile_layers.push_back(tileLayer);
-                layers.push_back(tileLayer);
-            }
+		// read the hexside length
+		if (mapElem->IntAttribute("hexsidelength"))
+		{
+			hexside_length = mapElem->IntAttribute("hexsidelength");
+		}
 
-            // Iterate through all of the "imagelayer" (image layer) elements.            
-            if( strcmp( node->Value(), "imagelayer" ) == 0 )
-            {
-                // Allocate a new image layer and parse it.
-                ImageLayer *imageLayer = new ImageLayer(this);
-                imageLayer->Parse(node);
+		// read all other attributes
+		const tinyxml2::XMLNode* node = mapElem->FirstChild();
+		while (node)
+		{
+			// Read the map properties.
+			if (strcmp(node->Value(), "properties") == 0)
+			{
+				properties.Parse(node);
+			}
 
-                // Add the image layer to the lists.
-                image_layers.push_back(imageLayer);
-                layers.push_back(imageLayer);
-            }
+			// Iterate through all of the tileset elements.
+			if (strcmp(node->Value(), "tileset") == 0)
+			{
+				// Allocate a new tileset and parse it.
+				Tileset* tileset = new Tileset();
+				tileset->Parse(node->ToElement(), file_path);
 
-            // Iterate through all of the "objectgroup" (object layer) elements.
-            if( strcmp( node->Value(), "objectgroup" ) == 0 )
-            {
-                // Allocate a new object group and parse it.
-                ObjectGroup *objectGroup = new ObjectGroup(this);
-                objectGroup->Parse(node);
-        
-                // Add the object group to the lists.
-                object_groups.push_back(objectGroup);
-                layers.push_back(objectGroup);
-            }
+				// Add the tileset to the list.
+				tilesets.push_back(tileset);
+			}
 
-            node = node->NextSibling();
-        }
-    }
+			// Iterate through all of the "layer" (tile layer) elements.           
+			if (strcmp(node->Value(), "layer") == 0)
+			{
+				// Allocate a new tile layer and parse it.
+				TileLayer* tileLayer = new TileLayer(this);
+				tileLayer->Parse(node);
+
+				// Add the tile layer to the lists.
+				tile_layers.push_back(tileLayer);
+				layers.push_back(tileLayer);
+			}
+
+			// Iterate through all of the "imagelayer" (image layer) elements.            
+			if (strcmp(node->Value(), "imagelayer") == 0)
+			{
+				// Allocate a new image layer and parse it.
+				ImageLayer* imageLayer = new ImageLayer(this);
+				imageLayer->Parse(node);
+
+				// Add the image layer to the lists.
+				image_layers.push_back(imageLayer);
+				layers.push_back(imageLayer);
+			}
+
+			// Iterate through all of the "objectgroup" (object layer) elements.
+			if (strcmp(node->Value(), "objectgroup") == 0)
+			{
+				// Allocate a new object group and parse it.
+				ObjectGroup* objectGroup = new ObjectGroup(this);
+				objectGroup->Parse(node);
+
+				// Add the object group to the lists.
+				object_groups.push_back(objectGroup);
+				layers.push_back(objectGroup);
+			}
+
+			node = node->NextSibling();
+		}
+	}
 }

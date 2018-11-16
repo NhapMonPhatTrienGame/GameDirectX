@@ -2,12 +2,13 @@
 #define __APPEAR_STATE_H__
 #include "../GameState.h"
 
-class AppearState :public GameState
+class AppearState : public GameState
 {
+protected:
 	float translateY;
 public:
-	explicit AppearState(GamePlayer *gp);
-	~AppearState() override = default;
+	explicit AppearState(GamePlayer* gp);
+	~AppearState() = default;
 
 	void Update(float dt) override;
 

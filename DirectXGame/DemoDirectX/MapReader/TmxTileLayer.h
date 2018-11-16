@@ -32,91 +32,98 @@
 #include "TmxPropertySet.h"
 #include "TmxMapTile.h"
 
-namespace tinyxml2 {
-    class XMLNode;
+namespace tinyxml2
+{
+	class XMLNode;
 }
 
-namespace Tmx 
+namespace Tmx
 {
-    class Map;
+	class Map;
 
-    //-------------------------------------------------------------------------
-    // Type used for the encoding of the tile layer data.
-    //-------------------------------------------------------------------------
-    enum TileLayerEncodingType 
-    {
-        TMX_ENCODING_XML,
-        TMX_ENCODING_BASE64,
-        TMX_ENCODING_CSV
-    };
+	//-------------------------------------------------------------------------
+	// Type used for the encoding of the tile layer data.
+	//-------------------------------------------------------------------------
+	enum TileLayerEncodingType
+	{
+		TMX_ENCODING_XML,
+		TMX_ENCODING_BASE64,
+		TMX_ENCODING_CSV
+	};
 
-    //-------------------------------------------------------------------------
-    // Type used for the compression of the tile layer data.
-    //-------------------------------------------------------------------------
-    enum TileLayerCompressionType 
-    {
-        TMX_COMPRESSION_NONE,
-        TMX_COMPRESSION_ZLIB,
-        TMX_COMPRESSION_GZIP
-    };
+	//-------------------------------------------------------------------------
+	// Type used for the compression of the tile layer data.
+	//-------------------------------------------------------------------------
+	enum TileLayerCompressionType
+	{
+		TMX_COMPRESSION_NONE,
+		TMX_COMPRESSION_ZLIB,
+		TMX_COMPRESSION_GZIP
+	};
 
-    //-------------------------------------------------------------------------
-    // Used for storing information about the tile ids for every tile layer.
-    // This class also have a property set.
-    //-------------------------------------------------------------------------
-    class TileLayer : public Tmx::Layer
-    {
-    private:
-        // Prevent copy constructor.
-        TileLayer(const TileLayer &_layer);
+	//-------------------------------------------------------------------------
+	// Used for storing information about the tile ids for every tile layer.
+	// This class also have a property set.
+	//-------------------------------------------------------------------------
+	class TileLayer : public Layer
+	{
+	private:
+		// Prevent copy constructor.
+		TileLayer(const TileLayer& _layer);
 
-    public:
-        TileLayer(const Tmx::Map *_map);
-        ~TileLayer();
+	public:
+		TileLayer(const Map* _map);
+		~TileLayer();
 
-        // Parse a tile layer node.
-        void Parse(const tinyxml2::XMLNode *tileLayerNode);
+		// Parse a tile layer node.
+		void Parse(const tinyxml2::XMLNode* tileLayerNode) override;
 
-        // Pick a specific tile id from the list.
-        unsigned GetTileId(int x, int y) const { return tile_map[y * width + x].id; }
+		// Pick a specific tile id from the list.
+		unsigned GetTileId(int x, int y) const { return tile_map[y * width + x].id; }
 
-        // Pick a specific tile gid from the list.
-        unsigned GetTileGid(int x, int y) const { return tile_map[y * width + x].gid; }
+		// Pick a specific tile gid from the list.
+		unsigned GetTileGid(int x, int y) const { return tile_map[y * width + x].gid; }
 
-        // Get the tileset index for a tileset from the list.
-        int GetTileTilesetIndex(int x, int y) const { return tile_map[y * width + x].tilesetId; }
+		// Get the tileset index for a tileset from the list.
+		int GetTileTilesetIndex(int x, int y) const { return tile_map[y * width + x].tilesetId; }
 
-        // Get whether a tile is flipped horizontally.
-        bool IsTileFlippedHorizontally(int x, int y) const 
-        { return tile_map[y * width + x].flippedHorizontally; }
+		// Get whether a tile is flipped horizontally.
+		bool IsTileFlippedHorizontally(int x, int y) const
+		{
+			return tile_map[y * width + x].flippedHorizontally;
+		}
 
-        // Get whether a tile is flipped vertically.
-        bool IsTileFlippedVertically(int x, int y) const 
-        { return tile_map[y * width + x].flippedVertically; }
+		// Get whether a tile is flipped vertically.
+		bool IsTileFlippedVertically(int x, int y) const
+		{
+			return tile_map[y * width + x].flippedVertically;
+		}
 
-        // Get whether a tile is flipped diagonally.
-        bool IsTileFlippedDiagonally(int x, int y) const
-        { return tile_map[y * width + x].flippedDiagonally; }
+		// Get whether a tile is flipped diagonally.
+		bool IsTileFlippedDiagonally(int x, int y) const
+		{
+			return tile_map[y * width + x].flippedDiagonally;
+		}
 
-        // Get a tile specific to the map.
-        const Tmx::MapTile& GetTile(int x, int y) const { return tile_map[y * width + x]; }
+		// Get a tile specific to the map.
+		const MapTile& GetTile(int x, int y) const { return tile_map[y * width + x]; }
 
-        // Get the type of encoding that was used for parsing the tile layer data.
-        // See: TileLayerEncodingType
-        Tmx::TileLayerEncodingType GetEncoding() const { return encoding; }
+		// Get the type of encoding that was used for parsing the tile layer data.
+		// See: TileLayerEncodingType
+		TileLayerEncodingType GetEncoding() const { return encoding; }
 
-        // Get the type of compression that was used for parsing the tile layer data.
-        // See: TileLayerCompressionType
-        Tmx::TileLayerCompressionType GetCompression() const { return compression; }
+		// Get the type of compression that was used for parsing the tile layer data.
+		// See: TileLayerCompressionType
+		TileLayerCompressionType GetCompression() const { return compression; }
 
-    private:
-        void ParseXML(const tinyxml2::XMLNode *dataNode);
-        void ParseBase64(const std::string &innerText);
-        void ParseCSV(const std::string &innerText);
+	private:
+		void ParseXML(const tinyxml2::XMLNode* dataNode);
+		void ParseBase64(const std::string& innerText);
+		void ParseCSV(const std::string& innerText);
 
-        Tmx::MapTile *tile_map;
+		MapTile* tile_map;
 
-        Tmx::TileLayerEncodingType encoding;
-        Tmx::TileLayerCompressionType compression;
-    };
+		TileLayerEncodingType encoding;
+		TileLayerCompressionType compression;
+	};
 }

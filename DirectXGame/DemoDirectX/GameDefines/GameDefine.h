@@ -1,7 +1,7 @@
 #ifndef __GAME_DEFINE_H__
 #define __GAME_DEFINE_H__
 
-template<class T>
+template <class T>
 void SafeDelete(T& pValue)
 {
 	if (pValue)
@@ -11,7 +11,7 @@ void SafeDelete(T& pValue)
 	}
 }
 
-template<class T>
+template <class T>
 void SafeRelease(T& pValue)
 {
 	if (pValue)
@@ -51,8 +51,19 @@ constexpr auto VK_Y = 0x59;
 constexpr auto VK_Z = 0x5A;
 
 constexpr auto VK_SLIDE = 0x43;
-constexpr auto VK_JUMP  = 0x58;
+constexpr auto VK_JUMP = 0x58;
 constexpr auto VK_SHOOT = 0x5A;
+
+namespace EnemyState
+{
+	enum EnemyStateName
+	{
+		Stand,
+		Jump,
+		Attack,
+		Die
+	};
+}
 
 namespace MegaManState
 {
@@ -75,15 +86,23 @@ namespace MegaManState
 
 namespace Define
 {
-	const char ANIMATION_ROCKMAN[] = "Resources/mario/Rockman_49x49_backfround(100,100,100).png";
-	const char INTRO_ENEMIES[] = "Resources/Intro_Enemies.png";
+	const char ANIMATION_ROCKMAN[] = "Resources/rockman/Rockman_49x49_backfround(100,100,100).png";
+
+	const char INTRO_ENEMIES[] = "Resources/Enemies/EnemiesSpriteSheet.png";
+	const char ENEMIES_STAND[] = "Resources/Enemies/EnemiesStand.png";
+	const char ENEMIES_JUMP[] = "Resources/Enemies/EnemiesJump.png";
+	const char ENEMIES_GUN[] = "Resources/Enemies/EnemiesGun.png";
+
 	const char WORLD_MAP[] = "Resources/marioworld1-1.tmx";
 
-	const float PLAYER_MAX_JUMP_VELOCITY = 300.0f;		//Max jump velocity
-	const float PLAYER_MIN_JUMP_VELOCITY = -300.0f;		//Min jump velocity
-	const float PLAYER_MAX_RUNNING_SPEED = 150.0f;		//Max speed of layer
-	const float PLAYER_MAX_CLIING_SPEED = 50.0f;		//Max speed of layer
+	const float PLAYER_MAX_JUMP_VELOCITY = 300.0f; //Max jump velocity
+	const float PLAYER_MIN_JUMP_VELOCITY = -300.0f; //Min jump velocity
+	const float PLAYER_MAX_RUNNING_SPEED = 150.0f; //Max speed of layer
+	const float PLAYER_MAX_CLIING_SPEED = 50.0f; //Max speed of layer
 	const float PLAYER_MAX_SLIDE_SPEED = 300.0f;
+
+	const float ENEMY_MAX_JUMP_VELOCITY = 250.0f;
+	const float ENEMY_MIN_JUMP_VELOCITY = -250.0f;
 }
 
 #endif

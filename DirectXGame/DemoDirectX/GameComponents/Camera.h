@@ -5,27 +5,25 @@
 
 class Camera
 {
-	int             mWidth,
-					mHeight;
+	int mWidth,
+	    mHeight;
 
-	D3DXVECTOR3     mPositionWorld;
+	D3DXVECTOR3 mPositionWorld;
 
 public:
 	Camera();
-    Camera(int width, int height);
+	Camera(int width, int height);
 
-    //center of camera
+	//center of camera
 	D3DXVECTOR3 GetPosition();
-    void SetPosition(float x, float y);
-    void SetPosition(D3DXVECTOR3 pos);
+	void SetPosition(float x, float y);
+	void SetPosition(D3DXVECTOR3 pos);
 
 
-    int GetWidth();
-    int GetHeight();
+	int GetWidth();
+	int GetHeight();
 
-    RECT GetBound();
+	RECT GetBound();
 
-    ~Camera();
-
+	~Camera();
 };
-

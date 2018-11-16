@@ -29,32 +29,30 @@
 
 #include "TmxImage.h"
 
-namespace Tmx 
-{   
-    Image::Image() 
-        : source()
-        , width()
-        , height()
-        , transparent_color()
-    {}
+namespace Tmx
+{
+	Image::Image()
+		: source()
+		  , width()
+		  , height()
+		  , transparent_color() {}
 
-    Image::~Image() 
-    {}
+	Image::~Image() {}
 
-    void Image::Parse(const tinyxml2::XMLNode *imageNode) 
-    {
-        const tinyxml2::XMLElement* imageElem = imageNode->ToElement();
-        
-        // Read all the attribute into member variables.
-        source = imageElem->Attribute("source");
+	void Image::Parse(const tinyxml2::XMLNode* imageNode)
+	{
+		const tinyxml2::XMLElement* imageElem = imageNode->ToElement();
 
-        width = imageElem->IntAttribute("width");
-        height = imageElem->IntAttribute("height");
+		// Read all the attribute into member variables.
+		source = imageElem->Attribute("source");
 
-        const char *trans = imageElem->Attribute("trans");
-        if (trans) 
-        {
-            transparent_color = trans;
-        }
-    }
+		width = imageElem->IntAttribute("width");
+		height = imageElem->IntAttribute("height");
+
+		const char* trans = imageElem->Attribute("trans");
+		if (trans)
+		{
+			transparent_color = trans;
+		}
+	}
 }

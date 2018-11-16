@@ -3,15 +3,13 @@
 #include "../GameState.h"
 
 
-class DieState :public GameState
+class DieState : public GameState
 {
 public:
-	explicit DieState(GamePlayer *gp);
-	~DieState() override = default;
+	explicit DieState(GamePlayer* gp) :GameState(gp) {}
+	~DieState() = default;
 
 	void Update(float dt) override;
-	void HandleKeyboard(std::map<int, bool> keys, float dt) override;
-	void OnCollision(Entity::SideCollisions side) override;
 	MegaManState::StateName getState() override;
 };
 

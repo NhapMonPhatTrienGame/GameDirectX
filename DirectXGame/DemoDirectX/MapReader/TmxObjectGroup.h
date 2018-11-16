@@ -33,42 +33,43 @@
 #include "TmxLayer.h"
 #include "TmxPropertySet.h"
 
-namespace tinyxml2 {
-    class XMLNode;
+namespace tinyxml2
+{
+	class XMLNode;
 }
 
-namespace Tmx 
+namespace Tmx
 {
-    class Object;
-    
-    //-------------------------------------------------------------------------
-    // A class used for holding a list of objects.
-    // This class has a property set.
-    //-------------------------------------------------------------------------
-    class ObjectGroup : public Tmx::Layer
-    {
-    public:
-        ObjectGroup(const Tmx::Map *_map);
-        ~ObjectGroup();
+	class Object;
 
-        // Parse an objectgroup node.
-        void Parse(const tinyxml2::XMLNode *objectGroupNode);
+	//-------------------------------------------------------------------------
+	// A class used for holding a list of objects.
+	// This class has a property set.
+	//-------------------------------------------------------------------------
+	class ObjectGroup : public Layer
+	{
+	public:
+		ObjectGroup(const Map* _map);
+		~ObjectGroup();
 
-        // Get a single object.
-        const Tmx::Object *GetObject(int index) const { return objects.at(index); }
+		// Parse an objectgroup node.
+		void Parse(const tinyxml2::XMLNode* objectGroupNode) override;
 
-        // Get the number of objects in the list.
-        int GetNumObjects() const { return objects.size(); }
+		// Get a single object.
+		const Object* GetObject(int index) const { return objects.at(index); }
 
-        // Get the color used to display the objects in this group.
-        const std::string &GetColor() const { return color; }
+		// Get the number of objects in the list.
+		int GetNumObjects() const { return objects.size(); }
 
-        // Get the whole list of objects.
-        const std::vector< Tmx::Object* > &GetObjects() const { return objects; }
+		// Get the color used to display the objects in this group.
+		const std::string& GetColor() const { return color; }
 
-    private:
-        std::string color;
+		// Get the whole list of objects.
+		const std::vector<Object*>& GetObjects() const { return objects; }
 
-        std::vector< Tmx::Object* > objects;
-    };
+	private:
+		std::string color;
+
+		std::vector<Object*> objects;
+	};
 }

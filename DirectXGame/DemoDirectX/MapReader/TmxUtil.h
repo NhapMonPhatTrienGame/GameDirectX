@@ -30,19 +30,19 @@
 #include <string>
 
 
-namespace Tmx 
+namespace Tmx
 {
-    class Util 
-    {
-    public:
+	class Util
+	{
+	public:
 
-        // Trim both leading and trailing whitespace from a string.
-        static std::string &Trim(std::string &str);
+		// Trim both leading and trailing whitespace from a string.
+		static std::string& Trim(std::string& str);
 
-        // Decode a base-64 encoded string.
-        static std::string DecodeBase64(const std::string &str);
+		// Decode a base-64 encoded string.
+		static std::string DecodeBase64(const std::string& str);
 
-        // Decompress a gzip encoded byte array.
-        static char* DecompressGZIP(const char *data, int dataSize, int expectedSize);
-    };
+		// Decompress a gzip encoded byte array.
+		static char* DecompressGZIP(const char* data, int dataSize, int expectedSize);
+	};
 }

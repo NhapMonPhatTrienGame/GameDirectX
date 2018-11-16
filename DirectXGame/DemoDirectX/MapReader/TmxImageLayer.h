@@ -31,29 +31,29 @@
 
 //class TiXmlNode;
 
-namespace Tmx 
+namespace Tmx
 {
-    class Map;
-    class Image;
+	class Map;
+	class Image;
 
-    //-------------------------------------------------------------------------
-    // A class used for holding information about a background image.
-    // This class has a property set.
-    //-------------------------------------------------------------------------
-    class ImageLayer : public Tmx::Layer
-    {
-    public:
-        ImageLayer(const Tmx::Map *_map);
-        ~ImageLayer();
+	//-------------------------------------------------------------------------
+	// A class used for holding information about a background image.
+	// This class has a property set.
+	//-------------------------------------------------------------------------
+	class ImageLayer : public Layer
+	{
+	public:
+		ImageLayer(const Map* _map);
+		~ImageLayer();
 
-        // Parse a ImageLayer element.
-        void Parse(const tinyxml2::XMLNode *imageLayerNode);
+		// Parse a ImageLayer element.
+		void Parse(const tinyxml2::XMLNode* imageLayerNode) override;
 
-        // Returns a variable containing information 
-        // about the image of the ImageLayer.
-        const Tmx::Image* GetImage() const { return image; }
+		// Returns a variable containing information 
+		// about the image of the ImageLayer.
+		const Image* GetImage() const { return image; }
 
-    private:
-        Tmx::Image* image;
-    };
+	private:
+		Image* image;
+	};
 }

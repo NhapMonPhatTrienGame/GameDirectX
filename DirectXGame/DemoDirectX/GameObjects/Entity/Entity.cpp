@@ -2,33 +2,33 @@
 
 Entity::Entity()
 {
-    Tag = Unknown;
+	Tag = Unknown;
 	vx = 0, vy = 0;
 	collision_time_min = 1.0f;
 }
 
 RECT Entity::getBound()
 {
-    RECT bound;
+	RECT bound;
 
-    bound.left = x - width / 2;
-    bound.right = x + width / 2;
-    bound.top = y - height / 2;
-    bound.bottom = y + height / 2;
+	bound.left = x - width / 2;
+	bound.right = x + width / 2;
+	bound.top = y - height / 2;
+	bound.bottom = y + height / 2;
 
-    return bound;
+	return bound;
 }
 
-void Entity::OnCollision(Entity::SideCollisions side)
+void Entity::OnCollision(SideCollisions side)
 {
-    vx = 0, vy = 0;
+	vx = 0, vy = 0;
 }
 
 void Entity::Update(float dt)
 {
-    //velocity = pixel / s
-    x += vx * dt * collision_time_min;
-    y += vy * dt;
+	//velocity = pixel / s
+	x += vx * dt * collision_time_min;
+	y += vy * dt;
 	collision_time_min = 1.0f;
 }
 
@@ -36,105 +36,116 @@ void Entity::UpdateColision(float collision_time, SideCollisions side, float dt)
 {
 	switch (side)
 	{
-		case Entity::Left:
-		case Entity::Right:
-		{
-			if (collision_time > collision_time_min)
-				return;
-			collision_time_min = collision_time;
-			vx = 0;
-			break;
-		}
-		case Entity::Top:
-		case Entity::Bottom:
-		{
-			y += vy * dt * collision_time;
-			vy = 0;
-			break;
-		}
+	case Left:
+	case Right:
+	{
+		if (collision_time > collision_time_min)
+			return;
+		collision_time_min = collision_time;
+		vx = 0;
+		break;
+	}
+	case Top:
+	case Bottom:
+	{
+		y += vy * dt * collision_time;
+		vy = 0;
+		break;
+	}
 
-		default:break;
+	default: break;
 	}
 }
 
-void Entity::onSetPosition(D3DXVECTOR3 pos)
-{}
+void Entity::onSetPosition(D3DXVECTOR3 pos) {}
 
 D3DXVECTOR3 Entity::getPosition()
 {
-	return { x, y, 0 };
+	return {x, y, 0};
 }
+
 void Entity::setPosition(float x, float y)
 {
 	const auto pos = D3DXVECTOR2(x, y);
-    setPosition(pos);
+	setPosition(pos);
 }
+
 void Entity::setPosition(D3DXVECTOR2 pos)
 {
 	const auto position = D3DXVECTOR3(pos);
-    setPosition(position);
+	setPosition(position);
 }
+
 void Entity::setPosition(D3DXVECTOR3 pos)
 {
-    this->x = pos.x;
-    this->y = pos.y; 
-    onSetPosition(pos);
+	this->x = pos.x;
+	this->y = pos.y;
+	onSetPosition(pos);
 }
+
 void Entity::addPosition(float x, float y)
 {
 	const auto pos = D3DXVECTOR2(x, y);
-    addPosition(pos);
+	addPosition(pos);
 }
+
 void Entity::addPosition(D3DXVECTOR2 pos)
 {
 	const auto position = D3DXVECTOR3(pos);
 	addPosition(position);
 }
+
 void Entity::addPosition(D3DXVECTOR3 pos)
 {
-    this->setPosition(this->getPosition() + pos);
+	this->setPosition(this->getPosition() + pos);
 }
 
 void Entity::setWidth(int width)
 {
-    this->width = width;
+	this->width = width;
 }
+
 int Entity::getWidth()
 {
-    return width;
+	return width;
 }
 
 void Entity::setHeight(int height)
 {
-    this->height = height;
+	this->height = height;
 }
+
 int Entity::getHeight()
 {
-    return height;
+	return height;
 }
 
 float Entity::getVx()
 {
-    return vx;
+	return vx;
 }
+
 void Entity::setVx(float vx)
 {
-    this->vx = vx;
+	this->vx = vx;
 }
+
 void Entity::addVx(float vx)
 {
-    this->vx += vx;
+	this->vx += vx;
 }
 
 float Entity::getVy()
 {
-    return vy;
+	return vy;
 }
+
 void Entity::setVy(float vy)
 {
-    this->vy = vy;
+	this->vy = vy;
 }
+
 void Entity::addVy(float vy)
 {
-    this->vy += vy;
+	this->vy += vy;
 }

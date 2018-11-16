@@ -14,7 +14,7 @@ Entity::CollisionReturn GameCollision::RectAndRect(RECT rect1, RECT rect2)
 	}
 
 	result.IsCollided = true;
-		
+
 	result.RegionCollision.left = max(rect1.left, rect2.left);
 	result.RegionCollision.right = max(rect1.right, rect2.right);
 	result.RegionCollision.bottom = max(rect1.bottom, rect2.bottom);
@@ -54,11 +54,11 @@ bool GameCollision::isCollision(RECT obj, RECT other)
 	return !(obj.left >= other.right || obj.right <= other.left || obj.top >= other.bottom || obj.bottom <= other.top);
 }
 
-D3DXVECTOR2 GameCollision::Distance(Entity *e1, Entity *e2, float dt)
+D3DXVECTOR2 GameCollision::Distance(Entity* e1, Entity* e2, float dt)
 {
 	D3DXVECTOR2 distance;
-	distance.x = (e1->getVx() - e2->getVx())*dt;
-	distance.y = (e1->getVy() - e2->getVy())*dt;
+	distance.x = (e1->getVx() - e2->getVx()) * dt;
+	distance.y = (e1->getVy() - e2->getVy()) * dt;
 	return distance;
 }
 
@@ -79,7 +79,7 @@ RECT GameCollision::GetBoard(RECT object, D3DXVECTOR2 distance)
 	return board;
 }
 
-float GameCollision::SweptAABB(RECT obj, RECT other, D3DXVECTOR2 distance, Entity::SideCollisions & sideCollision)
+float GameCollision::SweptAABB(RECT obj, RECT other, D3DXVECTOR2 distance, Entity::SideCollisions& sideCollision)
 {
 	float dxEntry, dxExit;
 	float dyEntry, dyExit;
@@ -168,10 +168,11 @@ float GameCollision::SweptAABB(RECT obj, RECT other, D3DXVECTOR2 distance, Entit
 
 bool GameCollision::isCollide(RECT rect1, RECT rect2)
 {
-	return !(rect1.left > rect2.right || rect1.right < rect2.left || rect1.top > rect2.bottom || rect1.bottom < rect2.top);
+	return !(rect1.left > rect2.right || rect1.right < rect2.left || rect1.top > rect2.bottom || rect1.bottom < rect2.
+		top);
 }
 
-Entity::SideCollisions GameCollision::getSideCollision(Entity *e1, Entity *e2)
+Entity::SideCollisions GameCollision::getSideCollision(Entity* e1, Entity* e2)
 {
 	RECT rect1 = e1->getBound();
 	RECT rect2 = e2->getBound();
@@ -210,7 +211,7 @@ Entity::SideCollisions GameCollision::getSideCollision(Entity *e1, Entity *e2)
 	return Entity::None;
 }
 
-Entity::SideCollisions GameCollision::getSideCollision(Entity *e1, Entity::CollisionReturn data)
+Entity::SideCollisions GameCollision::getSideCollision(Entity* e1, Entity::CollisionReturn data)
 {
 	float xCenter = data.RegionCollision.left + (data.RegionCollision.right - data.RegionCollision.left) / 2.0f;
 	float yCenter = data.RegionCollision.top + (data.RegionCollision.bottom - data.RegionCollision.top) / 2.0f;

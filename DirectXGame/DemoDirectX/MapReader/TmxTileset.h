@@ -32,78 +32,79 @@
 
 #include "TmxPropertySet.h"
 
-namespace tinyxml2 {
-    class XMLNode;
+namespace tinyxml2
+{
+	class XMLNode;
 }
 
-namespace Tmx 
+namespace Tmx
 {
-    class Image;
-    class TileOffset;
-    class Terrain;
-    class Tile;
+	class Image;
+	class TileOffset;
+	class Terrain;
+	class Tile;
 
-    //-------------------------------------------------------------------------
-    // A class used for storing information about each of the tilesets.
-    // A tileset is a collection of tiles, of whom each may contain properties.
-    // This class has a property set.
-    //-------------------------------------------------------------------------
-    class Tileset 
-    {
-    public:
-        Tileset();
-        ~Tileset();
+	//-------------------------------------------------------------------------
+	// A class used for storing information about each of the tilesets.
+	// A tileset is a collection of tiles, of whom each may contain properties.
+	// This class has a property set.
+	//-------------------------------------------------------------------------
+	class Tileset
+	{
+	public:
+		Tileset();
+		~Tileset();
 
-        // Parse a tileset element.
-        void Parse(const tinyxml2::XMLNode *tilesetNode, const std::string& file_path);
+		// Parse a tileset element.
+		void Parse(const tinyxml2::XMLNode* tilesetNode, const std::string& file_path);
 
-        // Returns the global id of the first tile.
-        int GetFirstGid() const { return first_gid; }
+		// Returns the global id of the first tile.
+		int GetFirstGid() const { return first_gid; }
 
-        // Returns the name of the tileset.
-        const std::string &GetName() const { return name; }
+		// Returns the name of the tileset.
+		const std::string& GetName() const { return name; }
 
-        // Get the width of a single tile.
-        int GetTileWidth() const { return tile_width; } 
+		// Get the width of a single tile.
+		int GetTileWidth() const { return tile_width; }
 
-        // Get the height of a single tile.
-        int GetTileHeight() const { return tile_height; }
+		// Get the height of a single tile.
+		int GetTileHeight() const { return tile_height; }
 
-        // Get the margin of the tileset.
-        int GetMargin() const { return margin; }
+		// Get the margin of the tileset.
+		int GetMargin() const { return margin; }
 
-        // Get the spacing of the tileset.
-        int GetSpacing() const { return spacing; }
+		// Get the spacing of the tileset.
+		int GetSpacing() const { return spacing; }
 
-        // Returns a variable containing information 
-        // about the image of the tileset.
-        const Tmx::Image* GetImage() const { return image; }
+		// Returns a variable containing information 
+		// about the image of the tileset.
+		const Image* GetImage() const { return image; }
 
-        // Returns a a single tile of the set.
-        const Tmx::Tile *GetTile(int index) const;
+		// Returns a a single tile of the set.
+		const Tile* GetTile(int index) const;
 
-        // Returns the whole tile collection.
-        const std::vector< Tmx::Tile *> &GetTiles() const { return tiles; } 
-        
-        // Get a set of properties regarding the tile.
-        const Tmx::PropertySet &GetProperties() const { return properties; }
+		// Returns the whole tile collection.
+		const std::vector<Tile *>& GetTiles() const { return tiles; }
 
-    private:
-        int first_gid;
-        
-        std::string name;
-        
-        int tile_width;
-        int tile_height;
-        int margin;
-        int spacing;
-        
-        Tmx::TileOffset* tileOffset;
-        Tmx::Image* image;
+		// Get a set of properties regarding the tile.
+		const PropertySet& GetProperties() const { return properties; }
 
-        std::vector< Tmx::Terrain* > terrainTypes;
-        std::vector< Tmx::Tile* > tiles;
-        
-        Tmx::PropertySet properties;
-    };
+	private:
+		int first_gid;
+
+		std::string name;
+
+		int tile_width;
+		int tile_height;
+		int margin;
+		int spacing;
+
+		TileOffset* tileOffset;
+		Image* image;
+
+		std::vector<Terrain*> terrainTypes;
+		std::vector<Tile*> tiles;
+
+		PropertySet properties;
+	};
 }

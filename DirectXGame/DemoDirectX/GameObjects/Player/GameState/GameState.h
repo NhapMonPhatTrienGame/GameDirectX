@@ -9,13 +9,11 @@ class GamePlayer;
 class GameState
 {
 protected:
-	GamePlayer *gp;
+	GamePlayer* gp;
 
 public:
-	explicit GameState(GamePlayer *gp);
-	GameState() = default;
-
 	virtual ~GameState() = default;
+	explicit GameState(GamePlayer* gp);
 
 	virtual void Update(float dt);
 

@@ -1,101 +1,89 @@
 #include "Animation.h"
 
-Animation::Animation()
-{
-
-}
 
 Animation::Animation(const char* filePath, int rows, int columns, int frameWidth, int frameHeight, float timePerFrame, D3DCOLOR colorKey) : Sprite(filePath, RECT(), frameWidth, frameHeight, colorKey)
 {
-	this->mRows = rows;
-	this->mColumns = columns;
-	this->mCurrentRow = 0;
-	this->mCurrentIndex = 0;
-	this->mframePerRow = columns;
-	this->mFrameWidth = frameWidth;
-	this->mFrameHeight = frameHeight;
-	this->mTimePerFrame = timePerFrame;
+	this->m_Rows = rows;
+	this->m_Columns = columns;
+	this->m_CurrentRow = 0;
+	this->m_CurrentIndex = 0;
+	this->m_framePerRow = columns;
+	this->m_FrameWidth = frameWidth;
+	this->m_FrameHeight = frameHeight;
+	this->m_TimePerFrame = timePerFrame;
 
-	this->mLoopAnimation = true;
-	this->mPause = false;
-	this->mShoot = false;
+	this->m_LoopAnimation = true;
+	this->m_Pause = false;
+	this->m_Shoot = false;
 }
 
-Animation::~Animation()
+int Animation::getCurrentColumn() const
 {
-
+	return this->m_CurrentIndex;
 }
 
-int Animation::GetCurrentColumn() const
+void Animation::setShoot(bool shoot)
 {
-	return this->mCurrentIndex;
+	this->m_Shoot = shoot;
 }
 
-void Animation::SetShoot(bool shoot)
+void Animation::setPause(bool pause)
 {
-	this->mShoot = shoot;
+	this->m_Pause = pause;
 }
 
-void Animation::SetPause(bool pause)
+void Animation::setLoopAnimation(bool allowLoopAnimation)
 {
-	this->mPause = pause;
+	this->m_LoopAnimation = allowLoopAnimation;
 }
 
-void Animation::SetLoopAnimation(bool allowLoopAnimation)
+void Animation::setAnimation(int currentRow, int framePerRow, float timePerFrame, bool loopAnimation)
 {
-	this->mLoopAnimation = allowLoopAnimation;
-}
-
-void Animation::SetAnimation(int currentRow, int framePerRow, float timePerFrame, bool loopAnimation)
-{
-	this->mCurrentRow = currentRow;
-	this->mframePerRow = framePerRow;
-	this->mTimePerFrame = timePerFrame;
-	this->mLoopAnimation = loopAnimation;
-	mCurrentTotalTime = 0;
-	this->mCurrentIndex = 0;
-	mPause = false;
+	this->m_CurrentRow = currentRow;
+	this->m_framePerRow = framePerRow;
+	this->m_TimePerFrame = timePerFrame;
+	this->m_LoopAnimation = loopAnimation;
+	m_CurrentTotalTime = 0;
+	this->m_CurrentIndex = 0;
+	m_Pause = false;
 }
 
 void Animation::Update(float dt)
 {
-	mRect.left = mCurrentIndex * mFrameWidth;
-	mRect.right = mRect.left + mFrameWidth;
-	mRect.top = (mCurrentRow + mShoot) * mFrameHeight;
-	mRect.bottom = mRect.top + mFrameHeight;
+	m_Rect.left = m_CurrentIndex * m_FrameWidth;
+	m_Rect.right = m_Rect.left + m_FrameWidth;
+	m_Rect.top = (m_CurrentRow + m_Shoot) * m_FrameHeight;
+	m_Rect.bottom = m_Rect.top + m_FrameHeight;
 
-	SetSourceRect(mRect);
+	setSourceRect(m_Rect);
 
-	if (mframePerRow <= 1 || mPause)
+	if (m_framePerRow <= 1 || m_Pause)
 		return;
 
-	mCurrentTotalTime += dt;
-	if (mCurrentTotalTime >= mTimePerFrame)
+	m_CurrentTotalTime += dt;
+	if (m_CurrentTotalTime >= m_TimePerFrame)
 	{
-		mCurrentTotalTime = 0;
-		mCurrentIndex++;
-
-		if (mCurrentIndex >= mframePerRow)
+		m_CurrentTotalTime = 0;
+		if (++m_CurrentIndex >= m_framePerRow)
 		{
-			if (mLoopAnimation)
-				mCurrentIndex = 0;
+			if (m_LoopAnimation)
+				m_CurrentIndex = 0;
 			else
 			{
-				mCurrentIndex = mframePerRow - 1;
-				mPause = true;
+				m_CurrentIndex = m_framePerRow - 1;
+				m_Pause = true;
 			}
 		}
 	}
 }
 
 void Animation::Draw(D3DXVECTOR3 position, RECT sourceRect, D3DXVECTOR2 scale,
-    D3DXVECTOR2 transform, float angle, D3DXVECTOR2 rotationCenter, D3DXCOLOR colorKey)
+                     D3DXVECTOR2 transform, float angle, D3DXVECTOR2 rotationCenter, D3DXCOLOR colorKey)
 {
-
-    Sprite::Draw(position, sourceRect, scale, transform, angle, rotationCenter, colorKey);
+	Sprite::Draw(position, sourceRect, scale, transform, angle, rotationCenter, colorKey);
 }
 
 void Animation::Draw(D3DXVECTOR2 translate)
 {
-    Sprite::Draw(D3DXVECTOR3(), RECT(), D3DXVECTOR2(), translate);
+	Sprite::Draw(D3DXVECTOR3(), RECT(), D3DXVECTOR2(), translate);
 }

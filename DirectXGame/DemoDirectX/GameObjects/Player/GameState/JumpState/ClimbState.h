@@ -3,17 +3,11 @@
 #include "../GameState.h"
 
 
-class ClimbState :public GameState
+class ClimbState : public GameState
 {
 public:
-	explicit ClimbState(GamePlayer *gp);
-	~ClimbState() override = default;
-
-	void Update(float dt) override;
-
-	void HandleKeyboard(std::map<int, bool> keys, float dt) override;
-
-	void OnCollision(Entity::SideCollisions side) override;
+	explicit ClimbState(GamePlayer* gp) :GameState(gp) {}
+	~ClimbState() = default;
 
 	MegaManState::StateName getState() override;
 };

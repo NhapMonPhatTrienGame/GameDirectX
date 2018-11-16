@@ -25,24 +25,24 @@ public:
 
 	Entity();
 
-    enum SideCollisions
-    {
-        Left,
-        Right,
-        Top,
-        Bottom,
-        TopLeft,
-        TopRight,
-        BottomLeft,
-        BottomRight,
-        None
-    };
+	enum SideCollisions
+	{
+		Left,
+		Right,
+		Top,
+		Bottom,
+		TopLeft,
+		TopRight,
+		BottomLeft,
+		BottomRight,
+		None
+	};
 
-    struct CollisionReturn
-    {
-        bool IsCollided;
-        RECT RegionCollision;
-    };
+	struct CollisionReturn
+	{
+		bool IsCollided;
+		RECT RegionCollision;
+	};
 
 	enum EntityTypes
 	{
@@ -53,42 +53,41 @@ public:
 		BrickGoldNormal,
 		BrickGoldBeEaten,
 		Unknown
-    };
+	};
 
 	//To confirm type of Entity
-    EntityTypes Tag;
+	EntityTypes Tag;
 
-    virtual RECT getBound();
+	virtual RECT getBound();
 
 	virtual D3DXVECTOR3 getPosition();
-    virtual void setPosition(float x, float y);
-    virtual void setPosition(D3DXVECTOR2 pos);
-    virtual void setPosition(D3DXVECTOR3 pos);
+	virtual void setPosition(float x, float y);
+	virtual void setPosition(D3DXVECTOR2 pos);
+	virtual void setPosition(D3DXVECTOR3 pos);
 
 	virtual void addPosition(float x, float y);
 	virtual void addPosition(D3DXVECTOR2 pos);
-    virtual void addPosition(D3DXVECTOR3 pos);
+	virtual void addPosition(D3DXVECTOR3 pos);
 
-    virtual void setWidth(int width);
-    virtual int getWidth();
+	virtual void setWidth(int width);
+	virtual int getWidth();
 
-    virtual void setHeight(int height);
-    virtual int getHeight();
+	virtual void setHeight(int height);
+	virtual int getHeight();
 
-    virtual float getVx();
-    virtual void setVx(float vx);
-    virtual void addVx(float vx);
+	virtual float getVx();
+	virtual void setVx(float vx);
+	virtual void addVx(float vx);
 
-    virtual float getVy();
-    virtual void setVy(float vy);
-    virtual void addVy(float vy);
+	virtual float getVy();
+	virtual void setVy(float vy);
+	virtual void addVy(float vy);
 
 	virtual void UpdateColision(float collision_time, SideCollisions side, float dt);
 
-    virtual void Update(float dt);
+	virtual void Update(float dt);
 
-    //Control collision
+	//Control collision
 	//When entity collide, this function will be called
-    virtual void OnCollision(SideCollisions side);
-
+	virtual void OnCollision(SideCollisions side);
 };

@@ -177,9 +177,6 @@
     <ClCompile Include="GameObjects\MapObjects\BrickNormal.cpp">
       <Filter>FrameWork\GameObjects\MapObjects</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjects\MapObjects\GameObject.cpp">
-      <Filter>FrameWork\GameObjects\MapObjects</Filter>
-    </ClCompile>
     <ClCompile Include="GameObjects\Entity\Entity.cpp">
       <Filter>FrameWork\GameObjects\Enity</Filter>
     </ClCompile>
@@ -242,6 +239,24 @@
       <Filter>FrameWork\GameObjects\Player\GameState\JumpState</Filter>
     </ClCompile>
     <ClCompile Include="Enemies.cpp">
+      <Filter>FrameWork\GameObjects\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\Keyboard.cpp">
+      <Filter>FrameWork\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="GameComponents\Sound.cpp">
+      <Filter>FrameWork\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemiesState.cpp">
+      <Filter>FrameWork\GameObjects\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemiesStandState.cpp">
+      <Filter>FrameWork\GameObjects\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemiesAttackState.cpp">
+      <Filter>FrameWork\GameObjects\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemiesJumpState.cpp">
       <Filter>FrameWork\GameObjects\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
@@ -360,9 +375,6 @@
     <ClInclude Include="GameObjects\MapObjects\BrickNormal.h">
       <Filter>FrameWork\GameObjects\MapObjects</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjects\MapObjects\GameObject.h">
-      <Filter>FrameWork\GameObjects\MapObjects</Filter>
-    </ClInclude>
     <ClInclude Include="GameObjects\Entity\Entity.h">
       <Filter>FrameWork\GameObjects\Enity</Filter>
     </ClInclude>
@@ -418,6 +430,24 @@
       <Filter>FrameWork\GameObjects\Player\GameState\JumpState</Filter>
     </ClInclude>
     <ClInclude Include="Enemies.h">
+      <Filter>FrameWork\GameObjects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\Keyboard.h">
+      <Filter>FrameWork\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="GameComponents\Sound.h">
+      <Filter>FrameWork\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemiesState.h">
+      <Filter>FrameWork\GameObjects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemiesStandState.h">
+      <Filter>FrameWork\GameObjects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemiesAttackState.h">
+      <Filter>FrameWork\GameObjects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemiesJumpState.h">
       <Filter>FrameWork\GameObjects\Enemies</Filter>
     </ClInclude>
   </ItemGroup>

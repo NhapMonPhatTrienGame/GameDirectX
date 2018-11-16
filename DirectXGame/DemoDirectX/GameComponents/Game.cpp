@@ -8,20 +8,20 @@
 Game::Game(int fps)
 {
 	mFPS = fps;
-	SceneManager::GetInstance()->ReplaceScene(new DemoScene());
+	SceneManager::getInstance()->ReplaceScene(new DemoScene());
 	InitLoop();
 }
 
 void Game::Update(float dt)
 {
-	SceneManager::GetInstance()->GetCurrentScene()->Update(dt);
+	SceneManager::getInstance()->getCurrentScene()->Update(dt);
 	Render();
 }
 
 void Game::Render()
 {
 	auto device = GameGlobal::GetCurrentDevice();
-	auto scene = SceneManager::GetInstance()->GetCurrentScene();
+	auto scene = SceneManager::getInstance()->getCurrentScene();
 	device->Clear(0, nullptr, D3DCLEAR_TARGET, scene->getBackColor(), 0.0f, 0);
 
 	{

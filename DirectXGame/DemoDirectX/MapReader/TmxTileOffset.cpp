@@ -29,22 +29,20 @@
 
 #include "TmxTileOffset.h"
 
-namespace Tmx 
-{   
-    TileOffset::TileOffset() 
-        : x(0)
-        , y(0)
-    {}
+namespace Tmx
+{
+	TileOffset::TileOffset()
+		: x(0)
+		  , y(0) {}
 
-    TileOffset::~TileOffset() 
-    {}
+	TileOffset::~TileOffset() {}
 
-    void TileOffset::Parse(const tinyxml2::XMLNode *tileOffsetNode) 
-    {
-        const tinyxml2::XMLElement* tileOffsetElem = tileOffsetNode->ToElement();
-        
-        // Read all the attribute into member variables.
-        tileOffsetElem->QueryIntAttribute("x", &x);
-        tileOffsetElem->QueryIntAttribute("y", &y);
-    }
+	void TileOffset::Parse(const tinyxml2::XMLNode* tileOffsetNode)
+	{
+		const tinyxml2::XMLElement* tileOffsetElem = tileOffsetNode->ToElement();
+
+		// Read all the attribute into member variables.
+		tileOffsetElem->QueryIntAttribute("x", &x);
+		tileOffsetElem->QueryIntAttribute("y", &y);
+	}
 }

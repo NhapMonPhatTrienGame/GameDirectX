@@ -13,95 +13,75 @@ GamePlayer::GamePlayer()
 	Tag = Rockman;
 	pAnimation = new Animation(Define::ANIMATION_ROCKMAN, 21, 10, 49, 49, 0.15, D3DCOLOR_XRGB(100, 100, 100));
 
-	allowJump = true;
-	allowShoot = true;
-	allowSlide = true;
+	m_AllowJump = true;
+	m_AllowShoot = true;
+	m_AllowSlide = true;
 
-	mShoot = false;
-	mTimeShoot = 0.5f;
-	mTimeCurrentShoot = 0.0f;
+	m_Shoot = false;
+	m_TimeShoot = 0.5f;
+	m_TimeCurrentShoot = 0.0f;
 
 	vx = 0;
 	vy = 0;
-	HP = 20;
-	currentState = Falling;
+	m_HP = 20;
+	m_CurrentState = Falling;
 	setState(new AppearState(this));
+}
+
+GamePlayer::~GamePlayer()
+{
+	SafeDelete(pState);
+	SafeDelete(pAnimation);
 }
 
 void GamePlayer::ChangeAnimation(StateName state)
 {
 	switch (state)
 	{
-		case Appear:
-			pAnimation->SetAnimation(0, 5, 0.15, false);
-			break;
-		case Standing:
-			pAnimation->SetAnimation(1, 4, 0.1);
-			break;
-		case Running:
-			pAnimation->SetAnimation(3, 10, 0.1);
-			break;
-		case Jumping:
-			pAnimation->SetAnimation(5, 3, 0.1, false);
-			break;
-		case Falling:
-			pAnimation->SetAnimation(7, 3, 0.1, false);
-			break;
-		case Cling:
-			pAnimation->SetAnimation(9, 3, 0.1, false);
-			break;
-		case SlideVertical:
-			pAnimation->SetAnimation(11, 3, 0.1, false);
-			break;
-		case SlideHorizontal:
-			pAnimation->SetAnimation(15, 2, 0.1, false);
-			break;
-		case Climb:
-		case Bleed:
-		case Die:
-		case Win:break;
+	case Appear:
+		pAnimation->setAnimation(0, 5, 0.15, false);
+		break;
+	case Standing:
+		pAnimation->setAnimation(1, 4, 0.1);
+		break;
+	case Running:
+		pAnimation->setAnimation(3, 10, 0.1);
+		break;
+	case Jumping:
+		pAnimation->setAnimation(5, 3, 0.1, false);
+		break;
+	case Falling:
+		pAnimation->setAnimation(7, 3, 0.1, false);
+		break;
+	case Cling:
+		pAnimation->setAnimation(9, 3, 0.1, false);
+		break;
+	case SlideVertical:
+		pAnimation->setAnimation(11, 3, 0.1, false);
+		break;
+	case SlideHorizontal:
+		pAnimation->setAnimation(15, 2, 0.1, false);
+		break;
+	case Climb:
+	case Bleed:
+	case Die:
+	case Win: break;
 
-		default: break;
+	default: break;
 	}
 
-	this->width = pAnimation->GetWidth();
-	this->height = pAnimation->GetHeight();
+	this->setWidth(pAnimation->getWidth());
+	this->setHeight(pAnimation->getHeight());
 }
 
 void GamePlayer::setState(GameState* newState)
 {
-	if (currentState == newState->getState())
+	if (m_CurrentState == newState->getState())
 		return;
 	SAFE_DELETE(pState);
 	pState = newState;
 	ChangeAnimation(newState->getState());
-	currentState = newState->getState();
-}
-StateName GamePlayer::getState() const
-{
-	return currentState;
-}
-Animation* GamePlayer::GetAnimation() const
-{
-	return pAnimation;
-}
-
-void GamePlayer::SetCamera(Camera* camera)
-{
-	pCamera = camera;
-}
-
-float GamePlayer::getHP() const
-{
-	return HP;
-}
-void GamePlayer::setHP(float hp)
-{
-	HP = hp;
-}
-void GamePlayer::addHP(float hp)
-{
-	HP += hp;
+	m_CurrentState = newState->getState();
 }
 
 GamePlayer::MoveDirection GamePlayer::getMoveDirection() const
@@ -119,45 +99,45 @@ void GamePlayer::HandleKeyboard(const std::map<int, bool>& keys, float dt) const
 
 void GamePlayer::OnKeyDown(std::map<int, bool> keys, int Key)
 {
-	if (Key == VK_JUMP && allowJump)
+	if (Key == VK_JUMP && m_AllowJump)
 	{
-		allowJump = false;
-		switch (currentState)
+		m_AllowJump = false;
+		switch (m_CurrentState)
 		{
-			case Standing:case Running:case SlideHorizontal:
-			{
-				setState(new JumpState(this));
-				break;
-			}
-			case SlideVertical:
-			{
-				if (keys[VK_SLIDE])
-					setState(new ClingState(this, true));
-				else 
-					setState(new ClingState(this));
-				break;
-			}
-			default: break;
+		case Standing: case Running: case SlideHorizontal:
+		{
+			setState(new JumpState(this));
+			break;
+		}
+		case SlideVertical:
+		{
+			if (keys[VK_SLIDE])
+				setState(new ClingState(this, true));
+			else
+				setState(new ClingState(this));
+			break;
+		}
+		default: break;
 		}
 	}
-	
-	if (Key == VK_SHOOT && allowShoot && !mShoot)
-	{
-		mShoot = true;
-		pAnimation->SetShoot(mShoot);
-		allowShoot = false;
-	}
-	
-	if(Key == VK_SLIDE && allowSlide)
-	{
-		allowSlide = false;
 
-		switch(currentState)
+	if (Key == VK_SHOOT && m_AllowShoot && !m_Shoot)
+	{
+		m_Shoot = true;
+		pAnimation->setShoot(m_Shoot);
+		m_AllowShoot = false;
+	}
+
+	if (Key == VK_SLIDE && m_AllowSlide)
+	{
+		m_AllowSlide = false;
+
+		switch (m_CurrentState)
 		{
-			case Standing:case Running:
-				setState(new SlideHorizontalState(this));
-				break;
-			default: break;
+		case Standing: case Running:
+			setState(new SlideHorizontalState(this));
+			break;
+		default: break;
 		}
 	}
 }
@@ -167,31 +147,20 @@ void GamePlayer::OnKeyUp(int Key)
 	if (Key == VK_JUMP)
 	{
 		vy = 0;
-		allowJump = true;
+		m_AllowJump = true;
 	}
 	else if (Key == VK_SHOOT)
 	{
-		allowShoot = true;
+		m_AllowShoot = true;
 	}
-	else if(Key == VK_SLIDE)
+	else if (Key == VK_SLIDE)
 	{
-		allowSlide = true;
+		m_AllowSlide = true;
 	}
-}
-
-void GamePlayer::SetReverse(bool flag)
-{
-	isCurrentReverse = flag;
-}
-
-bool GamePlayer::getReverse() const
-{
-	return isCurrentReverse;
 }
 
 RECT GamePlayer::getBound()
 {
-
 	RECT rect;
 	rect.left = x - 15;
 	rect.right = x + 15;
@@ -203,14 +172,14 @@ RECT GamePlayer::getBound()
 
 void GamePlayer::Update(float dt)
 {
-	if(mShoot)
+	if (m_Shoot)
 	{
-		mTimeCurrentShoot += dt;
-		if(mTimeCurrentShoot > mTimeShoot)
+		m_TimeCurrentShoot += dt;
+		if (m_TimeCurrentShoot > m_TimeShoot)
 		{
-			mShoot = false;
-			pAnimation->SetShoot(mShoot);
-			mTimeCurrentShoot = 0;
+			m_Shoot = false;
+			pAnimation->setShoot(m_Shoot);
+			m_TimeCurrentShoot = 0;
 		}
 	}
 
@@ -223,16 +192,15 @@ void GamePlayer::Update(float dt)
 }
 
 void GamePlayer::Draw(D3DXVECTOR3 Position, RECT SourceRect, D3DXVECTOR2 Scale, D3DXVECTOR2 Translate,
-	float Angle, D3DXVECTOR2 RotationCenter, D3DXCOLOR TransColor)
+                      float Angle, D3DXVECTOR2 RotationCenter, D3DXCOLOR TransColor)
 {
-	pAnimation->SetFlip(isCurrentReverse);
-	pAnimation->SetPosition(getPosition());
+	pAnimation->setFlip(m_CurrentReverse);
+	pAnimation->setPosition(getPosition());
 
 	if (pCamera)
 	{
-		const auto trans = D3DXVECTOR2(GameGlobal::GetWidth() / 2.0f - pCamera->GetPosition().x,
+		D3DXVECTOR2 trans(GameGlobal::GetWidth() / 2.0f - pCamera->GetPosition().x, 
 			GameGlobal::GetHeight() / 2.0f - pCamera->GetPosition().y);
-
 		pAnimation->Draw(D3DXVECTOR3(x, y, 0), SourceRect, Scale, trans, Angle, RotationCenter, TransColor);
 	}
 	else
@@ -246,7 +214,8 @@ void GamePlayer::OnCollision(SideCollisions side)
 
 void GamePlayer::OnNoCollisionWithBottom()
 {
-	if (currentState == Appear || currentState == Falling || currentState == Jumping || currentState == SlideVertical || currentState == Cling)
+	if (m_CurrentState == Appear || m_CurrentState == Falling || m_CurrentState == Jumping || m_CurrentState == SlideVertical ||
+		m_CurrentState == Cling)
 		return;
 
 	setState(new FallState(this));

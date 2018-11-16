@@ -1,191 +1,189 @@
 #include "QuadTree.h"
 #include "GameGlobal.h"
 
-QuadTree::~QuadTree()
-{
-}
+QuadTree::~QuadTree() {}
 
 QuadTree::QuadTree(int level, RECT bound)
 {
-    //chia lam 4
+	//chia lam 4
 
-    this->Bound = bound;
-    this->mLevel = level;
+	this->Bound = bound;
+	this->mLevel = level;
 }
 
-void QuadTree::Clear()
+void QuadTree::Clear() const
 {
-    if (Nodes)
-    {
-        for (size_t i = 0; i < 4; i++)
-        {
-            if (Nodes[i])
-            {
-                Nodes[i]->Clear();
-                delete Nodes[i];
-                Nodes[i] = nullptr;
-            }
-        }
+	if (Nodes)
+	{
+		for (size_t i = 0; i < 4; i++)
+		{
+			if (Nodes[i])
+			{
+				Nodes[i]->Clear();
+				delete Nodes[i];
+				Nodes[i] = nullptr;
+			}
+		}
 
-        delete[] Nodes;
-    }
+		delete[] Nodes;
+	}
 }
 
-void QuadTree::insertEntity(Entity *entity)
+void QuadTree::insertEntity(Entity* entity)
 {
-    int index = getIndex(entity->getBound());
+	int index = getIndex(entity->getBound());
 
-    //neu node ta ton tai thi insert vao node con
-    if (Nodes != NULL)
-    {
-        if (index != -1)
-        {
-            Nodes[index]->insertEntity(entity);
-            return;
-        }
-    }
+	//neu node ta ton tai thi insert vao node con
+	if (Nodes != nullptr)
+	{
+		if (index != -1)
+		{
+			Nodes[index]->insertEntity(entity);
+			return;
+		}
+	}
 
-    //luc nay entity nam giua 2 Bound nen se add vao node nay luon
-    if (index == -1)
-    {
-        this->mListEntity.push_back(entity);
-    }
-    else
-    {
-        //node chua dc tao nen se tao va split roi moi insert
-        if (Nodes == NULL)
-        {
-            split();
-        }
+	//luc nay entity nam giua 2 Bound nen se add vao node nay luon
+	if (index == -1)
+	{
+		this->mListEntity.push_back(entity);
+	}
+	else
+	{
+		//node chua dc tao nen se tao va split roi moi insert
+		if (Nodes == nullptr)
+		{
+			split();
+		}
 
-        Nodes[index]->insertEntity(entity);
-    }
+		Nodes[index]->insertEntity(entity);
+	}
 }
 
-bool QuadTree::isContain(Entity *entity)
+bool QuadTree::isContain(Entity* entity) const
 {
-    RECT r = entity->getBound();
+	RECT r = entity->getBound();
 
 	return r.left >= Bound.left && r.right <= Bound.right && r.top >= Bound.top && r.bottom <= Bound.bottom;
 }
 
 void QuadTree::split()
 {
-    //cat phan region (ranh gioi) ra thanh 4 phan bang nhau
-    Nodes = new QuadTree * [4];
+	//cat phan region (ranh gioi) ra thanh 4 phan bang nhau
+	Nodes = new QuadTree * [4];
 
-    RECT bound;
+	RECT bound;
 
-    int width = (Bound.right - Bound.left) / 2;
-    int height = (Bound.bottom - Bound.top) / 2;
+	int width = (Bound.right - Bound.left) / 2;
+	int height = (Bound.bottom - Bound.top) / 2;
 
-    //phan goc trai tren
-    bound.left = Bound.left;
-    bound.right = bound.left + width;
-    bound.top = Bound.top;
-    bound.bottom = bound.top + height;
-    Nodes[0] = new QuadTree(mLevel + 1, bound);
+	//phan goc trai tren
+	bound.left = Bound.left;
+	bound.right = bound.left + width;
+	bound.top = Bound.top;
+	bound.bottom = bound.top + height;
+	Nodes[0] = new QuadTree(mLevel + 1, bound);
 
-    //phan goc phai tren
-    bound.left = Bound.left + width;
-    bound.right = bound.left + width;
-    bound.top = Bound.top;
-    bound.bottom = bound.top + height;
-    Nodes[1] = new QuadTree(mLevel + 1, bound);
+	//phan goc phai tren
+	bound.left = Bound.left + width;
+	bound.right = bound.left + width;
+	bound.top = Bound.top;
+	bound.bottom = bound.top + height;
+	Nodes[1] = new QuadTree(mLevel + 1, bound);
 
-    //phan goc trai duoi
-    bound.left = Bound.left;
-    bound.right = bound.left + width;
-    bound.top = Bound.top + height;
-    bound.bottom = bound.top + height;
-    Nodes[2] = new QuadTree(mLevel + 1, bound);
+	//phan goc trai duoi
+	bound.left = Bound.left;
+	bound.right = bound.left + width;
+	bound.top = Bound.top + height;
+	bound.bottom = bound.top + height;
+	Nodes[2] = new QuadTree(mLevel + 1, bound);
 
-    //phan goc phai duoi
-    bound.left = Bound.left + width;
-    bound.right = bound.left + width;
-    bound.top = Bound.top + height;
-    bound.bottom = bound.top + height;
-    Nodes[3] = new QuadTree(mLevel + 1, bound);
+	//phan goc phai duoi
+	bound.left = Bound.left + width;
+	bound.right = bound.left + width;
+	bound.top = Bound.top + height;
+	bound.bottom = bound.top + height;
+	Nodes[3] = new QuadTree(mLevel + 1, bound);
 }
 
-int QuadTree::getTotalEntities()
+int QuadTree::getTotalEntities() const
 {
-    int total = mListEntity.size();
+	int total = mListEntity.size();
 
-    if (Nodes)
-    {
-        for (size_t i = 0; i < 4; i++)
-        {
-            total += Nodes[i]->getTotalEntities();
-        }
-    }
+	if (Nodes)
+	{
+		for (size_t i = 0; i < 4; i++)
+		{
+			total += Nodes[i]->getTotalEntities();
+		}
+	}
 
-    return total;
+	return total;
 }
 
-int QuadTree::getIndex(RECT body)
+int QuadTree::getIndex(RECT body) const
 {
-    /*lay vi tri cua Entity
-    0: nam trong Node con goc trai tren
-    1: nam trong Node con goc phai tren
-    2: nam trong Node con goc trai duoi
-    3: nam trong Node con goc phai duoi
-    -1: bi dinh > 2 node con*/
+	/*lay vi tri cua Entity
+	0: nam trong Node con goc trai tren
+	1: nam trong Node con goc phai tren
+	2: nam trong Node con goc trai duoi
+	3: nam trong Node con goc phai duoi
+	-1: bi dinh > 2 node con*/
 
-    float middleVertical = Bound.left + (Bound.right - Bound.left) / 2.0f;
-    float middleHorizontal = Bound.top + (Bound.bottom - Bound.top) / 2.0f;
+	float middleVertical = Bound.left + (Bound.right - Bound.left) / 2.0f;
+	float middleHorizontal = Bound.top + (Bound.bottom - Bound.top) / 2.0f;
 
-    if (body.top > Bound.top && body.bottom < middleHorizontal)
-    {
-        //nam phia ben tren
-        if (body.left > Bound.left && body.right < middleVertical)
-        {
-            //nam phia ben trai
-            return 0;
-        }
-	    if (body.left > middleVertical && body.right < Bound.right)
-	    {
-		    //nam phia ben phai
-		    return 1;
-	    }
-    }
-    else if(body.top > middleHorizontal && body.bottom < Bound.bottom)
-    {
-        //nam phia ben duoi
-        if (body.left > Bound.left && body.right < middleVertical)
-        {
-            //nam phia ben trai
-            return 2;
-        }
-	    if (body.left > middleVertical && body.right < Bound.right)
-	    {
-		    //nam phia ben phai
-		    return 3;
-	    }
-    }
+	if (body.top > Bound.top && body.bottom < middleHorizontal)
+	{
+		//nam phia ben tren
+		if (body.left > Bound.left && body.right < middleVertical)
+		{
+			//nam phia ben trai
+			return 0;
+		}
+		if (body.left > middleVertical && body.right < Bound.right)
+		{
+			//nam phia ben phai
+			return 1;
+		}
+	}
+	else if (body.top > middleHorizontal && body.bottom < Bound.bottom)
+	{
+		//nam phia ben duoi
+		if (body.left > Bound.left && body.right < middleVertical)
+		{
+			//nam phia ben trai
+			return 2;
+		}
+		if (body.left > middleVertical && body.right < Bound.right)
+		{
+			//nam phia ben phai
+			return 3;
+		}
+	}
 
-    return -1;
+	return -1;
 }
 
-void QuadTree::getAllEntities(std::vector<Entity*> &entitiesOut)
+void QuadTree::getAllEntities(std::vector<Entity*>& entitiesOut)
 {
-    for (auto child : mListEntity)
-    {
-        entitiesOut.push_back(child);
-    }
+	for (auto child : mListEntity)
+	{
+		entitiesOut.push_back(child);
+	}
 
-    if (Nodes)
-    {
-        for (size_t i = 0; i < 4; i++)
-        {
-            Nodes[i]->getAllEntities(entitiesOut);
-        }
-    }
+	if (Nodes)
+	{
+		for (size_t i = 0; i < 4; i++)
+		{
+			Nodes[i]->getAllEntities(entitiesOut);
+		}
+	}
 }
 
-void QuadTree::getEntitiesCollideAble(std::vector<Entity*> &entitiesOut, Entity *entity)
+void QuadTree::getEntitiesCollideAble(std::vector<Entity*>& entitiesOut, Entity* entity)
 {
-    int index = this->getIndex(entity->getBound());
+	int index = this->getIndex(entity->getBound());
 
 	if (index != -1)
 	{
@@ -195,7 +193,7 @@ void QuadTree::getEntitiesCollideAble(std::vector<Entity*> &entitiesOut, Entity 
 			entitiesOut.push_back(child);
 		}
 
-		if (Nodes != NULL)
+		if (Nodes != nullptr)
 		{
 			//kiem tra va lay cac node trong node con
 			Nodes[index]->getEntitiesCollideAble(entitiesOut, entity);

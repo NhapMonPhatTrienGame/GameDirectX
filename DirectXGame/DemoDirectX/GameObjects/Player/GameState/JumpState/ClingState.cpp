@@ -49,7 +49,7 @@ void ClingState::HandleKeyboard(std::map<int, bool> keys, float dt)
 
 	if (keys[VK_RIGHT])
 	{
-		gp->SetReverse(false);
+		gp->setReverse(false);
 
 		if (Pressed)
 			speed = Define::PLAYER_MAX_SLIDE_SPEED;
@@ -58,7 +58,7 @@ void ClingState::HandleKeyboard(std::map<int, bool> keys, float dt)
 	}
 	else if (keys[VK_LEFT])
 	{
-		gp->SetReverse(true);
+		gp->setReverse(true);
 		if (Pressed)
 			speed = -Define::PLAYER_MAX_SLIDE_SPEED;
 		else
@@ -72,23 +72,23 @@ void ClingState::OnCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{
-		case Entity::Left:
-		case Entity::Right:
-		{
-			gp->setState(new SlideVerticalState(gp));
-			break;
-		}
-		case Entity::Top:
-		{
-			gp->setState(new FallState(gp, Pressed));
-			break;
-		}
-		case Entity::Bottom:
-		{
-			gp->setState(new StandState(gp));
-			break;
-		}
-		default: break;
+	case Entity::Left:
+	case Entity::Right:
+	{
+		gp->setState(new SlideVerticalState(gp));
+		break;
+	}
+	case Entity::Top:
+	{
+		gp->setState(new FallState(gp, Pressed));
+		break;
+	}
+	case Entity::Bottom:
+	{
+		gp->setState(new StandState(gp));
+		break;
+	}
+	default: break;
 	}
 }
 

@@ -36,26 +36,23 @@ using std::map;
 
 namespace Tmx
 {
-    TerrainArray::TerrainArray()
-    {}
+	TerrainArray::TerrainArray() {}
 
-    TerrainArray::~TerrainArray()
-    {
-    }
+	TerrainArray::~TerrainArray() { }
 
-    void TerrainArray::Parse(std::vector< Tmx::Terrain* > *terrainTypes, const tinyxml2::XMLNode *terrainArrayNode)
-    {
-        // Iterate through all of the terrain nodes.
-        const tinyxml2::XMLNode *terrainNode = terrainArrayNode->FirstChildElement("terrain");
+	void TerrainArray::Parse(std::vector<Terrain*>* terrainTypes, const tinyxml2::XMLNode* terrainArrayNode)
+	{
+		// Iterate through all of the terrain nodes.
+		const tinyxml2::XMLNode* terrainNode = terrainArrayNode->FirstChildElement("terrain");
 
-        while (terrainNode)
-        {
-            // Read the attributes of the terrain and add it the terrainTypes vector.
-            Terrain *terrainType = new Terrain();
-            terrainType->Parse(terrainNode);
-            terrainTypes->push_back(terrainType);
+		while (terrainNode)
+		{
+			// Read the attributes of the terrain and add it the terrainTypes vector.
+			Terrain* terrainType = new Terrain();
+			terrainType->Parse(terrainNode);
+			terrainTypes->push_back(terrainType);
 
-            terrainNode = terrainNode->NextSiblingElement("terrain");
-        }
-    }
+			terrainNode = terrainNode->NextSiblingElement("terrain");
+		}
+	}
 }

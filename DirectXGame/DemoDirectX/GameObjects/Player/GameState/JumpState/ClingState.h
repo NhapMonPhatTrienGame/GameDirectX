@@ -4,13 +4,13 @@
 class ClingState : public GameState
 {
 protected:
+
 	float translateY;
 	float speed, countPress;
 	bool Pressed;
 public:
-	explicit ClingState(GamePlayer *gp, bool dash = false);
-	ClingState() = default;
-	~ClingState() override = default;
+	explicit ClingState(GamePlayer* gp, bool dash = false);
+	~ClingState() = default;
 
 
 	void Update(float dt) override;

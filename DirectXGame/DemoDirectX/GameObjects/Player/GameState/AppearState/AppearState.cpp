@@ -9,15 +9,14 @@ AppearState::AppearState(GamePlayer* gp) : GameState(gp)
 
 void AppearState::Update(float dt)
 {
-	if (gp->GetAnimation()->GetCurrentColumn() == 0)
-		gp->GetAnimation()->SetPause(true);
+	if (gp->getAnimation()->getCurrentColumn() == 0)
+		gp->getAnimation()->setPause(true);
 
-	else
-		if (gp->GetAnimation()->GetCurrentColumn() >= 4)
+	else if (gp->getAnimation()->getCurrentColumn() >= 4)
 		gp->setState(new StandState(gp));
 }
 
-void AppearState::HandleKeyboard(std::map<int, bool> keys, float dt) 
+void AppearState::HandleKeyboard(std::map<int, bool> keys, float dt)
 {
 	gp->addVy(translateY);
 
@@ -29,16 +28,16 @@ void AppearState::OnCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{
-		case Entity::Bottom:
-		{
-			gp->GetAnimation()->SetPause(false);
-			break;
-		}
-		default: break;
+	case Entity::Bottom:
+	{
+		gp->getAnimation()->setPause(false);
+		break;
+	}
+	default: break;
 	}
 }
 
-MegaManState::StateName AppearState::getState()
+StateName AppearState::getState()
 {
-	return MegaManState::Appear;
+	return Appear;
 }
