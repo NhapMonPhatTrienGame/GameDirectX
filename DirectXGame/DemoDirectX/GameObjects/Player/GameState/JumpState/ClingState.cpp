@@ -1,8 +1,8 @@
 #include "ClingState.h"
 #include "../FallState/FallState.h"
 #include "../StandState/StandState.h"
-#include "../SlideState/SlideVerticalState/SlideVerticalState.h"
 #include "../../GamePlayer.h"
+#include "../SlipDownState/SlipDownState.h"
 
 ClingState::ClingState(GamePlayer* gp, bool dash) : GameState(gp)
 {
@@ -15,29 +15,29 @@ ClingState::ClingState(GamePlayer* gp, bool dash) : GameState(gp)
 }
 
 
-void ClingState::Update(float dt)
+void ClingState::update(float dt)
 {
 	if (gp->getVy() > 0)
 		gp->setState(new FallState(gp, Pressed));
 }
 
-void ClingState::HandleKeyboard(std::map<int, bool> keys, float dt)
+void ClingState::handlerKeyBoard(std::map<int, bool> keys, float dt)
 {
 	countPress += dt;
 	if (countPress < 0.3f)
 	{
 		if (gp->getReverse())
 		{
-			speed = Define::PLAYER_MAX_CLIING_SPEED;
-			gp->UpdateColision(1.5, Entity::Left, dt);
+			speed = Define::PLAYER_MAX_CLING_SPEED;
+			gp->updateCollision(1.5, Entity::Left, dt);
 
 			if (keys[VK_RIGHT])
 				countPress = 0.3;
 		}
 		else
 		{
-			speed = -Define::PLAYER_MAX_CLIING_SPEED;
-			gp->UpdateColision(1.5, Entity::Right, dt);
+			speed = -Define::PLAYER_MAX_CLING_SPEED;
+			gp->updateCollision(1.5, Entity::Right, dt);
 
 			if (keys[VK_LEFT])
 				countPress = 0.3;
@@ -68,14 +68,14 @@ void ClingState::HandleKeyboard(std::map<int, bool> keys, float dt)
 	gp->addVy(translateY);
 }
 
-void ClingState::OnCollision(Entity::SideCollisions side)
+void ClingState::onCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{
 	case Entity::Left:
 	case Entity::Right:
 	{
-		gp->setState(new SlideVerticalState(gp));
+		gp->setState(new SlipDownState(gp));
 		break;
 	}
 	case Entity::Top:

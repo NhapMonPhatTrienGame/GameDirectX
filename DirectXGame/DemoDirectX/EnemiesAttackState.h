@@ -5,7 +5,7 @@
 class EnemiesAttackState :
 	public EnemiesState
 {
-	Sprite *m_Shooter;
+	Sprite *pShooter;
 public:
 	explicit EnemiesAttackState(Enemies *e);
 	~EnemiesAttackState();

@@ -1,53 +1,53 @@
 #include "Enemies.h"
 #include "EnemiesStandState.h"
-
+#include "EnemiesFallState.h"
+#include "EnemiesJumpState.h"
 
 Enemies::Enemies()
 {
 	Tag = Enemy;
-	m_Animation[0] = new Animation(Define::ENEMIES_STAND, 1, 2, 48, 48, 0.15);
-	m_Animation[1] = new Animation(Define::ENEMIES_JUMP, 1, 2, 48, 48, 0.15);
-	m_Animation[2] = new Animation(Define::ENEMIES_GUN, 1, 4, 48, 48, 0.15);
-
-	m_CurrentAnimation = m_Animation[0];
+	pEnemiesAnim = new Animation("Resources/Enemies/EnemiesSpriteSheet.png", 3, 4, 48, 48, 0.1f, D3DCOLOR_XRGB(100, 100, 100));
+	setState(new EnemiesStandState(this));
 }
 
 Enemies::~Enemies()
 {
-	SAFE_DELETE(m_State);
-	SAFE_DELETE(m_CurrentAnimation);
+	SAFE_DELETE(pState);
+	SAFE_DELETE(pEnemiesAnim);
 }
 
-void Enemies::ChangeAnimation(EnemyState::EnemyStateName t_State)
+void Enemies::ChangeAnimation(EnemyState::EnemyStateName state)
 {
-	switch (t_State)
+	switch (state)
 	{
 	case EnemyState::Stand:
-		m_CurrentAnimation = m_Animation[0];
+		pEnemiesAnim->setAnimation(0, 2, 0.15f);
 		break;
 	case EnemyState::Jump:
-		m_CurrentAnimation = m_Animation[1];
+		pEnemiesAnim->setAnimation(1, 2, 0.15f, false);
+		break;
+	case EnemyState::Fall:
+		pEnemiesAnim->setAnimation(1, 2, 0.15f, false);
 		break;
 	case EnemyState::Attack:
-		m_CurrentAnimation = m_Animation[2];
+		pEnemiesAnim->setAnimation(2, 4, 0.15f, false);
 		break;
-	case EnemyState::Die: break;
 	default: break;
 	}
 
-	this->setWidth(m_CurrentAnimation->getWidth());
-	this->setHeight(m_CurrentAnimation->getHeight());
+	this->setWidth(pEnemiesAnim->getWidth());
+	this->setHeight(pEnemiesAnim->getHeight());
 }
 
 
-void Enemies::setState(EnemiesState* t_NewState)
+void Enemies::setState(EnemiesState* newState)
 {
-	if (m_CurrentState == t_NewState->getState())
+	if (currentState == newState->getState())
 		return;
-	SAFE_DELETE(m_State);
-	m_State = t_NewState;
-	ChangeAnimation(t_NewState->getState());
-	m_CurrentState = t_NewState->getState();
+	SAFE_DELETE(pState);
+	pState = newState;
+	ChangeAnimation(newState->getState());
+	currentState = newState->getState();
 }
 
 RECT Enemies::getBound()
@@ -60,25 +60,31 @@ RECT Enemies::getBound()
 	return rect;
 }
 
-void Enemies::Draw(D3DXVECTOR3 t_Pos, RECT t_Rect, D3DXVECTOR2 t_Scale, D3DXVECTOR2 t_Transform, float t_Angle,
-	D3DXVECTOR2 t_RotationCenter, D3DXCOLOR t_TransColor)
+void Enemies::drawSprite(VECTOR3 pos, RECT rect, VECTOR2 scale, VECTOR2 translate, float angle, VECTOR2 rotationCenter, DX_COLOR transColor)
 {
-	m_CurrentAnimation->setFlip(m_CurrentFlip);
-	m_CurrentAnimation->setPosition(getPosition());
+	pEnemiesAnim->setFlip(currentFlip);
+	pEnemiesAnim->setPosition(getPosition());
 
-	m_CurrentAnimation->Draw(D3DXVECTOR3(x, y, 0), t_Rect, t_Scale, t_Transform, t_Angle, t_RotationCenter, t_TransColor);
+	pEnemiesAnim->drawSprite(VECTOR3(x, y, 0), rect, scale, translate, angle, rotationCenter, transColor);
 }
 
-void Enemies::Update(float t_GameTime)
+void Enemies::update(float gameTime)
 {
-	m_CurrentAnimation->Update(t_GameTime);
-	if (m_State)
-		m_State->Update(t_GameTime);
-	Entity::Update(t_GameTime);
+	pEnemiesAnim->update(gameTime);
+	if (pState)
+		pState->update(gameTime);
+	Entity::update(gameTime);
 }
 
-void Enemies::OnCollision(SideCollisions t_Side)
+void Enemies::onCollision(SideCollisions side)
 {
-	if (m_State)
-		m_State->OnCollision(t_Side);
+	if (pState)
+		pState->onCollision(side);
+}
+
+void Enemies::onCollisionBottom()
+{
+	if (currentState == EnemyState::Fall || currentState == EnemyState::Jump || currentState == EnemyState::Attack)
+		return;
+	setState(new EnemiesFallState(this));
 }

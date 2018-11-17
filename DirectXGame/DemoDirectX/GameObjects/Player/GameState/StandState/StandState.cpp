@@ -8,7 +8,7 @@ StandState::StandState(GamePlayer* gp) : GameState(gp)
 	this->gp->setVx(0);
 }
 
-void StandState::HandleKeyboard(std::map<int, bool> keys, float dt)
+void StandState::handlerKeyBoard(std::map<int, bool> keys, float dt)
 {
 	gp->setVy(Define::PLAYER_MAX_JUMP_VELOCITY);
 	if (keys[VK_LEFT] || keys[VK_RIGHT])

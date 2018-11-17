@@ -5,27 +5,27 @@ BrickGold::BrickGold(D3DXVECTOR3 position)
 	Init(position);
 }
 
-const char* BrickGold::FileName()
+const char* BrickGold::fileName()
 {
 	return "Resources/goldbrick.png";
 }
 
-int BrickGold::TotalFrame()
+int BrickGold::totalFrame()
 {
 	return 4;
 }
 
-int BrickGold::Row()
+int BrickGold::row()
 {
 	return 1;
 }
 
-int BrickGold::Column()
+int BrickGold::column()
 {
 	return 4;
 }
 
-float BrickGold::TimePerFrame()
+float BrickGold::timePerFrame()
 {
 	return 0.3f;
 }

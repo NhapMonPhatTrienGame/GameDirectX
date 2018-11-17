@@ -13,54 +13,54 @@ bool Sprite::isCheckRect(RECT SourceRect)
 
 Sprite::Sprite(const char* filePath, RECT sourceRect, int width, int height, D3DCOLOR colorKey)
 {
-	m_FlipX = false;
-	m_SpriteHandler = GameGlobal::GetCurrentSpriteHandler();
-	m_Position = D3DXVECTOR3(0, 0, 0);
-	m_Rotation = 0;
-	m_RotationCenter = D3DXVECTOR2(m_Position.x, m_Position.y);
-	m_Translation = D3DXVECTOR2(0, 0);
-	m_Scale = D3DXVECTOR2(1, 1);
+	isFlipX = false;
+	spriteHandler = GameGlobal::GetCurrentSpriteHandler();
+	position = D3DXVECTOR3(0, 0, 0);
+	rotation = 0;
+	rotationCenter = D3DXVECTOR2(position.x, position.y);
+	translation = D3DXVECTOR2(0, 0);
+	scale = D3DXVECTOR2(1, 1);
 
-	HRESULT result = D3DXGetImageInfoFromFile(filePath, &m_ImageInfo);
+	auto result = D3DXGetImageInfoFromFile(filePath, &imageInfo);
 	if (FAILED(result))
 		return;
 
 	if (width == 0)
 	{
 		if (!isCheckRect(sourceRect))
-			m_Width = m_ImageInfo.Width;
-
+			this->width = imageInfo.Width;
 		else
-			m_Width = sourceRect.right - sourceRect.left;
+			this->width = sourceRect.right - sourceRect.left;
 	}
-	else m_Width = width;
+	else 
+		this->width = width;
 
 	if (height == 0)
 	{
 		if (!isCheckRect(sourceRect))
-			m_Height = m_ImageInfo.Height;
-
+			this->height = imageInfo.Height;
 		else
-			m_Height = sourceRect.bottom - sourceRect.top;
+			this->height = sourceRect.bottom - sourceRect.top;
 	}
-	else m_Height = height;
+	else 
+		this->height = height;
 
 	if (!isCheckRect(sourceRect))
 	{
-		m_SourceRect.left = 0;
-		m_SourceRect.right = m_Width;
-		m_SourceRect.top = 0;
-		m_SourceRect.bottom = m_Height;
+		this->sourceRect.left = 0;
+		this->sourceRect.right = this->width;
+		this->sourceRect.top = 0;
+		this->sourceRect.bottom = this->height;
 	}
 
 	LPDIRECT3DDEVICE9 device;
-	m_SpriteHandler->GetDevice(&device);
+	spriteHandler->GetDevice(&device);
 
 	result = D3DXCreateTextureFromFileEx(
 		device,
 		filePath,
-		m_ImageInfo.Width,
-		m_ImageInfo.Height,
+		imageInfo.Width,
+		imageInfo.Height,
 		1,
 		D3DUSAGE_DYNAMIC,
 		D3DFMT_UNKNOWN,
@@ -68,9 +68,9 @@ Sprite::Sprite(const char* filePath, RECT sourceRect, int width, int height, D3D
 		D3DX_DEFAULT,
 		D3DX_DEFAULT,
 		colorKey,
-		&m_ImageInfo,
+		&imageInfo,
 		nullptr,
-		&m_Texture
+		&texture
 	);
 	if (FAILED(result))
 		return;
@@ -78,19 +78,19 @@ Sprite::Sprite(const char* filePath, RECT sourceRect, int width, int height, D3D
 
 Sprite::~Sprite()
 {
-	SAFE_RELEASE(m_Texture);
-	SAFE_RELEASE(m_SpriteHandler);
+	SAFE_RELEASE(texture);
+	SAFE_RELEASE(spriteHandler);
 }
 
-void Sprite::Draw(D3DXVECTOR3 Position, RECT SourceRect, D3DXVECTOR2 Scale, D3DXVECTOR2 Translate, float Angle,
-	D3DXVECTOR2 RotationCenter, D3DXCOLOR Transcolor)
+void Sprite::drawSprite(D3DXVECTOR3 Position, RECT SourceRect, D3DXVECTOR2 Scale, D3DXVECTOR2 Translate,
+	float Angle, D3DXVECTOR2 RotationCenter, D3DXCOLOR transColor)
 {
-	auto inPosition = m_Position;
-	auto inSourceRect = m_SourceRect;
-	float inRotation = m_Rotation;
-	auto inScale = m_Scale;
-	auto inTranslation = m_Translation;
-	auto inRotationCenter = m_RotationCenter;
+	auto inPosition = position;
+	auto inSourceRect = sourceRect;
+	auto inRotation = rotation;
+	auto inScale = scale;
+	auto inTranslation = translation;
+	auto inRotationCenter = rotationCenter;
 	auto scalingCenter = D3DXVECTOR2(inPosition.x, inPosition.y);
 	inRotation = Angle * (3.14159265358979323846 / 180);
 
@@ -109,10 +109,10 @@ void Sprite::Draw(D3DXVECTOR3 Position, RECT SourceRect, D3DXVECTOR2 Scale, D3DX
 	if (RotationCenter != D3DXVECTOR2())
 		inRotationCenter = RotationCenter;
 	else
-		m_RotationCenter = D3DXVECTOR2(inPosition.x, inPosition.y);
+		rotationCenter = D3DXVECTOR2(inPosition.x, inPosition.y);
 
 	D3DXMatrixTransformation2D(
-		&m_Matrix,
+		&matrix,
 		&scalingCenter,
 		0,
 		&inScale,
@@ -122,34 +122,34 @@ void Sprite::Draw(D3DXVECTOR3 Position, RECT SourceRect, D3DXVECTOR2 Scale, D3DX
 	);
 
 	D3DXMATRIX oldMatrix;
-	m_SpriteHandler->GetTransform(&oldMatrix);
-	m_SpriteHandler->SetTransform(&m_Matrix);
+	spriteHandler->GetTransform(&oldMatrix);
+	spriteHandler->SetTransform(&matrix);
 
-	D3DXVECTOR3 center((float)m_Width / 2, (float)m_Height / 2, 0);
+	D3DXVECTOR3 center(float(width) / 2, float(height) / 2, 0);
 
-	m_SpriteHandler->Draw(
-		m_Texture,
+	spriteHandler->Draw(
+		texture,
 		&inSourceRect,
 		&center,
 		&inPosition,
 		D3DCOLOR_ARGB(255, 255, 255, 255)
 	);
-	m_SpriteHandler->SetTransform(&oldMatrix);
+	spriteHandler->SetTransform(&oldMatrix);
 }
 
 void Sprite::setSourceRect(RECT rect)
 {
-	m_SourceRect = rect;
+	sourceRect = rect;
 }
 
 LPDIRECT3DTEXTURE9 Sprite::getTexture() const
 {
-	return m_Texture;
+	return texture;
 }
 
 D3DXVECTOR3 Sprite::getPosition() const
 {
-	return m_Position;
+	return position;
 }
 
 void Sprite::setPosition(float x, float y)
@@ -164,79 +164,79 @@ void Sprite::setPosition(D3DXVECTOR2 pos)
 
 void Sprite::setPosition(D3DXVECTOR3 pos)
 {
-	m_Position = pos;
+	position = pos;
 }
 
 D3DXVECTOR2 Sprite::getScale() const
 {
-	return m_Scale;
+	return scale;
 }
 
 void Sprite::setScale(D3DXVECTOR2 scale)
 {
-	m_Scale = scale;
+	this->scale = scale;
 }
 
 D3DXVECTOR2 Sprite::getTranslation() const
 {
-	return m_Translation;
+	return translation;
 }
 
 void Sprite::setTranslation(D3DXVECTOR2 translation)
 {
-	m_Translation = translation;
+	this->translation = translation;
 }
 
 D3DXVECTOR2 Sprite::getRotationCenter() const
 {
-	return m_RotationCenter;
+	return rotationCenter;
 }
 
 void Sprite::setRotationCenter(D3DXVECTOR2 rotationCenter)
 {
-	m_RotationCenter = rotationCenter;
+	this->rotationCenter = rotationCenter;
 }
 
 float Sprite::getRotation() const
 {
-	return m_Rotation;
+	return rotation;
 }
 
 void Sprite::setRotation(float rotation)
 {
-	m_Rotation = rotation;
+	this->rotation = rotation;
 }
 
 D3DXIMAGE_INFO Sprite::getImageInfo() const
 {
-	return m_ImageInfo;
+	return imageInfo;
 }
 
 void Sprite::setFlip(bool flag)
 {
-	if (m_FlipX != flag)
+	if (isFlipX != flag)
 	{
-		m_FlipX = flag;
-		m_Scale = D3DXVECTOR2(-m_Scale.x, m_Scale.y);
+		isFlipX = flag;
+		scale = D3DXVECTOR2(-scale.x, scale.y);
 	}
 }
 
 int Sprite::getWidth() const
 {
-	return m_Width;
+	return width;
 }
 
 void Sprite::setWidth(int width)
 {
-	m_Width = width;
+	this->width = width;
 }
 
 int Sprite::getHeight() const
 {
-	return m_Height;
+	return height;
 }
 
 void Sprite::setHeight(int height)
 {
-	m_Height = height;
+	this->height = height;
 }

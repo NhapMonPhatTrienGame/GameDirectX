@@ -1,12 +1,13 @@
 #include "EnemiesJumpState.h"
 #include "Enemies.h"
 #include "EnemiesStandState.h"
+#include "EnemiesFallState.h"
 
 EnemiesJumpState::EnemiesJumpState(Enemies* e) :EnemiesState(e)
 {
 	e->setVy(Define::ENEMY_MIN_JUMP_VELOCITY);
-	m_TranslateY = 15.0f;
-	m_TimeJump = 0;
+	translateY = 15.0f;
+	timeJump = 0.0f;
 }
 
 EnemyState::EnemyStateName EnemiesJumpState::getState()
@@ -14,18 +15,12 @@ EnemyState::EnemyStateName EnemiesJumpState::getState()
 	return EnemyState::Jump;
 }
 
-void EnemiesJumpState::OnCollision(Entity::SideCollisions t_Side)
+void EnemiesJumpState::onCollision(Entity::SideCollisions side)
 {
-	switch (t_Side)
+	switch (side)
 	{
-	case Entity::Left:
-		e->setState(new EnemiesStandState(e));
-		break;
-	case Entity::Right:
-		e->setState(new EnemiesStandState(e));
-		break;
-	case Entity::Top:
-		e->addVy(m_TranslateY);
+	case Entity::Left:case Entity::Right:case Entity::Top:
+		e->setState(new EnemiesFallState(e));
 		break;
 	case Entity::Bottom:
 		e->setState(new EnemiesStandState(e));
@@ -34,19 +29,17 @@ void EnemiesJumpState::OnCollision(Entity::SideCollisions t_Side)
 	}
 }
 
-void EnemiesJumpState::Update(float t_GameTime)
+void EnemiesJumpState::update(float dt)
 {
-	m_TimeJump += t_GameTime;
-	if (m_TimeJump > 0.3f)
+	timeJump += dt;
+	if (timeJump > 0.3f)
 	{
 		if (!e->getFlip())
 			e->setVx(300.0f);
 		else
 			e->setVx(-300.0f);
 	}
-
+	e->addVy(translateY);
 	if (e->getVy() > 0)
-		e->addVy(m_TranslateY);
-	else if (e->getVy() > Define::ENEMY_MAX_JUMP_VELOCITY)
-		e->setVy(Define::ENEMY_MAX_JUMP_VELOCITY);
+		e->setState(new EnemiesFallState(e));
 }

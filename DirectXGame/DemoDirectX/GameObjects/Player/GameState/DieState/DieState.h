@@ -9,7 +9,7 @@ public:
 	explicit DieState(GamePlayer* gp) :GameState(gp) {}
 	~DieState() = default;
 
-	void Update(float dt) override;
+	void update(float dt) override;
 	MegaManState::StateName getState() override;
 };
 

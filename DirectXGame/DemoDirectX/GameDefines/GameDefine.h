@@ -24,6 +24,10 @@ void SafeRelease(T& pValue)
 #define SAFE_DELETE(p) SafeDelete(p)
 #define SAFE_RELEASE(p) SafeRelease(p)
 
+#define VECTOR2 D3DXVECTOR2
+#define VECTOR3 D3DXVECTOR3
+#define DX_COLOR D3DXCOLOR
+
 constexpr auto VK_A = 0x41;
 constexpr auto VK_B = 0x42;
 constexpr auto VK_C = 0x43;
@@ -60,6 +64,7 @@ namespace EnemyState
 	{
 		Stand,
 		Jump,
+		Fall,
 		Attack,
 		Die
 	};
@@ -76,8 +81,8 @@ namespace MegaManState
 		Jumping,
 		Cling,
 		Climb,
-		SlideVertical,
-		SlideHorizontal,
+		SlipDown,
+		Dash,
 		Bleed,
 		Win,
 		Die
@@ -98,7 +103,7 @@ namespace Define
 	const float PLAYER_MAX_JUMP_VELOCITY = 300.0f; //Max jump velocity
 	const float PLAYER_MIN_JUMP_VELOCITY = -300.0f; //Min jump velocity
 	const float PLAYER_MAX_RUNNING_SPEED = 150.0f; //Max speed of layer
-	const float PLAYER_MAX_CLIING_SPEED = 50.0f; //Max speed of layer
+	const float PLAYER_MAX_CLING_SPEED = 50.0f; //Max speed of layer
 	const float PLAYER_MAX_SLIDE_SPEED = 300.0f;
 
 	const float ENEMY_MAX_JUMP_VELOCITY = 250.0f;

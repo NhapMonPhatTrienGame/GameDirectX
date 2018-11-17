@@ -24,26 +24,33 @@ class GameMap
 
 public:
 	explicit GameMap(const char* filePath);
-	void SetCamera(Camera* camera);
-	void Update(float dt);
-	void Draw();
-	Tmx::Map* GetMap() const;
-	RECT GetWorldMapBound() const;
-	int GetWidth() const;
-	int GetHeight() const;
-	int GetTileWidth() const;
-	int GetTileHeight() const;
+
+	void setCamera(Camera* camera);
+
+	void update(float dt);
+	void draw();
+
+	Tmx::Map* getMap() const;
+	RECT getWorldMapBound() const;
+
+	int getWidth() const;
+	int getHeight() const;
+
+	int getTileWidth() const;
+	int getTileHeight() const;
+
 	std::map<int, Sprite*> getListTileSet() const;
 
 	bool IsBoundLeft() const; //Check this camera on the left side with the world map
 	bool IsBoundRight() const; //Check this camera on the right side with the world map
 	bool IsBoundTop() const; //Check this camera on the Top side with the world map
 	bool IsBoundBottom() const; //Check this camera on the bottom side with the world map
+	
 	~GameMap();
 
-	std::vector<Brick*> GetListBrick() const;
+	std::vector<Brick*> getListBrick() const;
 
-	QuadTree* GetQuadTree() const;
+	QuadTree* getQuadTree() const;
 };
 
 #endif

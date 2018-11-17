@@ -3,20 +3,17 @@
 Scene::Scene()
 {
 	mBackColor = 0x4866ff;
-	Scene::LoadContent();
 }
 
-void Scene::Update(float dt) {}
+void Scene::update(float dt) {}
 
-void Scene::LoadContent() {}
+void Scene::draw() {}
 
-void Scene::Draw() {}
+void Scene::onKeyDown(int keyCode) {}
 
-void Scene::OnKeyDown(int keyCode) {}
+void Scene::onKeyUp(int keyCode) {}
 
-void Scene::OnKeyUp(int keyCode) {}
-
-void Scene::OnMouseDown(float x, float y) {}
+void Scene::onMouseDown(float x, float y) {}
 
 D3DCOLOR Scene::getBackColor() const
 {

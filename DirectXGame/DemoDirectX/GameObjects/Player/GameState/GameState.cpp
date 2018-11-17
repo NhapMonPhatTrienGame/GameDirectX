@@ -2,8 +2,8 @@
 
 GameState::GameState(GamePlayer* gp) : gp(gp) { }
 
-void GameState::Update(float dt) { }
+void GameState::update(float dt) { }
 
-void GameState::HandleKeyboard(std::map<int, bool> keys, float dt) { }
+void GameState::handlerKeyBoard(std::map<int, bool> keys, float dt) { }
 
-void GameState::OnCollision(Entity::SideCollisions side) { }
+void GameState::onCollision(Entity::SideCollisions side) { }

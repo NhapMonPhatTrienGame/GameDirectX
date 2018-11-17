@@ -5,11 +5,11 @@
 class EnemiesStandState :
 	public EnemiesState
 {
-	float m_TimeJump;
+	float timeJump;
 public:
 	explicit EnemiesStandState(Enemies *e);
 	~EnemiesStandState() = default;
 
 	EnemyState::EnemyStateName getState() override;
-	void Update(float t_GameTime) override;
+	void update(float dt) override;
 };

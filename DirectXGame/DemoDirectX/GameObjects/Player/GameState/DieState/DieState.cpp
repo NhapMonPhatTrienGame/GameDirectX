@@ -2,7 +2,7 @@
 #include "../../GamePlayer.h"
 
 
-void DieState::Update(float dt)
+void DieState::update(float dt)
 {
 	gp->getAnimation()->setAnimation(20, 3, 0.15, false);
 }

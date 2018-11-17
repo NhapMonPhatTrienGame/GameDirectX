@@ -7,7 +7,7 @@ AppearState::AppearState(GamePlayer* gp) : GameState(gp)
 	translateY = 25.0f;
 }
 
-void AppearState::Update(float dt)
+void AppearState::update(float dt)
 {
 	if (gp->getAnimation()->getCurrentColumn() == 0)
 		gp->getAnimation()->setPause(true);
@@ -16,7 +16,7 @@ void AppearState::Update(float dt)
 		gp->setState(new StandState(gp));
 }
 
-void AppearState::HandleKeyboard(std::map<int, bool> keys, float dt)
+void AppearState::handlerKeyBoard(std::map<int, bool> keys, float dt)
 {
 	gp->addVy(translateY);
 
@@ -24,7 +24,7 @@ void AppearState::HandleKeyboard(std::map<int, bool> keys, float dt)
 		gp->setVy(Define::PLAYER_MAX_JUMP_VELOCITY);
 }
 
-void AppearState::OnCollision(Entity::SideCollisions side)
+void AppearState::onCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{

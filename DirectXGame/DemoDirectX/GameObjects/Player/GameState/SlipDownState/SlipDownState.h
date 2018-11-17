@@ -1,14 +1,15 @@
-#ifndef __APPEAR_STATE_H__
-#define __APPEAR_STATE_H__
+﻿#ifndef __SLIDE_VERTICAL_STATE_H__
+#define __SLIDE_VERTICAL_STATE_H__
+
 #include "../GameState.h"
 
-class AppearState : public GameState
+class SlipDownState : public GameState
 {
 protected:
-	float translateY;
+	bool isSlide;
 public:
-	explicit AppearState(GamePlayer* gp);
-	~AppearState() = default;
+	explicit SlipDownState(GamePlayer* gp);
+	~SlipDownState() = default;
 
 	void update(float dt) override;
 
@@ -18,5 +19,4 @@ public:
 
 	MegaManState::StateName getState() override;
 };
-
 #endif

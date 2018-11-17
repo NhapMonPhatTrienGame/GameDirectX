@@ -1,15 +1,15 @@
-﻿#include "SlideHorizontalState.h"
-#include "../../../GamePlayer.h"
-#include "../../StandState/StandState.h"
+﻿#include "DashState.h"
+#include "../../GamePlayer.h"
 #include <iostream>
+#include "../StandState/StandState.h"
 
-SlideHorizontalState::SlideHorizontalState(GamePlayer* gp) : GameState(gp)
+DashState::DashState(GamePlayer* gp) : GameState(gp)
 {
 	translateX = 25.0f;
 	m_TimePress = 0;
 }
 
-void SlideHorizontalState::HandleKeyboard(std::map<int, bool> keys, float dt)
+void DashState::handlerKeyBoard(std::map<int, bool> keys, float dt)
 {
 	gp->setVy(Define::PLAYER_MAX_JUMP_VELOCITY);
 	m_TimePress += dt;
@@ -32,7 +32,7 @@ void SlideHorizontalState::HandleKeyboard(std::map<int, bool> keys, float dt)
 		gp->setState(new StandState(gp));
 }
 
-void SlideHorizontalState::OnCollision(Entity::SideCollisions side)
+void DashState::onCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{
@@ -46,7 +46,7 @@ void SlideHorizontalState::OnCollision(Entity::SideCollisions side)
 	}
 }
 
-StateName SlideHorizontalState::getState()
+StateName DashState::getState()
 {
-	return SlideHorizontal;
+	return Dash;
 }

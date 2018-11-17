@@ -1,8 +1,8 @@
 ﻿#include "JumpState.h"
 #include "../FallState/FallState.h"
 #include "../StandState/StandState.h"
-#include "../SlideState/SlideVerticalState/SlideVerticalState.h"
 #include "../../GamePlayer.h"
+#include "../SlipDownState/SlipDownState.h"
 
 JumpState::JumpState(GamePlayer* gp) : GameState(gp)
 {
@@ -10,17 +10,17 @@ JumpState::JumpState(GamePlayer* gp) : GameState(gp)
 	translateY = 15.0f;
 	countPress = 0;
 	Pressed = false;
-	if (gp->getState() == SlideHorizontal)
+	if (gp->getState() == Dash)
 		Pressed = true;
 }
 
-void JumpState::Update(float dt)
+void JumpState::update(float dt)
 {
 	if (gp->getVy() > 0)
 		gp->setState(new FallState(gp, Pressed));
 }
 
-void JumpState::HandleKeyboard(std::map<int, bool> keys, float dt)
+void JumpState::handlerKeyBoard(std::map<int, bool> keys, float dt)
 {
 	countPress += dt; //tranhs loi va cham
 	float speed = 0.0f;
@@ -46,7 +46,7 @@ void JumpState::HandleKeyboard(std::map<int, bool> keys, float dt)
 	gp->addVy(translateY);
 }
 
-void JumpState::OnCollision(Entity::SideCollisions side)
+void JumpState::onCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{
@@ -55,7 +55,7 @@ void JumpState::OnCollision(Entity::SideCollisions side)
 	{
 		if (countPress < 0.3f)
 			break;
-		gp->setState(new SlideVerticalState(gp));
+		gp->setState(new SlipDownState(gp));
 		break;
 	}
 	case Entity::Top:

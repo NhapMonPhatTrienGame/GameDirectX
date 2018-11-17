@@ -46,9 +46,6 @@
     <Filter Include="FrameWork\GameObjects\Player\GameState\StandState">
       <UniqueIdentifier>{1884cefc-c4f8-4c36-9a05-7e33a21bce2a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FrameWork\GameObjects\Player\GameState\SlideState">
-      <UniqueIdentifier>{d471a86d-2d88-463c-b3a6-69bfa402a134}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FrameWork\GameObjects\Player\GameState\AppearState">
       <UniqueIdentifier>{49eb3af4-f4e5-4cdd-b64d-fc38522ee3a7}</UniqueIdentifier>
     </Filter>
@@ -72,6 +69,27 @@
     </Filter>
     <Filter Include="FrameWork\GameObjects\BlastHornet Boss">
       <UniqueIdentifier>{b59be9fc-6109-4f28-ad5f-73bec3580463}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Player\GameState\DashState">
+      <UniqueIdentifier>{26ab4d0d-6e01-4b0a-b4b6-d5c5b28d40cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Player\GameState\SlipDownState">
+      <UniqueIdentifier>{27d577f2-73cf-4355-8b00-07943d286a5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Enemies\EnemiesState">
+      <UniqueIdentifier>{af754cee-7f30-4081-addd-dc90b4f74f6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Enemies\EnemiesState\StandState">
+      <UniqueIdentifier>{d42571e4-c98e-4354-bc97-9244477db11c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Enemies\EnemiesState\AttackState">
+      <UniqueIdentifier>{fc1993df-13ca-49a5-b7bc-ab9fa9671869}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Enemies\EnemiesState\FallState">
+      <UniqueIdentifier>{34a89de9-c331-4024-954e-98f21a998467}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Enemies\EnemiesState\JumpState">
+      <UniqueIdentifier>{2bc9eac7-0c25-4c08-ae36-6103e0139bb1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -213,15 +231,9 @@
     <ClCompile Include="GameComponents\Animation.cpp">
       <Filter>FrameWork\GameComponents</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideHorizontalState.cpp">
-      <Filter>FrameWork\GameObjects\Player\GameState\SlideState</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\AppearState\AppearState.cpp">
       <Filter>FrameWork\GameObjects\Player\GameState\AppearState</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObjects\Player\GameState\SlideState\SlideVerticalState\SlideVerticalState.cpp">
-      <Filter>FrameWork\GameObjects\Player\GameState\SlideState</Filter>
     </ClCompile>
     <ClCompile Include="GameObjects\Player\GameState\JumpState\ClingState.cpp">
       <Filter>FrameWork\GameObjects\Player\GameState\JumpState</Filter>
@@ -247,17 +259,29 @@
     <ClCompile Include="GameComponents\Sound.cpp">
       <Filter>FrameWork\GameComponents</Filter>
     </ClCompile>
-    <ClCompile Include="EnemiesState.cpp">
-      <Filter>FrameWork\GameObjects\Enemies</Filter>
+    <ClCompile Include="GameObjects\Player\GameState\DashState\DashState.cpp">
+      <Filter>FrameWork\GameObjects\Player\GameState\DashState</Filter>
     </ClCompile>
-    <ClCompile Include="EnemiesStandState.cpp">
-      <Filter>FrameWork\GameObjects\Enemies</Filter>
+    <ClCompile Include="GameObjects\Player\GameState\SlipDownState\SlipDownState.cpp">
+      <Filter>FrameWork\GameObjects\Player\GameState\SlipDownState</Filter>
     </ClCompile>
     <ClCompile Include="EnemiesAttackState.cpp">
-      <Filter>FrameWork\GameObjects\Enemies</Filter>
+      <Filter>FrameWork\GameObjects\Enemies\EnemiesState\AttackState</Filter>
     </ClCompile>
     <ClCompile Include="EnemiesJumpState.cpp">
-      <Filter>FrameWork\GameObjects\Enemies</Filter>
+      <Filter>FrameWork\GameObjects\Enemies\EnemiesState\JumpState</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemiesStandState.cpp">
+      <Filter>FrameWork\GameObjects\Enemies\EnemiesState\StandState</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemiesState.cpp">
+      <Filter>FrameWork\GameObjects\Enemies\EnemiesState</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemiesFallState.cpp">
+      <Filter>FrameWork\GameObjects\Enemies\EnemiesState\FallState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\MapObjects\Stairs.cpp">
+      <Filter>FrameWork\GameObjects\MapObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -405,14 +429,8 @@
     <ClInclude Include="GameComponents\Animation.h">
       <Filter>FrameWork\GameComponents</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideHorizontalState.h">
-      <Filter>FrameWork\GameObjects\Player\GameState\SlideState</Filter>
-    </ClInclude>
     <ClInclude Include="GameObjects\Player\GameState\AppearState\AppearState.h">
       <Filter>FrameWork\GameObjects\Player\GameState\AppearState</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObjects\Player\GameState\SlideState\SlideVerticalState\SlideVerticalState.h">
-      <Filter>FrameWork\GameObjects\Player\GameState\SlideState</Filter>
     </ClInclude>
     <ClInclude Include="GameObjects\Player\GameState\JumpState\ClingState.h">
       <Filter>FrameWork\GameObjects\Player\GameState\JumpState</Filter>
@@ -438,17 +456,29 @@
     <ClInclude Include="GameComponents\Sound.h">
       <Filter>FrameWork\GameComponents</Filter>
     </ClInclude>
-    <ClInclude Include="EnemiesState.h">
-      <Filter>FrameWork\GameObjects\Enemies</Filter>
+    <ClInclude Include="GameObjects\Player\GameState\DashState\DashState.h">
+      <Filter>FrameWork\GameObjects\Player\GameState\DashState</Filter>
     </ClInclude>
-    <ClInclude Include="EnemiesStandState.h">
-      <Filter>FrameWork\GameObjects\Enemies</Filter>
+    <ClInclude Include="GameObjects\Player\GameState\SlipDownState\SlipDownState.h">
+      <Filter>FrameWork\GameObjects\Player\GameState\SlipDownState</Filter>
     </ClInclude>
     <ClInclude Include="EnemiesAttackState.h">
-      <Filter>FrameWork\GameObjects\Enemies</Filter>
+      <Filter>FrameWork\GameObjects\Enemies\EnemiesState\AttackState</Filter>
     </ClInclude>
     <ClInclude Include="EnemiesJumpState.h">
-      <Filter>FrameWork\GameObjects\Enemies</Filter>
+      <Filter>FrameWork\GameObjects\Enemies\EnemiesState\JumpState</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemiesStandState.h">
+      <Filter>FrameWork\GameObjects\Enemies\EnemiesState\StandState</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemiesState.h">
+      <Filter>FrameWork\GameObjects\Enemies\EnemiesState</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemiesFallState.h">
+      <Filter>FrameWork\GameObjects\Enemies\EnemiesState\FallState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\MapObjects\Stairs.h">
+      <Filter>FrameWork\GameObjects\MapObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

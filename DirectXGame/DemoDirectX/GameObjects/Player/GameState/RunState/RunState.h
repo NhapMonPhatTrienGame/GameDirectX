@@ -11,10 +11,10 @@ public:
 	explicit RunState(GamePlayer* gp) :GameState(gp) {}
 	~RunState() = default;
 
-	void HandleKeyboard(std::map<int, bool> keys, float dt) override;
+	void handlerKeyBoard(std::map<int, bool> keys, float dt) override;
 
 	MegaManState::StateName getState() override;
 
-	void OnCollision(Entity::SideCollisions side) override;
+	void onCollision(Entity::SideCollisions side) override;
 
 };

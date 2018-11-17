@@ -12,7 +12,7 @@ public:
 	virtual ~EnemiesState() = default;
 
 	virtual EnemyState::EnemyStateName getState() = 0;
-	virtual void OnCollision(Entity::SideCollisions t_Side);
-	virtual void Update(float t_GameTime);
+	virtual void onCollision(Entity::SideCollisions side);
+	virtual void update(float dt);
 };
 

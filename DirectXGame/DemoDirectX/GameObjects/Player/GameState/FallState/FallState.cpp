@@ -2,7 +2,7 @@
 #include "../../GamePlayer.h"
 #include "../RunState/RunState.h"
 #include "../StandState/StandState.h"
-#include "../SlideState/SlideVerticalState/SlideVerticalState.h"
+#include "../SlipDownState/SlipDownState.h"
 
 FallState::FallState(GamePlayer* gp, bool dash) : GameState(gp)
 {
@@ -11,7 +11,7 @@ FallState::FallState(GamePlayer* gp, bool dash) : GameState(gp)
 	Pressed = dash;
 }
 
-void FallState::HandleKeyboard(std::map<int, bool> keys, float dt)
+void FallState::handlerKeyBoard(std::map<int, bool> keys, float dt)
 {
 	float speed = 0.0f;
 	if (keys[VK_RIGHT])
@@ -39,14 +39,14 @@ void FallState::HandleKeyboard(std::map<int, bool> keys, float dt)
 		gp->setVy(Define::PLAYER_MAX_JUMP_VELOCITY);
 }
 
-void FallState::OnCollision(Entity::SideCollisions side)
+void FallState::onCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{
 	case Entity::Left:
 	case Entity::Right:
 	{
-		gp->setState(new SlideVerticalState(gp));
+		gp->setState(new SlipDownState(gp));
 		break;
 	}
 	case Entity::Bottom:

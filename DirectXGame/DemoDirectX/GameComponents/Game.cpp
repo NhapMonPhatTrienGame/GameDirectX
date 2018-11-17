@@ -14,7 +14,7 @@ Game::Game(int fps)
 
 void Game::Update(float dt)
 {
-	SceneManager::getInstance()->getCurrentScene()->Update(dt);
+	SceneManager::getInstance()->getCurrentScene()->update(dt);
 	Render();
 }
 
@@ -31,7 +31,7 @@ void Game::Render()
 		GameGlobal::GetCurrentSpriteHandler()->Begin(D3DXSPRITE_ALPHABLEND);
 
 		//draw here
-		scene->Draw();
+		scene->draw();
 
 		//Ending draw
 		GameGlobal::GetCurrentSpriteHandler()->End();

@@ -7,6 +7,7 @@ EnemiesStandState::EnemiesStandState(Enemies* e) : EnemiesState(e)
 {
 	e->setVx(0);
 	e->setVy(0);
+	timeJump = 0.0f;
 }
 
 EnemyState::EnemyStateName EnemiesStandState::getState()
@@ -14,12 +15,10 @@ EnemyState::EnemyStateName EnemiesStandState::getState()
 	return EnemyState::Stand;
 }
 
-void EnemiesStandState::Update(float t_GameTime)
+void EnemiesStandState::update(float dt)
 {
-	m_TimeJump += t_GameTime;
-
+	timeJump += dt;
 	e->setState(new EnemiesAttackState(e));
-
-	if (m_TimeJump > 0.3f)
+	if (timeJump > 0.3f)
 		e->setState(new EnemiesJumpState(e));
 }

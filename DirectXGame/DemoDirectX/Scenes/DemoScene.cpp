@@ -6,96 +6,90 @@
 
 DemoScene::DemoScene()
 {
-	DemoScene::LoadContent();
-}
-
-
-void DemoScene::LoadContent()
-{
 	//Set color for scene. Here is blue scene color 
 	mBackColor = 0x54acd2;
 
 	pMap = new GameMap(Define::WORLD_MAP);
 
 	pCamera = new Camera(GameGlobal::GetWidth(), GameGlobal::GetHeight());
-	pCamera->SetPosition(GameGlobal::GetWidth() / 2.0f, pMap->GetHeight() - pCamera->GetHeight());
+	pCamera->setPosition(GameGlobal::GetWidth() * 0.5f, pMap->getHeight() - pCamera->getHeight());
 
-	pMap->SetCamera(pCamera);
+	pMap->setCamera(pCamera);
 
 	gp = new GamePlayer();
 
-	gp->setPosition(GameGlobal::GetWidth() / 2.0f, 0);
+	gp->setPosition(GameGlobal::GetWidth() * 0.5f, 0);
 	gp->setCamera(pCamera);
 
 	pEnemies = new Enemies();
-	pEnemies->setPosition(300, 525);
+	pEnemies->setPosition(GameGlobal::GetWidth() * 0.6, 500);
 }
 
-void DemoScene::Update(float dt)
+void DemoScene::update(float dt)
 {
-	gp->HandleKeyboard(keys, dt);
+	gp->handlerKeyBoard(keys, dt);
 	CheckCollision(dt);
-	pMap->Update(dt);
-	gp->Update(dt);
-	pEnemies->Update(dt);
+	pMap->update(dt);
+	gp->update(dt);
+	pEnemies->update(dt);
 	CheckCameraAndWorldMap();
 }
 
-void DemoScene::Draw()
+void DemoScene::draw()
 {
-	pMap->Draw();
-	gp->Draw();
-	pEnemies->Draw();
+	pMap->draw();
+	gp->drawSprite();
+	pEnemies->drawSprite();
 }
 
-void DemoScene::OnKeyDown(int keyCode)
+void DemoScene::onKeyDown(int keyCode)
 {
 	keys[keyCode] = true;
-	gp->OnKeyDown(keys, keyCode);
+	gp->onKeyDown(keys, keyCode);
 }
 
-void DemoScene::OnKeyUp(int keyCode)
+void DemoScene::onKeyUp(int keyCode)
 {
 	keys[keyCode] = false;
-	gp->OnKeyUp(keyCode);
+	gp->onKeyUp(keyCode);
 }
 
-void DemoScene::OnMouseDown(float x, float y) {}
+void DemoScene::onMouseDown(float x, float y) {}
 
 void DemoScene::CheckCameraAndWorldMap() const
 {
-	pCamera->SetPosition(gp->getPosition());
+	pCamera->setPosition(gp->getPosition());
 
-	if (pCamera->GetBound().left < 0)
+	if (pCamera->getBound().left < 0)
 	{
 		//The position of camera is now in the center
 		//The position of camera hits the left of the real world
-		pCamera->SetPosition(pCamera->GetWidth() / 2.0f, pCamera->GetPosition().y);
+		pCamera->setPosition(pCamera->getWidth() / 2.0f, pCamera->getPosition().y);
 		if (gp->getBound().left < 0)
 			gp->setPosition(gp->getWidth() / 4.0f, gp->getPosition().y);
 	}
 
-	if (pCamera->GetBound().right > pMap->GetWidth())
+	if (pCamera->getBound().right > pMap->getWidth())
 	{
 		//The position of camera hits the right side of the real world
-		pCamera->SetPosition(pMap->GetWidth() - pCamera->GetWidth() / 2.0f, pCamera->GetPosition().y);
-		if (gp->getBound().right > pMap->GetWidth())
-			gp->setPosition(pMap->GetWidth() - gp->getWidth() / 4.0f, gp->getPosition().y);
+		pCamera->setPosition(pMap->getWidth() - pCamera->getWidth() / 2.0f, pCamera->getPosition().y);
+		if (gp->getBound().right > pMap->getWidth())
+			gp->setPosition(pMap->getWidth() - gp->getWidth() / 4.0f, gp->getPosition().y);
 	}
 
-	if (pCamera->GetBound().top < 0)
+	if (pCamera->getBound().top < 0)
 	{
 		//Now. The position of camera hits the top of the real world
-		pCamera->SetPosition(pCamera->GetPosition().x, pCamera->GetHeight() / 2.0f);
+		pCamera->setPosition(pCamera->getPosition().x, pCamera->getHeight() / 2.0f);
 		if (gp->getBound().top < 0)
 			gp->setPosition(gp->getPosition().x, gp->getHeight() / 4.0f);
 	}
 
-	if (pCamera->GetBound().bottom > pMap->GetHeight())
+	if (pCamera->getBound().bottom > pMap->getHeight())
 	{
 		//Now. the position of camera hits the bottom of the real world
-		pCamera->SetPosition(pCamera->GetPosition().x, pMap->GetHeight() - pCamera->GetHeight() / 2.0f);
-		if (gp->getBound().bottom > pMap->GetHeight())
+		pCamera->setPosition(pCamera->getPosition().x, pMap->getHeight() - pCamera->getHeight() / 2.0f);
+		if (gp->getBound().bottom > pMap->getHeight())
 		{
 			//Layer has a die state
 			gp->setState(new DieState(gp));
@@ -118,22 +112,22 @@ void DemoScene::CheckCollision(float dt) const
 
 	std::vector<Entity*> listEntitiesCollision;
 
-	pMap->GetQuadTree()->getEntitiesCollideAble(listEntitiesCollision, gp);
+	pMap->getQuadTree()->getEntitiesCollideAble(listEntitiesCollision, gp);
 
 	for (auto& i : listEntitiesCollision)
 	{
-		D3DXVECTOR2 distance = GameCollision::Distance(gp, i, dt);
-		RECT broad = GameCollision::GetBoard(gp->getBound(), distance);
+		const auto distance = GameCollision::Distance(gp, i, dt);
+		const auto broad = GameCollision::GetBoard(gp->getBound(), distance);
 
 		if (GameCollision::isCollide(broad, i->getBound()))
 		{
 			Entity::SideCollisions entityWithPlayer;
-			float collisionTime = GameCollision::SweptAABB(gp->getBound(), i->getBound(), distance, entityWithPlayer);
+			const auto collisionTime = GameCollision::SweptAABB(gp->getBound(), i->getBound(), distance, entityWithPlayer);
 
 			if (collisionTime < 1.0f)
 			{
-				gp->UpdateColision(collisionTime, entityWithPlayer, dt);
-				gp->OnCollision(entityWithPlayer);
+				gp->updateCollision(collisionTime, entityWithPlayer, dt);
+				gp->onCollision(entityWithPlayer);
 				if (entityWithPlayer == Entity::Bottom)
 					isBottom = true;
 			}
@@ -141,5 +135,35 @@ void DemoScene::CheckCollision(float dt) const
 	}
 
 	if (!isBottom)
-		gp->OnNoCollisionWithBottom();
+		gp->onNoCollisionWithBottom();
+
+
+#pragma region Enemies
+	bool isEnemiesBottom = false;
+	std::vector<Entity *> listEntityCollide;
+	pMap->getQuadTree()->getEntitiesCollideAble(listEntityCollide, pEnemies);
+
+	for (auto& i : listEntityCollide)
+	{
+		const auto distance = GameCollision::Distance(pEnemies, i, dt);
+		const auto broad = GameCollision::GetBoard(pEnemies->getBound(), distance);
+
+		if (GameCollision::isCollide(broad, i->getBound()))
+		{
+			Entity::SideCollisions entitiesWithEnemies;
+			const auto collisionTime = GameCollision::SweptAABB(pEnemies->getBound(), i->getBound(), distance, entitiesWithEnemies);
+
+			if (collisionTime < 1.0f)
+			{
+				pEnemies->updateCollision(collisionTime, entitiesWithEnemies, dt);
+				pEnemies->onCollision(entitiesWithEnemies);
+				if (entitiesWithEnemies == Entity::Bottom)
+					isEnemiesBottom = true;
+			}
+		}
+	}
+
+	if (!isEnemiesBottom)
+		pEnemies->onCollisionBottom();
+#pragma endregion 
 }

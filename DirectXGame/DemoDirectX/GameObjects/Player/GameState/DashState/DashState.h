@@ -1,20 +1,15 @@
 ﻿#pragma once
 #include "../GameState.h"
 
-class FallState : public GameState
+class DashState : public GameState
 {
 protected:
-
-	float translateY;
 	float translateX;
-	bool Pressed;
-	//First Velocity equal zero in case speed won't decrease 
-	bool allowMoveX;
+	float m_TimePress;
 
-	bool isLeftOrRightKeyPressed;
 public:
-	explicit FallState(GamePlayer* gp, bool dash = false);
-	~FallState() = default;
+	explicit DashState(GamePlayer* gp);
+	~DashState() = default;
 
 	void handlerKeyBoard(std::map<int, bool> keys, float dt) override;
 

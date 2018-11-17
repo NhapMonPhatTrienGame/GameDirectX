@@ -25,12 +25,11 @@ public:
 	DemoScene();
 	~DemoScene();
 
-	void Update(float dt) override;
-	void LoadContent() override;
-	void Draw() override;
+	void update(float dt) override;
+	void draw() override;
 
-	void OnKeyDown(int keyCode) override;
-	void OnKeyUp(int keyCode) override;
-	void OnMouseDown(float x, float y) override;	
+	void onKeyDown(int keyCode) override;
+	void onKeyUp(int keyCode) override;
+	void onMouseDown(float x, float y) override;	
 };
 #endif

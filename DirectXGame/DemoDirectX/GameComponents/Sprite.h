@@ -7,36 +7,37 @@ class Sprite
 {
 protected:
 
-	D3DXVECTOR3						m_Position; //Position of the sprite is located in the middle of texture image
-	LPDIRECT3DTEXTURE9				m_Texture; //Image will be saved here
-	LPD3DXSPRITE					m_SpriteHandler; //SpriteHandler: Image drawing support
-	D3DXIMAGE_INFO					m_ImageInfo; //The actual information of the image is taken
-	RECT							m_SourceRect; //Rectangle is cut from the texture image
+	D3DXVECTOR3						position; //Position of the sprite is located in the middle of texture image
+	LPDIRECT3DTEXTURE9				texture; //Image will be saved here
+	LPD3DXSPRITE					spriteHandler; //SpriteHandler: Image drawing support
+	D3DXIMAGE_INFO					imageInfo; //The actual information of the image is taken
+	RECT							sourceRect; //Rectangle is cut from the texture image
 
-	int								m_Width, 
-									m_Height; //Size of texture image
+	int								width, 
+									height; //Size of texture image
 
-	float							m_Rotation; //The spin angle of the sprite is calculated in radians
+	float							rotation; //The spin angle of the sprite is calculated in radians
 
-	D3DXVECTOR2						m_Scale; // Vector custom zoom in or zoom out of texture
-	D3DXVECTOR2						m_Translation; //Image is translated from the sprite + mTranslate
-	D3DXMATRIX						m_Matrix; //Matrix of the sprite support for geometry
-	D3DXVECTOR2						m_RotationCenter; // (origin vector)
+	D3DXVECTOR2						scale; // Vector custom zoom in or zoom out of texture
+	D3DXVECTOR2						translation; //Image is translated from the sprite + mTranslate
+	D3DXMATRIX						matrix; //Matrix of the sprite support for geometry
+	D3DXVECTOR2						rotationCenter; // (origin vector)
 
-	bool							m_FlipX;
+	bool							isFlipX;
 
 	static bool isCheckRect(RECT SourceRect);
-public:
 
+public:
+	Sprite() = default;
 	explicit Sprite(const char* filePath, RECT sourceRect = RECT(), int width = 0, int height = 0,
 		D3DCOLOR colorKey = NULL);
 	virtual ~Sprite();
 
 	LPDIRECT3DTEXTURE9 getTexture() const;
 
-	virtual void Draw(D3DXVECTOR3 Position = D3DXVECTOR3(), RECT SourceRect = RECT(),
+	virtual void drawSprite(D3DXVECTOR3 Position = D3DXVECTOR3(), RECT SourceRect = RECT(),
 		D3DXVECTOR2 Scale = D3DXVECTOR2(), D3DXVECTOR2 Translate = D3DXVECTOR2(), float Angle = 0,
-		D3DXVECTOR2 RotationCenter = D3DXVECTOR2(), D3DXCOLOR Transcolor = D3DCOLOR_XRGB(255, 255, 255));
+		D3DXVECTOR2 RotationCenter = D3DXVECTOR2(), D3DXCOLOR transColor = D3DCOLOR_XRGB(255, 255, 255));
 
 	void setWidth(int width);
 	int getWidth() const;

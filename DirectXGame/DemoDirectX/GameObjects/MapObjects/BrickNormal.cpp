@@ -5,27 +5,27 @@ BrickNormal::BrickNormal(D3DXVECTOR3 position)
 	Init(position);
 }
 
-const char* BrickNormal::FileName()
+const char* BrickNormal::fileName()
 {
 	return "Resources/normalbrick.png";
 }
 
-int BrickNormal::TotalFrame()
+int BrickNormal::totalFrame()
 {
 	return 1;
 }
 
-int BrickNormal::Row()
+int BrickNormal::row()
 {
 	return 1;
 }
 
-int BrickNormal::Column()
+int BrickNormal::column()
 {
 	return 1;
 }
 
-float BrickNormal::TimePerFrame()
+float BrickNormal::timePerFrame()
 {
 	return 1.0f;
 }

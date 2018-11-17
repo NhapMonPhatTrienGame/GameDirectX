@@ -3,38 +3,39 @@
 #include "GameState/JumpState/JumpState.h"
 #include "GameState/JumpState/ClingState.h"
 #include "../../GameComponents/GameGlobal.h"
-#include "GameState/SlideState/SlideHorizontalState/SlideHorizontalState.h"
 #include "GameState/AppearState/AppearState.h"
 #include <iostream>
+#include "GameState/DashState/DashState.h"
 
 
 GamePlayer::GamePlayer()
 {
-	Tag = Rockman;
+	Tag = RockMan;
 	pAnimation = new Animation(Define::ANIMATION_ROCKMAN, 21, 10, 49, 49, 0.15, D3DCOLOR_XRGB(100, 100, 100));
 
-	m_AllowJump = true;
-	m_AllowShoot = true;
-	m_AllowSlide = true;
+	allowJump = true;
+	allowShoot = true;
+	allowDash = true;
 
-	m_Shoot = false;
-	m_TimeShoot = 0.5f;
-	m_TimeCurrentShoot = 0.0f;
+	isShoot = false;
+	timeShoot = 0.5f;
+	timeCurrentShoot = 0.0f;
 
 	vx = 0;
 	vy = 0;
-	m_HP = 20;
-	m_CurrentState = Falling;
+	HP = 20;
+
+	currentState = Falling;
 	setState(new AppearState(this));
 }
 
 GamePlayer::~GamePlayer()
 {
-	SafeDelete(pState);
-	SafeDelete(pAnimation);
+	SAFE_DELETE(pState);
+	SAFE_DELETE(pAnimation);
 }
 
-void GamePlayer::ChangeAnimation(StateName state)
+void GamePlayer::changeAnimation(StateName state)
 {
 	switch (state)
 	{
@@ -56,10 +57,10 @@ void GamePlayer::ChangeAnimation(StateName state)
 	case Cling:
 		pAnimation->setAnimation(9, 3, 0.1, false);
 		break;
-	case SlideVertical:
+	case SlipDown:
 		pAnimation->setAnimation(11, 3, 0.1, false);
 		break;
-	case SlideHorizontal:
+	case Dash:
 		pAnimation->setAnimation(15, 2, 0.1, false);
 		break;
 	case Climb:
@@ -76,12 +77,12 @@ void GamePlayer::ChangeAnimation(StateName state)
 
 void GamePlayer::setState(GameState* newState)
 {
-	if (m_CurrentState == newState->getState())
+	if (currentState == newState->getState())
 		return;
 	SAFE_DELETE(pState);
 	pState = newState;
-	ChangeAnimation(newState->getState());
-	m_CurrentState = newState->getState();
+	changeAnimation(newState->getState());
+	currentState = newState->getState();
 }
 
 GamePlayer::MoveDirection GamePlayer::getMoveDirection() const
@@ -91,25 +92,25 @@ GamePlayer::MoveDirection GamePlayer::getMoveDirection() const
 	return None;
 }
 
-void GamePlayer::HandleKeyboard(const std::map<int, bool>& keys, float dt) const
+void GamePlayer::handlerKeyBoard(const std::map<int, bool>& keys, float dt) const
 {
 	if (pState)
-		pState->HandleKeyboard(keys, dt);
+		pState->handlerKeyBoard(keys, dt);
 }
 
-void GamePlayer::OnKeyDown(std::map<int, bool> keys, int Key)
+void GamePlayer::onKeyDown(std::map<int, bool> keys, int Key)
 {
-	if (Key == VK_JUMP && m_AllowJump)
+	if (Key == VK_JUMP && allowJump)
 	{
-		m_AllowJump = false;
-		switch (m_CurrentState)
+		allowJump = false;
+		switch (currentState)
 		{
-		case Standing: case Running: case SlideHorizontal:
+		case Standing: case Running: case Dash:
 		{
 			setState(new JumpState(this));
 			break;
 		}
-		case SlideVertical:
+		case SlipDown:
 		{
 			if (keys[VK_SLIDE])
 				setState(new ClingState(this, true));
@@ -121,41 +122,41 @@ void GamePlayer::OnKeyDown(std::map<int, bool> keys, int Key)
 		}
 	}
 
-	if (Key == VK_SHOOT && m_AllowShoot && !m_Shoot)
+	if (Key == VK_SHOOT && allowShoot && !isShoot)
 	{
-		m_Shoot = true;
-		pAnimation->setShoot(m_Shoot);
-		m_AllowShoot = false;
+		isShoot = true;
+		pAnimation->setShoot(isShoot);
+		allowShoot = false;
 	}
 
-	if (Key == VK_SLIDE && m_AllowSlide)
+	if (Key == VK_SLIDE && allowDash)
 	{
-		m_AllowSlide = false;
+		allowDash = false;
 
-		switch (m_CurrentState)
+		switch (currentState)
 		{
 		case Standing: case Running:
-			setState(new SlideHorizontalState(this));
+			setState(new DashState(this));
 			break;
 		default: break;
 		}
 	}
 }
 
-void GamePlayer::OnKeyUp(int Key)
+void GamePlayer::onKeyUp(int Key)
 {
 	if (Key == VK_JUMP)
 	{
 		vy = 0;
-		m_AllowJump = true;
+		allowJump = true;
 	}
 	else if (Key == VK_SHOOT)
 	{
-		m_AllowShoot = true;
+		allowShoot = true;
 	}
 	else if (Key == VK_SLIDE)
 	{
-		m_AllowSlide = true;
+		allowDash = true;
 	}
 }
 
@@ -170,52 +171,52 @@ RECT GamePlayer::getBound()
 	return rect;
 }
 
-void GamePlayer::Update(float dt)
+void GamePlayer::update(float dt)
 {
-	if (m_Shoot)
+	if (isShoot)
 	{
-		m_TimeCurrentShoot += dt;
-		if (m_TimeCurrentShoot > m_TimeShoot)
+		timeCurrentShoot += dt;
+		if (timeCurrentShoot > timeShoot)
 		{
-			m_Shoot = false;
-			pAnimation->setShoot(m_Shoot);
-			m_TimeCurrentShoot = 0;
+			isShoot = false;
+			pAnimation->setShoot(isShoot);
+			timeCurrentShoot = 0;
 		}
 	}
 
-	pAnimation->Update(dt);
+	pAnimation->update(dt);
 
 	if (pState)
-		pState->Update(dt);
+		pState->update(dt);
 
-	Entity::Update(dt);
+	Entity::update(dt);
 }
 
-void GamePlayer::Draw(D3DXVECTOR3 Position, RECT SourceRect, D3DXVECTOR2 Scale, D3DXVECTOR2 Translate,
+void GamePlayer::drawSprite(D3DXVECTOR3 Position, RECT SourceRect, D3DXVECTOR2 Scale, D3DXVECTOR2 Translate,
                       float Angle, D3DXVECTOR2 RotationCenter, D3DXCOLOR TransColor)
 {
-	pAnimation->setFlip(m_CurrentReverse);
+	pAnimation->setFlip(currentReverse);
 	pAnimation->setPosition(getPosition());
 
 	if (pCamera)
 	{
-		D3DXVECTOR2 trans(GameGlobal::GetWidth() / 2.0f - pCamera->GetPosition().x, 
-			GameGlobal::GetHeight() / 2.0f - pCamera->GetPosition().y);
-		pAnimation->Draw(D3DXVECTOR3(x, y, 0), SourceRect, Scale, trans, Angle, RotationCenter, TransColor);
+		const D3DXVECTOR2 trans(GameGlobal::GetWidth() / 2.0f - pCamera->getPosition().x, 
+			GameGlobal::GetHeight() / 2.0f - pCamera->getPosition().y);
+		pAnimation->drawSprite(D3DXVECTOR3(x, y, 0), SourceRect, Scale, trans, Angle, RotationCenter, TransColor);
 	}
 	else
-		pAnimation->Draw(D3DXVECTOR3(x, y, 0));
+		pAnimation->drawSprite(D3DXVECTOR3(x, y, 0));
 }
 
-void GamePlayer::OnCollision(SideCollisions side)
+void GamePlayer::onCollision(SideCollisions side)
 {
-	pState->OnCollision(side);
+	pState->onCollision(side);
 }
 
-void GamePlayer::OnNoCollisionWithBottom()
+void GamePlayer::onNoCollisionWithBottom()
 {
-	if (m_CurrentState == Appear || m_CurrentState == Falling || m_CurrentState == Jumping || m_CurrentState == SlideVertical ||
-		m_CurrentState == Cling)
+	if (currentState == Appear || currentState == Falling || currentState == Jumping || currentState == SlipDown ||
+		currentState == Cling)
 		return;
 
 	setState(new FallState(this));

@@ -87,6 +87,7 @@
   <ItemGroup>
     <ClCompile Include="Enemies.cpp" />
     <ClCompile Include="EnemiesAttackState.cpp" />
+    <ClCompile Include="EnemiesFallState.cpp" />
     <ClCompile Include="EnemiesJumpState.cpp" />
     <ClCompile Include="EnemiesStandState.cpp" />
     <ClCompile Include="EnemiesState.cpp" />
@@ -107,9 +108,11 @@
     <ClCompile Include="GameObjects\MapObjects\Brick.cpp" />
     <ClCompile Include="GameObjects\MapObjects\BrickGold.cpp" />
     <ClCompile Include="GameObjects\MapObjects\BrickNormal.cpp" />
+    <ClCompile Include="GameObjects\MapObjects\Stairs.cpp" />
     <ClCompile Include="GameObjects\Player\GamePlayer.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\AppearState\AppearState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\BleedState\BleedState.cpp" />
+    <ClCompile Include="GameObjects\Player\GameState\DashState\DashState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\DieState\DieState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\FallState\FallState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\GameState.cpp" />
@@ -117,8 +120,7 @@
     <ClCompile Include="GameObjects\Player\GameState\JumpState\ClingState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\JumpState\JumpState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\RunState\RunState.cpp" />
-    <ClCompile Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideHorizontalState.cpp" />
-    <ClCompile Include="GameObjects\Player\GameState\SlideState\SlideVerticalState\SlideVerticalState.cpp" />
+    <ClCompile Include="GameObjects\Player\GameState\SlipDownState\SlipDownState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\StandState\StandState.cpp" />
     <ClCompile Include="GameObjects\Player\GameState\WinState\FinishState.cpp" />
     <ClCompile Include="main.cpp" />
@@ -151,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="EnemiesAttackState.h" />
+    <ClInclude Include="EnemiesFallState.h" />
     <ClInclude Include="EnemiesJumpState.h" />
     <ClInclude Include="EnemiesStandState.h" />
     <ClInclude Include="EnemiesState.h" />
@@ -172,9 +175,11 @@
     <ClInclude Include="GameObjects\MapObjects\Brick.h" />
     <ClInclude Include="GameObjects\MapObjects\BrickGold.h" />
     <ClInclude Include="GameObjects\MapObjects\BrickNormal.h" />
+    <ClInclude Include="GameObjects\MapObjects\Stairs.h" />
     <ClInclude Include="GameObjects\Player\GamePlayer.h" />
     <ClInclude Include="GameObjects\Player\GameState\AppearState\AppearState.h" />
     <ClInclude Include="GameObjects\Player\GameState\BleedState\BleedState.hpp" />
+    <ClInclude Include="GameObjects\Player\GameState\DashState\DashState.h" />
     <ClInclude Include="GameObjects\Player\GameState\DieState\DieState.h" />
     <ClInclude Include="GameObjects\Player\GameState\FallState\FallState.h" />
     <ClInclude Include="GameObjects\Player\GameState\GameState.h" />
@@ -182,8 +187,7 @@
     <ClInclude Include="GameObjects\Player\GameState\JumpState\ClingState.h" />
     <ClInclude Include="GameObjects\Player\GameState\JumpState\JumpState.h" />
     <ClInclude Include="GameObjects\Player\GameState\RunState\RunState.h" />
-    <ClInclude Include="GameObjects\Player\GameState\SlideState\SlideHorizontalState\SlideHorizontalState.h" />
-    <ClInclude Include="GameObjects\Player\GameState\SlideState\SlideVerticalState\SlideVerticalState.h" />
+    <ClInclude Include="GameObjects\Player\GameState\SlipDownState\SlipDownState.h" />
     <ClInclude Include="GameObjects\Player\GameState\StandState\StandState.h" />
     <ClInclude Include="GameObjects\Player\GameState\WinState\FinishState.h" />
     <ClInclude Include="MapReader\base64.h" />

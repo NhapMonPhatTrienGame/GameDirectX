@@ -6,10 +6,10 @@ EnemiesState::EnemiesState(Enemies* e)
 	this->e = e;
 }
 
-void EnemiesState::OnCollision(Entity::SideCollisions t_Side)
+void EnemiesState::onCollision(Entity::SideCollisions side)
 {
 }
 
-void EnemiesState::Update(float t_GameTime)
+void EnemiesState::update(float dt)
 {
 }

@@ -31,7 +31,7 @@ Scene* SceneManager::getCurrentScene() const
 
 void SceneManager::Update(float dt) const
 {
-	m_CurrentScene->Update(dt);
+	m_CurrentScene->update(dt);
 }
 
 void SceneManager::ReplaceScene(Scene* scene)

@@ -15,15 +15,15 @@ public:
 	Camera(int width, int height);
 
 	//center of camera
-	D3DXVECTOR3 GetPosition();
-	void SetPosition(float x, float y);
-	void SetPosition(D3DXVECTOR3 pos);
+	D3DXVECTOR3 getPosition() const;
+	void setPosition(float x, float y);
+	void setPosition(D3DXVECTOR3 pos);
 
 
-	int GetWidth();
-	int GetHeight();
+	int getWidth() const;
+	int getHeight() const;
 
-	RECT GetBound();
+	RECT getBound() const;
 
 	~Camera();
 };

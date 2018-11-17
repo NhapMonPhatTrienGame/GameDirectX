@@ -46,7 +46,7 @@ public:
 
 	enum EntityTypes
 	{
-		Rockman,
+		RockMan,
 		Brick,
 		Enemy,
 		Static,
@@ -83,11 +83,11 @@ public:
 	virtual void setVy(float vy);
 	virtual void addVy(float vy);
 
-	virtual void UpdateColision(float collision_time, SideCollisions side, float dt);
+	virtual void updateCollision(float collision_time, SideCollisions side, float dt);
 
-	virtual void Update(float dt);
+	virtual void update(float dt);
 
 	//Control collision
 	//When entity collide, this function will be called
-	virtual void OnCollision(SideCollisions side);
+	virtual void onCollision(SideCollisions side);
 };

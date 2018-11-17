@@ -127,16 +127,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_LBUTTONDOWN:
-		SceneManager::getInstance()->getCurrentScene()->OnMouseDown(float(GET_X_LPARAM(lParam)),
+		SceneManager::getInstance()->getCurrentScene()->onMouseDown(float(GET_X_LPARAM(lParam)),
 		                                                            float(GET_Y_LPARAM(lParam)));
 		break;
 
 	case WM_KEYDOWN:
-		SceneManager::getInstance()->getCurrentScene()->OnKeyDown(wParam);
+		SceneManager::getInstance()->getCurrentScene()->onKeyDown(wParam);
 		break;
 
 	case WM_KEYUP:
-		SceneManager::getInstance()->getCurrentScene()->OnKeyUp(wParam);
+		SceneManager::getInstance()->getCurrentScene()->onKeyUp(wParam);
 		break;
 
 

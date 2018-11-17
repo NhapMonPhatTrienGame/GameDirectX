@@ -12,8 +12,8 @@ public:
 	explicit JumpState(GamePlayer* gp);
 	~JumpState() = default;
 
-	void Update(float dt) override;
-	void HandleKeyboard(std::map<int, bool> keys, float dt) override;
-	void OnCollision(Entity::SideCollisions side) override;
+	void update(float dt) override;
+	void handlerKeyBoard(std::map<int, bool> keys, float dt) override;
+	void onCollision(Entity::SideCollisions side) override;
 	MegaManState::StateName getState() override;
 };

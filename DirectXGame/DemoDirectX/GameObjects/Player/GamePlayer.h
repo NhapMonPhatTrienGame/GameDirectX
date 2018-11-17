@@ -18,15 +18,15 @@ protected:
 	GameState*			pState;
 	Camera*				pCamera;
 	Animation*			pAnimation;
-	bool				m_CurrentReverse;
-	StateName			m_CurrentState;
-	float				m_TimeShoot;
-	float				m_TimeCurrentShoot;
-	bool				m_Shoot;
-	bool				m_AllowJump;
-	bool				m_AllowShoot;
-	bool				m_AllowSlide;
-	float				m_HP;
+	bool				currentReverse;
+	StateName			currentState;
+	float				timeShoot;
+	float				timeCurrentShoot;
+	bool				isShoot;
+	bool				allowJump;
+	bool				allowShoot;
+	bool				allowDash;
+	float				HP;
 
 public:
 
@@ -40,35 +40,35 @@ public:
 		None			// Stand
 	};
 
-	void ChangeAnimation(StateName state);
+	void changeAnimation(StateName state);
 
 	void setState(GameState* newState);
 
-	StateName getState() const			{ return m_CurrentState; }
+	StateName getState() const			{ return currentState; }
 	Animation* getAnimation() const		{ return pAnimation; }
 	void setCamera(Camera* camera)		{ pCamera = camera; }
 
-	float getHP() const					{ return m_HP; }
-	void setHP(float hp)				{ m_HP = hp; }
-	void addHP(float hp)				{ m_HP += hp; }
+	float getHP() const					{ return HP; }
+	void setHP(float hp)				{ HP = hp; }
+	void addHP(float hp)				{ HP += hp; }
 
 	MoveDirection getMoveDirection() const;
 
-	void HandleKeyboard(const map<int, bool>& keys, float dt) const;
-	void OnKeyDown(std::map<int, bool> keys, int Key);
-	void OnKeyUp(int Key);
+	void handlerKeyBoard(const map<int, bool>& keys, float dt) const;
+	void onKeyDown(std::map<int, bool> keys, int Key);
+	void onKeyUp(int Key);
 
-	void setReverse(bool flag)			{ m_CurrentReverse = flag; }
-	bool getReverse() const				{ return m_CurrentReverse; }
+	void setReverse(bool flag)			{ currentReverse = flag; }
+	bool getReverse() const				{ return currentReverse; }
 
 	RECT getBound() override;
 
-	void Update(float dt) override;
-	void Draw(D3DXVECTOR3 Position = D3DXVECTOR3(), RECT SourceRect = RECT(), 
+	void update(float dt) override;
+	void drawSprite(D3DXVECTOR3 Position = D3DXVECTOR3(), RECT SourceRect = RECT(), 
 		D3DXVECTOR2 Scale = D3DXVECTOR2(),
 		D3DXVECTOR2 Translate = D3DXVECTOR2(), float Angle = 0, D3DXVECTOR2 RotationCenter = D3DXVECTOR2(),
 		D3DXCOLOR TransColor = D3DCOLOR_XRGB(255, 255, 255));
 
-	void OnCollision(SideCollisions side) override;
-	void OnNoCollisionWithBottom();
+	void onCollision(SideCollisions side) override;
+	void onNoCollisionWithBottom();
 };

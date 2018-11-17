@@ -19,12 +19,12 @@ RECT Entity::getBound()
 	return bound;
 }
 
-void Entity::OnCollision(SideCollisions side)
+void Entity::onCollision(SideCollisions side)
 {
 	vx = 0, vy = 0;
 }
 
-void Entity::Update(float dt)
+void Entity::update(float dt)
 {
 	//velocity = pixel / s
 	x += vx * dt * collision_time_min;
@@ -32,7 +32,7 @@ void Entity::Update(float dt)
 	collision_time_min = 1.0f;
 }
 
-void Entity::UpdateColision(float collision_time, SideCollisions side, float dt)
+void Entity::updateCollision(float collision_time, SideCollisions side, float dt)
 {
 	switch (side)
 	{

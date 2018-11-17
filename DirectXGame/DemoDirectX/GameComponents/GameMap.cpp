@@ -6,6 +6,17 @@
 
 GameMap::GameMap(const char* filePath)
 {
+	pTmxMap = new Tmx::Map();
+	pTmxMap->ParseFile(filePath);
+
+	RECT r;
+	r.left = 0;
+	r.top = 0;
+	r.right = this->getWidth();
+	r.bottom = this->getHeight();
+
+	pQuadTree = new QuadTree(1, r);
+
 	pCamera = new Camera(GameGlobal::GetWidth(), GameGlobal::GetHeight());
 	LoadMap(filePath);
 }
@@ -32,17 +43,7 @@ GameMap::~GameMap()
 
 void GameMap::LoadMap(const char* filePath)
 {
-	pTmxMap = new Tmx::Map();
-	pTmxMap->ParseFile(filePath);
-
-	RECT r;
-	r.left = 0;
-	r.top = 0;
-	r.right = this->GetWidth();
-	r.bottom = this->GetHeight();
-
-	pQuadTree = new QuadTree(1, r);
-
+	
 	for (size_t i = 0; i < pTmxMap->GetNumTilesets(); i++)
 	{
 		const auto tileSet = pTmxMap->GetTileset(i);
@@ -53,7 +54,7 @@ void GameMap::LoadMap(const char* filePath)
 
 	//Initialize the bricks
 #pragma region -BRICK AND COIN LAYER-
-	for (size_t i = 0; i < GetMap()->GetNumTileLayers(); i++)
+	for (size_t i = 0; i < getMap()->GetNumTileLayers(); i++)
 	{
 		const auto layer = pTmxMap->GetTileLayer(i);
 
@@ -151,78 +152,78 @@ void GameMap::LoadMap(const char* filePath)
 #pragma endregion
 }
 
-void GameMap::SetCamera(Camera* camera)
+void GameMap::setCamera(Camera* camera)
 {
 	pCamera = camera;
 }
 
-Tmx::Map* GameMap::GetMap() const
+Tmx::Map* GameMap::getMap() const
 {
 	return pTmxMap;
 }
 
-RECT GameMap::GetWorldMapBound() const
+RECT GameMap::getWorldMapBound() const
 {
 	RECT bound;
 	bound.left = bound.top = 0;
-	bound.right = GetWidth();
-	bound.bottom = GetHeight();
+	bound.right = getWidth();
+	bound.bottom = getHeight();
 
 	return bound;
 }
 
-int GameMap::GetWidth() const
+int GameMap::getWidth() const
 {
 	return pTmxMap->GetWidth() * pTmxMap->GetTileWidth();
 }
 
-int GameMap::GetHeight() const
+int GameMap::getHeight() const
 {
 	return pTmxMap->GetHeight() * pTmxMap->GetTileHeight();
 }
 
-int GameMap::GetTileWidth() const
+int GameMap::getTileWidth() const
 {
 	return pTmxMap->GetTileWidth();
 }
 
-int GameMap::GetTileHeight() const
+int GameMap::getTileHeight() const
 {
 	return pTmxMap->GetTileHeight();
 }
 
 bool GameMap::IsBoundLeft() const
 {
-	return (pCamera->GetBound().left == 0);
+	return (pCamera->getBound().left == 0);
 }
 
 bool GameMap::IsBoundRight() const
 {
-	return (pCamera->GetBound().right == this->GetWidth());
+	return (pCamera->getBound().right == this->getWidth());
 }
 
 bool GameMap::IsBoundTop() const
 {
-	return (pCamera->GetBound().top == 0);
+	return (pCamera->getBound().top == 0);
 }
 
 bool GameMap::IsBoundBottom() const
 {
-	return (pCamera->GetBound().bottom == this->GetHeight());
+	return (pCamera->getBound().bottom == this->getHeight());
 }
 
-void GameMap::Update(float dt)
+void GameMap::update(float dt)
 {
 	for (auto& mListBrick : ListBricks)
 	{
-		mListBrick->Update(dt);
+		mListBrick->update(dt);
 	}
 }
 
-void GameMap::Draw()
+void GameMap::draw()
 {
-	const auto trans = D3DXVECTOR2(GameGlobal::GetWidth() / 2.0f - pCamera->GetPosition().x,
-	                               GameGlobal::GetHeight() / 2.0f - pCamera->GetPosition().y);
+	const auto trans = D3DXVECTOR2(GameGlobal::GetWidth() / 2.0f - pCamera->getPosition().x,
+	                               GameGlobal::GetHeight() / 2.0f - pCamera->getPosition().y);
 
 #pragma region DRAW TILESET
 	for (size_t i = 0; i < pTmxMap->GetNumTileLayers(); i++)
@@ -262,8 +263,7 @@ void GameMap::Draw()
 
 						auto sprite = LisTileset[j];
 
-						const D3DXVECTOR3 position(n * tileWidth + tileWidth / 2.0f, m * tileHeight + tileHeight / 2.0f,
-						                           0);
+						const D3DXVECTOR3 position(n * tileWidth + tileWidth / 2.0f, m * tileHeight + tileHeight / 2.0f, 0);
 
 						if (pCamera != nullptr)
 						{
@@ -273,14 +273,14 @@ void GameMap::Draw()
 							objRECT.right = objRECT.left + tileWidth;
 							objRECT.bottom = objRECT.top + tileHeight;
 
-							if (!GameCollision::RectAndRect(pCamera->GetBound(), objRECT).IsCollided)
+							if (!GameCollision::RectAndRect(pCamera->getBound(), objRECT).IsCollided)
 								continue;
 						}
 
 						sprite->setWidth(tileWidth);
 						sprite->setHeight(tileHeight);
 
-						sprite->Draw(position, sourceRECT, D3DXVECTOR2(), trans);
+						sprite->drawSprite(position, sourceRECT, D3DXVECTOR2(), trans);
 					}
 				}
 			}
@@ -292,7 +292,7 @@ void GameMap::Draw()
 
 	for (auto& mListBrick : ListBricks)
 	{
-		mListBrick->Draw(trans);
+		mListBrick->drawSprite(trans);
 	}
 
 #pragma endregion
@@ -303,12 +303,12 @@ std::map<int, Sprite*> GameMap::getListTileSet() const
 	return LisTileset;
 }
 
-std::vector<Brick*> GameMap::GetListBrick() const
+std::vector<Brick*> GameMap::getListBrick() const
 {
 	return ListBricks;
 }
 
-QuadTree* GameMap::GetQuadTree() const
+QuadTree* GameMap::getQuadTree() const
 {
 	return pQuadTree;
 }

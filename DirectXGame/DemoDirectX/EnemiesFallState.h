@@ -1,15 +1,14 @@
-#pragma once
+﻿#pragma once
 #include "EnemiesState.h"
 
-class EnemiesJumpState :
-	public EnemiesState
+class EnemiesFallState
+	:public EnemiesState
 {
 	float translateY;
-	float timeJump;
-
 public:
-	explicit EnemiesJumpState(Enemies *e);
-	~EnemiesJumpState() = default;
+	explicit EnemiesFallState(Enemies* e);
+
+	~EnemiesFallState() override = default;
 
 	EnemyState::EnemyStateName getState() override;
 	void onCollision(Entity::SideCollisions side) override;

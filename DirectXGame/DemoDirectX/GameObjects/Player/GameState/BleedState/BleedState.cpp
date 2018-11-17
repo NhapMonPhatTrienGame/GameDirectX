@@ -3,7 +3,7 @@
 #include "../DieState/DieState.h"
 
 
-void BleedState::OnCollision(Entity::SideCollisions side)
+void BleedState::onCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{

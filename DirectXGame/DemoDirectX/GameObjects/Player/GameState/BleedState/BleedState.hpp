@@ -9,7 +9,7 @@ public:
 	explicit BleedState(GamePlayer* gp) :GameState(gp) {}
 	~BleedState() = default;
 
-	void OnCollision(Entity::SideCollisions side) override;
+	void onCollision(Entity::SideCollisions side) override;
 	MegaManState::StateName getState() override;
 };
 

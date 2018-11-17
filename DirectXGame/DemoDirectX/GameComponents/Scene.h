@@ -11,14 +11,13 @@ public:
 	virtual ~Scene() = default;
 	Scene();
 
-	virtual void Update(float dt);
-	virtual void LoadContent();
-	virtual void Draw();
+	virtual void update(float dt);
+	virtual void draw();
 
-	virtual void OnKeyDown(int keyCode);
-	virtual void OnKeyUp(int keyCode);
+	virtual void onKeyDown(int keyCode);
+	virtual void onKeyUp(int keyCode);
 
-	virtual void OnMouseDown(float x, float y);
+	virtual void onMouseDown(float x, float y);
 
 	D3DCOLOR getBackColor() const;
 };

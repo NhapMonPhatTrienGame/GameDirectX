@@ -5,13 +5,16 @@
 
 bool Brick::Init(D3DXVECTOR3 position)
 {
-	pBrickAnimation = new Animation(FileName(), Row(), Column(), 32, 32, TimePerFrame());
+	try
+	{
+		pBrickAnimation = new Animation(fileName(), row(), column(), 32, 32, timePerFrame());
 
-	setPosition(position);
-
-	Entity::setWidth(pBrickAnimation->getWidth());
-	Entity::setHeight(pBrickAnimation->getHeight());
-
+		setPosition(position);
+		this->setWidth(pBrickAnimation->getWidth());
+		this->setHeight(pBrickAnimation->getHeight());
+	}
+	catch (...) { return false; }
+	
 	return true;
 }
 
@@ -25,18 +28,17 @@ Brick::~Brick()
 	SAFE_DELETE(pBrickAnimation);
 }
 
-void Brick::Update(float dt)
+void Brick::update(float dt)
 {
-	pBrickAnimation->Update(dt);
+	pBrickAnimation->update(dt);
 }
 
-void Brick::Draw(D3DXVECTOR3 position, RECT sourceRect, D3DXVECTOR2 scale, D3DXVECTOR2 transform, float angle,
-                 D3DXVECTOR2 rotationCenter, D3DXCOLOR colorKey) const
+void Brick::drawSprite(D3DXVECTOR3 position, RECT sourceRect, D3DXVECTOR2 scale, D3DXVECTOR2 transform, float angle, D3DXVECTOR2 rotationCenter, D3DXCOLOR colorKey) const
 {
-	pBrickAnimation->Draw(position, sourceRect, scale, transform, angle, rotationCenter, colorKey);
+	pBrickAnimation->drawSprite(position, sourceRect, scale, transform, angle, rotationCenter, colorKey);
 }
 
-void Brick::Draw(D3DXVECTOR2 transform) const
+void Brick::drawSprite(D3DXVECTOR2 transform) const
 {
-	pBrickAnimation->Draw(D3DXVECTOR2(transform));
+	pBrickAnimation->drawSprite(D3DXVECTOR2(transform));
 }

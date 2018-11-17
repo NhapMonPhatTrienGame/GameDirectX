@@ -15,12 +15,12 @@ public:
 	virtual ~GameState() = default;
 	explicit GameState(GamePlayer* gp);
 
-	virtual void Update(float dt);
+	virtual void update(float dt);
 
-	virtual void HandleKeyboard(std::map<int, bool> keys, float dt);
+	virtual void handlerKeyBoard(std::map<int, bool> keys, float dt);
 
 	// The side will collide with player
-	virtual void OnCollision(Entity::SideCollisions side);
+	virtual void onCollision(Entity::SideCollisions side);
 
 	virtual MegaManState::StateName getState() = 0;
 };

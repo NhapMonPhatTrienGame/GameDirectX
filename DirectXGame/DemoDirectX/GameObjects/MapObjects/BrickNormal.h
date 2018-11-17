@@ -8,9 +8,9 @@ public:
 
 	explicit BrickNormal(D3DXVECTOR3 position);
 
-	const char* FileName() override;
-	int TotalFrame() override;
-	int Row() override;
-	int Column() override;
-	float TimePerFrame() override;
+	const char* fileName() override;
+	int totalFrame() override;
+	int row() override;
+	int column() override;
+	float timePerFrame() override;
 };

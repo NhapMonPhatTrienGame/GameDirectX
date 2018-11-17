@@ -3,7 +3,7 @@
 #include "../../GamePlayer.h"
 
 
-void RunState::HandleKeyboard(std::map<int, bool> keys, float dt)
+void RunState::handlerKeyBoard(std::map<int, bool> keys, float dt)
 {
 	gp->setVy(Define::PLAYER_MAX_JUMP_VELOCITY);
 	if (keys[VK_RIGHT])
@@ -28,7 +28,7 @@ StateName RunState::getState()
 	return Running;
 }
 
-void RunState::OnCollision(Entity::SideCollisions side)
+void RunState::onCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{

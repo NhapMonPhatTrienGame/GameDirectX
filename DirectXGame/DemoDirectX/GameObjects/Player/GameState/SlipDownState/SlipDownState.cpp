@@ -1,15 +1,15 @@
-﻿#include "SlideVerticalState.h"
-#include "../../../GamePlayer.h"
-#include "../../FallState/FallState.h"
-#include "../../StandState/StandState.h"
+﻿#include "SlipDownState.h"
+#include "../StandState/StandState.h"
+#include "../FallState/FallState.h"
+#include "../../GamePlayer.h"
 
-SlideVerticalState::SlideVerticalState(GamePlayer* gp) : GameState(gp)
+SlipDownState::SlipDownState(GamePlayer* gp) : GameState(gp)
 {
 	gp->setVy(Define::PLAYER_MAX_JUMP_VELOCITY / 4);
 	isSlide = true;
 }
 
-void SlideVerticalState::Update(float dt)
+void SlipDownState::update(float dt)
 {
 	if (!isSlide)
 		gp->setState(new FallState(gp));
@@ -17,7 +17,7 @@ void SlideVerticalState::Update(float dt)
 	isSlide = false;
 }
 
-void SlideVerticalState::HandleKeyboard(std::map<int, bool> keys, float dt)
+void SlipDownState::handlerKeyBoard(std::map<int, bool> keys, float dt)
 {
 	gp->setVy(Define::PLAYER_MAX_JUMP_VELOCITY / 4);
 	if (keys[VK_RIGHT])
@@ -37,7 +37,7 @@ void SlideVerticalState::HandleKeyboard(std::map<int, bool> keys, float dt)
 	}
 }
 
-void SlideVerticalState::OnCollision(Entity::SideCollisions side)
+void SlipDownState::onCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{
@@ -56,7 +56,7 @@ void SlideVerticalState::OnCollision(Entity::SideCollisions side)
 	}
 }
 
-StateName SlideVerticalState::getState()
+MegaManState::StateName SlipDownState::getState()
 {
-	return SlideVertical;
+	return MegaManState::SlipDown;
 }

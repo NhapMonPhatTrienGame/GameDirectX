@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 
-Camera::Camera() {}
+Camera::Camera() = default;
 
 Camera::Camera(int width, int height)
 {
@@ -11,24 +11,24 @@ Camera::Camera(int width, int height)
 	mPositionWorld = D3DXVECTOR3(0, 0, 0);
 }
 
-Camera::~Camera() {}
+Camera::~Camera() = default;
 
-void Camera::SetPosition(float x, float y)
+void Camera::setPosition(float x, float y)
 {
-	SetPosition(D3DXVECTOR3(x, y, 0));
+	setPosition(D3DXVECTOR3(x, y, 0));
 }
 
-void Camera::SetPosition(D3DXVECTOR3 pos)
+void Camera::setPosition(D3DXVECTOR3 pos)
 {
 	mPositionWorld = pos;
 }
 
-D3DXVECTOR3 Camera::GetPosition()
+D3DXVECTOR3 Camera::getPosition() const
 {
 	return mPositionWorld;
 }
 
-RECT Camera::GetBound()
+RECT Camera::getBound() const
 {
 	RECT bound;
 
@@ -40,12 +40,12 @@ RECT Camera::GetBound()
 	return bound;
 }
 
-int Camera::GetWidth()
+int Camera::getWidth() const
 {
 	return mWidth;
 }
 
-int Camera::GetHeight()
+int Camera::getHeight() const
 {
 	return mHeight;
 }
