@@ -98,7 +98,7 @@ namespace Define
 	const char ENEMIES_JUMP[] = "Resources/Enemies/EnemiesJump.png";
 	const char ENEMIES_GUN[] = "Resources/Enemies/EnemiesGun.png";
 
-	const char WORLD_MAP[] = "Resources/marioworld1-1.tmx";
+	const char WORLD_MAP[] = "Resources/Test.tmx";
 
 	const float PLAYER_MAX_JUMP_VELOCITY = 300.0f; //Max jump velocity
 	const float PLAYER_MIN_JUMP_VELOCITY = -300.0f; //Min jump velocity
