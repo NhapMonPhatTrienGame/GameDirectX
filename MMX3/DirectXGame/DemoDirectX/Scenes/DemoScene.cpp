@@ -23,23 +23,25 @@ DemoScene::DemoScene()
 	pEnemies->setPosition(550, 200.0f);
 }
 
+DemoScene::~DemoScene()
+{
+	SAFE_DELETE(pMap);
+	SAFE_DELETE(pCamera);
+	SAFE_DELETE(gp);
+	SAFE_DELETE(pEnemies);
+}
+
 void DemoScene::update(float dt)
 {
 	gp->handlerKeyBoard(keys, dt);
 
 	checkCollision(dt);
+	checkCameraAndWorldMap();
+	checkCameraAndEnemies();
 
 	pMap->update(dt);
 	gp->update(dt);
 	pEnemies->update(dt);
-
-	if (gp->getPosition().x > pEnemies->getPosition().x)
-		pEnemies->setFlip(true);
-	else
-		pEnemies->setFlip(false);
-
-	checkCameraAndWorldMap();
-	checkCameraAndEnemies();
 }
 
 void DemoScene::draw()
@@ -61,7 +63,36 @@ void DemoScene::onKeyUp(int keyCode)
 	gp->onKeyUp(keyCode);
 }
 
-void DemoScene::onMouseDown(float x, float y) {}
+void DemoScene::checkCollision(float dt) const
+{
+	checkCollision(gp, dt);
+	checkCollision(pEnemies, dt);
+
+	//gp with pEnemies
+	checkCollision(gp, pEnemies, dt);
+	//bulletEnemies checkCollision
+	for (auto& Bullet : *pEnemies->getBullet())
+	{
+		//if Bullet Burst don't check Collision
+		if (Bullet->getBurst())
+			continue;
+
+		checkCollision(Bullet, dt);
+
+		checkCollision(gp, Bullet, dt);
+		checkCollision(Bullet, gp, dt);
+	}
+
+	for (auto& playerBullet : *gp->getPlayerBullet())
+	{
+		if(playerBullet->getBurst())
+			continue;
+
+		checkCollision(playerBullet, dt);
+		checkCollision(pEnemies, playerBullet, dt);
+		checkCollision(playerBullet, pEnemies, dt);
+	}
+}
 
 void DemoScene::checkCameraAndWorldMap() const
 {
@@ -106,41 +137,18 @@ void DemoScene::checkCameraAndWorldMap() const
 
 void DemoScene::checkCameraAndEnemies() const
 {
-	if (GameCollision::isCollision(pCamera->getBound(), pEnemies->getBound()))
+	if (gp->getPosition().x > pEnemies->getPosition().x)
+		pEnemies->setFlip(true);
+	else
+		pEnemies->setFlip(false);
+
+	if (GameCollision::isCollisionRectangle(pCamera->getBound(), pEnemies->getBound()))
 		pEnemies->setDrawSprite(true);
 	else
 		pEnemies->setDrawSprite(false);
 }
 
-DemoScene::~DemoScene()
-{
-	SAFE_DELETE(pMap);
-	SAFE_DELETE(pCamera);
-	SAFE_DELETE(gp);
-	SAFE_DELETE(pEnemies);
-}
-void DemoScene::checkCollision(float dt) const
-{
-	checkCollision(gp, dt);
-	checkCollision(pEnemies, dt);
-
-	//gp with pEnemies
-	D3DXVECTOR2 distance = GameCollision::Distance(gp, pEnemies, dt);
-	RECT broad = GameCollision::GetBoard(gp->getBound(), distance);
-
-	if (GameCollision::isCollide(broad, pEnemies->getBound()))
-	{
-		Entity::SideCollisions pEnemies_with_gp;
-		float collision_time = GameCollision::SweptAABB(gp->getBound(), pEnemies->getBound(), distance, pEnemies_with_gp);
-
-		if (collision_time < 1.0f)
-		{
-			gp->onCollision(pEnemies);
-		}
-	}
-}
-
-void DemoScene::checkCollision(Entity *obj, float dt) const
+void DemoScene::checkCollision(Entity* obj, float dt) const
 {
 	std::vector<Entity*> listEntitiesCollision;
 
@@ -149,9 +157,9 @@ void DemoScene::checkCollision(Entity *obj, float dt) const
 	for (auto& i : listEntitiesCollision)
 	{
 		D3DXVECTOR2 distance = GameCollision::Distance(obj, i, dt);
-		RECT broad = GameCollision::GetBoard(obj->getBound(), distance);
+		RECT broad = GameCollision::getBroad(obj->getBound(), distance);
 
-		if (GameCollision::isCollide(broad, i->getBound()))
+		if (GameCollision::isCheckCollision(broad, i->getBound()))
 		{
 			Entity::SideCollisions other_with_entity;
 			float collision_time = GameCollision::SweptAABB(obj->getBound(), i->getBound(), distance, other_with_entity);
@@ -160,6 +168,31 @@ void DemoScene::checkCollision(Entity *obj, float dt) const
 			{
 				obj->checkTimeCollision(collision_time, other_with_entity, i);
 			}
+		}
+	}
+}
+
+void DemoScene::checkCollision(Entity* obj, Entity* other, float dt)
+{
+	if (!obj->getDrawSprite() || !other->getDrawSprite())
+		return;
+
+	D3DXVECTOR2 distance = GameCollision::Distance(obj, other, dt);
+	RECT broad = GameCollision::getBroad(obj->getBound(), distance);
+
+	if (GameCollision::isCheckCollision(broad, other->getBound()))
+	{
+		if (GameCollision::isCheckCollision(obj->getBound(), other->getBound()))
+		{
+			obj->onCollision(other);
+			return;
+		}
+		Entity::SideCollisions other_with_entity;
+		float collision_time = GameCollision::SweptAABB(obj->getBound(), other->getBound(), distance, other_with_entity);
+
+		if (collision_time < 1.0f)
+		{
+			obj->onCollision(other);
 		}
 	}
 }

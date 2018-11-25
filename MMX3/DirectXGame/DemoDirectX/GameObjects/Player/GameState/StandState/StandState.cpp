@@ -1,6 +1,6 @@
 ﻿#include "StandState.h"
 #include "../RunState/RunState.h"
-#include "../../GamePlayer.h"
+#include "../../../../GameDefines/GameDefine.h"
 
 
 StandState::StandState(GamePlayer* gp) : GameState(gp)
@@ -15,7 +15,7 @@ void StandState::handlerKeyBoard(std::map<int, bool> keys, float dt)
 		gp->setState(new RunState(gp));
 }
 
-StateName StandState::getState()
+GamePlayer::StateName StandState::getState()
 {
-	return Standing;
+	return GamePlayer::Stand;
 }

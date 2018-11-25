@@ -8,8 +8,7 @@ class ClimbState : public GameState
 public:
 	explicit ClimbState(GamePlayer* gp) :GameState(gp) {}
 	~ClimbState() = default;
-
-	MegaManState::StateName getState() override;
+	GamePlayer::StateName getState() override;
 };
 
 #endif

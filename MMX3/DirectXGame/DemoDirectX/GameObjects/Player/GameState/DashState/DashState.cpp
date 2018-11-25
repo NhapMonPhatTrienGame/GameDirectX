@@ -1,7 +1,7 @@
 ﻿#include "DashState.h"
-#include "../../GamePlayer.h"
 #include <iostream>
 #include "../StandState/StandState.h"
+#include "../../../../GameDefines/GameDefine.h"
 
 DashState::DashState(GamePlayer* gp) : GameState(gp)
 {
@@ -38,15 +38,15 @@ void DashState::onCollision(Entity::SideCollisions side)
 	{
 	case Entity::Left:
 	case Entity::Right:
-	{
-		gp->setState(new StandState(gp));
-		break;
-	}
+		{
+			gp->setState(new StandState(gp));
+			break;
+		}
 	default: break;
 	}
 }
 
-StateName DashState::getState()
+GamePlayer::StateName DashState::getState()
 {
-	return Dash;
+	return GamePlayer::Dash;
 }

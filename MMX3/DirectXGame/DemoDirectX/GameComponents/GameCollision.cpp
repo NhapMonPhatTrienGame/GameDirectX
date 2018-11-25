@@ -3,32 +3,32 @@
 using namespace std;
 
 
-Entity::CollisionReturn GameCollision::RectAndRect(RECT rect1, RECT rect2)
+Entity::CollisionReturn GameCollision::collisionRectangle(RECT rect1, RECT rect2)
 {
-	auto result = Entity::CollisionReturn();
+	Entity::CollisionReturn result = Entity::CollisionReturn();
 
-	if (!isCollide(rect1, rect2))
+	if (!isCheckCollision(rect1, rect2))
 	{
-		result.IsCollided = false;
+		result.isCollision = false;
 		return result;
 	}
 
-	result.IsCollided = true;
+	result.isCollision = true;
 
-	result.RegionCollision.left = max(rect1.left, rect2.left);
-	result.RegionCollision.right = max(rect1.right, rect2.right);
-	result.RegionCollision.bottom = max(rect1.bottom, rect2.bottom);
-	result.RegionCollision.top = max(rect1.top, rect2.top);
+	result.regionCollision.left = max(rect1.left, rect2.left);
+	result.regionCollision.right = max(rect1.right, rect2.right);
+	result.regionCollision.bottom = max(rect1.bottom, rect2.bottom);
+	result.regionCollision.top = max(rect1.top, rect2.top);
 
 	return result;
 }
 
-bool GameCollision::PointAndRectangle(float x, float y, RECT rect)
+bool GameCollision::collisionPoint(float x, float y, RECT rect)
 {
 	return !(x < rect.left || x > rect.right || y < rect.top || y > rect.bottom);
 }
 
-bool GameCollision::RectangleAndCircle(RECT rect, int circle_x, int circle_y, int circleRadius)
+bool GameCollision::collisionCircle(RECT rect, int circle_x, int circle_y, int circleRadius)
 {
 	int px = circle_x;
 	int py = circle_y;
@@ -49,7 +49,7 @@ bool GameCollision::RectangleAndCircle(RECT rect, int circle_x, int circle_y, in
 	return (dx * dx + dy * dy) <= circleRadius * circleRadius;
 }
 
-bool GameCollision::isCollision(RECT obj, RECT other)
+bool GameCollision::isCollisionRectangle(RECT obj, RECT other)
 {
 	return !(obj.left >= other.right || obj.right <= other.left || obj.top >= other.bottom || obj.bottom <= other.top);
 }
@@ -62,21 +62,21 @@ D3DXVECTOR2 GameCollision::Distance(Entity* e1, Entity* e2, float dt)
 	return distance;
 }
 
-RECT GameCollision::GetBoard(RECT object, D3DXVECTOR2 distance)
+RECT GameCollision::getBroad(RECT object, D3DXVECTOR2 distance)
 {
-	auto board = object;
+	RECT broad = object;
 
 	if (distance.x < 0)
-		board.left = object.left + distance.x;
+		broad.left = object.left + distance.x;
 	else if (distance.x > 0)
-		board.right = object.right + distance.x;
+		broad.right = object.right + distance.x;
 
 	if (distance.y > 0)
-		board.bottom = object.bottom + distance.y;
+		broad.bottom = object.bottom + distance.y;
 	else if (distance.y < 0)
-		board.top = object.top + distance.y;
+		broad.top = object.top + distance.y;
 
-	return board;
+	return broad;
 }
 
 float GameCollision::SweptAABB(RECT obj, RECT other, D3DXVECTOR2 distance, Entity::SideCollisions& sideCollision)
@@ -166,7 +166,7 @@ float GameCollision::SweptAABB(RECT obj, RECT other, D3DXVECTOR2 distance, Entit
 	return entryTime;
 }
 
-bool GameCollision::isCollide(RECT rect1, RECT rect2)
+bool GameCollision::isCheckCollision(RECT rect1, RECT rect2)
 {
 	return !(rect1.left > rect2.right || rect1.right < rect2.left || rect1.top > rect2.bottom || rect1.bottom < rect2.
 		top);
@@ -213,8 +213,8 @@ Entity::SideCollisions GameCollision::getSideCollision(Entity* e1, Entity* e2)
 
 Entity::SideCollisions GameCollision::getSideCollision(Entity* e1, Entity::CollisionReturn data)
 {
-	const float xCenter = data.RegionCollision.left + (data.RegionCollision.right - data.RegionCollision.left) / 2.0f;
-	const float yCenter = data.RegionCollision.top + (data.RegionCollision.bottom - data.RegionCollision.top) / 2.0f;
+	const float xCenter = data.regionCollision.left + (data.regionCollision.right - data.regionCollision.left) / 2.0f;
+	const float yCenter = data.regionCollision.top + (data.regionCollision.bottom - data.regionCollision.top) / 2.0f;
 
 	const D3DXVECTOR2 cCenter = D3DXVECTOR2(xCenter, yCenter);
 	D3DXVECTOR2 eCenter;

@@ -1,8 +1,8 @@
 ﻿#include "FallState.h"
-#include "../../GamePlayer.h"
 #include "../RunState/RunState.h"
 #include "../StandState/StandState.h"
 #include "../SlipDownState/SlipDownState.h"
+#include "../../../../GameDefines/GameDefine.h"
 
 FallState::FallState(GamePlayer* gp, bool dash) : GameState(gp)
 {
@@ -45,20 +45,20 @@ void FallState::onCollision(Entity::SideCollisions side)
 	{
 	case Entity::Left:
 	case Entity::Right:
-	{
-		gp->setState(new SlipDownState(gp));
-		break;
-	}
+		{
+			gp->setState(new SlipDownState(gp));
+			break;
+		}
 	case Entity::Bottom:
-	{
-		gp->setState(new StandState(gp));
-		break;
-	}
+		{
+			gp->setState(new StandState(gp));
+			break;
+		}
 	default: break;
 	}
 }
 
-StateName FallState::getState()
+GamePlayer::StateName FallState::getState()
 {
-	return Falling;
+	return GamePlayer::Fall;
 }

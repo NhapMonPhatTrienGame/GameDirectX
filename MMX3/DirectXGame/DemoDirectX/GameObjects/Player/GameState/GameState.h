@@ -1,16 +1,12 @@
 ﻿#pragma once
 #include <map>
-#include "../../../GameDefines/GameDefine.h"
 #include "../../Entity/Entity.h"
-
+#include "../GamePlayer.h"
 
 class GamePlayer;
 
 class GameState
 {
-protected:
-	GamePlayer* gp;
-
 public:
 	virtual ~GameState() = default;
 	explicit GameState(GamePlayer* gp);
@@ -22,5 +18,9 @@ public:
 	// The side will collide with player
 	virtual void onCollision(Entity::SideCollisions side);
 
-	virtual MegaManState::StateName getState() = 0;
+	virtual GamePlayer::StateName getState() = 0;
+
+protected:
+	GamePlayer* gp;
+
 };

@@ -1,4 +1,5 @@
 ﻿#include "Keyboard.h"
+#include "../GameDefines/GameDefine.h"
 
 
 Keyboard::Keyboard(HWND hWnd)
@@ -9,14 +10,19 @@ Keyboard::Keyboard(HWND hWnd)
 	ZeroMemory(&this->key_buffer, sizeof(this->key_buffer));
 }
 
+Keyboard::~Keyboard()
+{
+	killKeyboard();
+}
+
 //Cài đặt bàn phím
-bool Keyboard::Init()
+bool Keyboard::init()
 {
 	auto hr = DirectInput8Create(
 		GetModuleHandle(nullptr),
 		DIRECTINPUT_VERSION, //Tham số mặc định
 		IID_IDirectInput8,
-		(void**)(&this->Di8), //Con trỏ nhận dữ liệu trả về
+		reinterpret_cast<void**>(&this->Di8), //Con trỏ nhận dữ liệu trả về
 		nullptr); //Tham số thêm
 
 	if (FAILED(hr))
@@ -37,8 +43,8 @@ bool Keyboard::Init()
 	}
 
 	/**
-	 * \brief Loai hoat dong
-	 * \brief DISCL_FOREGROUND chỉ hoạt động khi của sổ hWnd đang được handle
+	 * Loai hoat dong
+	 * DISCL_FOREGROUND chỉ hoạt động khi của sổ hWnd đang được handle
 	 */
 	hr = this->DiD8->SetCooperativeLevel(this->_hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	if (FAILED(hr))
@@ -51,9 +57,9 @@ bool Keyboard::Init()
 }
 
 //Lấy trạng thái bàn phím
-void Keyboard::GetStage()
+void Keyboard::getStage()
 {
-	auto hr = this->DiD8->GetDeviceState(sizeof(this->key_buffer), (LPVOID)&this->key_buffer);
+	auto hr = this->DiD8->GetDeviceState(sizeof(this->key_buffer), LPVOID(&this->key_buffer));
 	//Nếu bàn phím nhả ra yêu cầu nhập lại
 	if (FAILED(hr))
 	{
@@ -62,31 +68,31 @@ void Keyboard::GetStage()
 }
 
 //Nhân diện phím nhấn
-bool Keyboard::IsKeyDown(int key)
+bool Keyboard::isKeyDown(int key)
 {
 	//Trả về phím có được nhân hay không
 	return key_buffer[key] & 0x80; //0x80 xác định bit đầu tiên
 }
 
 //Kiểm tra trạng thái phím có đang down
-bool Keyboard::GIsKeyDown(int key)
+bool Keyboard::gIsKeyDown(int key)
 {
-	return (IsKeyDown(key));
+	return (isKeyDown(key));
 }
 
 //Kiểm tra trạng thái phím có đang up
-bool Keyboard::GIsKeyUp(int key)
+bool Keyboard::gIsKeyUp(int key)
 {
-	return (!(IsKeyDown(key)));
+	return (!(isKeyDown(key)));
 }
 
 //Hủy phím
-void Keyboard::KillKeyboard()
+void Keyboard::killKeyboard()
 {
-	if (DiD8 != nullptr)
+	if(DiD8 != nullptr)
 	{
-		this->DiD8->Unacquire();
-		this->DiD8->Release();
-		this->DiD8 = nullptr;
+		DiD8->Unacquire();
+		DiD8->Release();
+		DiD8 = nullptr;
 	}
 }

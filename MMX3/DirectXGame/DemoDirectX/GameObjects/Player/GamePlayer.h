@@ -1,65 +1,97 @@
-﻿#pragma once
-
-
+﻿#ifndef __GAME_PLAYER_H__
+#define __GAME_PLAYER_H__
 #include "../Entity/Entity.h"
 #include "../../GameComponents/Camera.h"
-#include "../../GameDefines/GameDefine.h"
 #include "../../GameComponents/Animation.h"
 #include <map>
-
-using namespace MegaManState;
+#include "PlayerBullet/PlayerBullet.h"
 
 class GameState;
 
 class GamePlayer : public Entity
 {
-protected:
-
-	GameState*			pState;
-	Animation*			pAnimation;
-	bool				currentReverse;
-	StateName			currentState;
-	float				timeShoot;
-	float				timeCurrentShoot;
-	float				timeChargedShoot;
-	bool				isShoot;
-	bool				allowJump;
-	bool				allowShoot;
-	bool				allowDash;
-	float				HP;
-
 public:
 
 	GamePlayer();
 	~GamePlayer();
 
+	enum MoveDirection
+	{
+		MoveToLeft,		// Move left
+		MoveToRight,	// Move right
+		None			// Stand
+	};
+
+	enum StateName
+	{
+		Appear,
+		Stand,
+		Run,
+		Fall,
+		Jump,
+		Cling,
+		Climb,
+		SlipDown,
+		Dash,
+		Bleed,
+		Win,
+		Die
+	};
+
 	void changeAnimation(StateName state);
 
 	void setState(GameState* newState);
 
-	StateName getState() const			{ return currentState; }
-	Animation* getAnimation() const		{ return pAnimation; }
+	StateName getState() const								{ return currentState; }
+	Animation* getAnimation() const							{ return pAnimation; }
 
-	float getHP() const					{ return HP; }
-	void setHP(float hp)				{ HP = hp; }
-	void addHP(float hp)				{ HP += hp; }
+	float getHP() const										{ return HP; }
+	void setHP(float hp)									{ HP = hp; }
+	void addHP(float hp)									{ HP += hp; }
+
+	void setReverse(bool flag)								{ currentReverse = flag; }
+	bool getReverse() const									{ return currentReverse; }
+
+	std::vector<PlayerBullet*> *getPlayerBullet()			{ return &listPlayerBullet; }
+
+	MoveDirection getMoveDirection() const;
 
 	void handlerKeyBoard(const map<int, bool>& keys, float dt) const;
 	void onKeyDown(std::map<int, bool> keys, int Key);
 	void onKeyUp(int Key);
 
-	void setReverse(bool flag)			{ currentReverse = flag; }
-	bool getReverse() const				{ return currentReverse; }
-
 	RECT getBound() override;
 
 	void update(float dt) override;
-	void drawSprite(Camera*	pCamera, D3DXVECTOR3 Position = D3DXVECTOR3(), RECT SourceRect = RECT(),
-		D3DXVECTOR2 Scale = D3DXVECTOR2(),
-		D3DXVECTOR2 Translate = D3DXVECTOR2(), float Angle = 0, D3DXVECTOR2 RotationCenter = D3DXVECTOR2(),
-		D3DXCOLOR TransColor = D3DCOLOR_XRGB(255, 255, 255));
+	void drawSprite(Camera *camera, RECT rect = RECT(), D3DXVECTOR2 scale = D3DXVECTOR2(), float angle = 0.0f, D3DXVECTOR2 rotationCenter = D3DXVECTOR2(), D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255));
 
 	void onCollision(SideCollisions side) override;
-	void onCollision(Entity *enemy) override;
-	void onNoCollisionWithBottom();
+	void onNoCollisionWithBottom() override;
+	void onCollision(Entity* enemies) override;
+
+	void PlayerShoot(PlayerBullet::BulletType bulletType);
+
+protected:
+
+	GameState*			pState;
+	Animation*			pAnimation;
+	bool				currentReverse;
+
+	float				timeShoot;
+	float				timeCurrentShoot;
+	float				timeChangeShoot;
+	float				timeAlive;
+
+	bool				isShoot;
+	bool				allowJump;
+	bool				allowShoot;
+	bool				allowDash;
+	bool				alive;
+
+	float				HP;
+	StateName			currentState;
+
+	std::vector<PlayerBullet*> listPlayerBullet;
 };
+
+#endif

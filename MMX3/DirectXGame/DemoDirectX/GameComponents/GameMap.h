@@ -14,14 +14,6 @@
 
 class GameMap
 {
-	void LoadMap(const char* filePath);
-
-	Tmx::Map* pTmxMap;
-	std::map<int, Sprite*> LisTileset;
-	Camera* pCamera;
-	QuadTree* pQuadTree;
-	std::vector<Brick*> ListBricks;
-
 public:
 	explicit GameMap(const char* filePath);
 
@@ -51,6 +43,15 @@ public:
 	std::vector<Brick*> getListBrick() const;
 
 	QuadTree* getQuadTree() const;
+
+private:
+	void LoadMap(const char* filePath);
+
+	Tmx::Map* pTmxMap;
+	std::map<int, Sprite*> LisTileset;
+	Camera* pCamera;
+	QuadTree* pQuadTree;
+	std::vector<Brick*> ListBricks;
 };
 
 #endif

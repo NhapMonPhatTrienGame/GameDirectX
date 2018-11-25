@@ -117,7 +117,7 @@ void Sound::loadSound(char* fileName, const std::string& name)
 
 	pDevice->CreateSoundBuffer(&bufferDesc, &tempBuffer, nullptr);
 
-	long result = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, (void**)&(*pSecondaryBuffer));
+	long result = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, reinterpret_cast<void**>(&(*pSecondaryBuffer)));
 
 	tempBuffer->Release();
 	tempBuffer = nullptr;
@@ -130,7 +130,7 @@ void Sound::loadSound(char* fileName, const std::string& name)
 	fseek(filePtr, sizeof(WaveHeaderStruct), SEEK_SET);
 
 
-	unsigned char* wavData = new unsigned char[ waveHeaderStruct.dataSize];
+	auto* wavData = new unsigned char[ waveHeaderStruct.dataSize];
 
 
 	fread(wavData, waveHeaderStruct.dataSize, 1, filePtr);
@@ -139,15 +139,14 @@ void Sound::loadSound(char* fileName, const std::string& name)
 	if (error != 0)
 		return;
 
-	result = (*pSecondaryBuffer)->Lock(0, waveHeaderStruct.dataSize, (void**)&bufferPtr, (DWORD*)&bufferSize, nullptr,
-	                                   nullptr, 0);
+	result = (*pSecondaryBuffer)->Lock(0, waveHeaderStruct.dataSize, reinterpret_cast<void**>(&bufferPtr), static_cast<DWORD*>(&bufferSize), nullptr, nullptr, 0);
 
 	if (FAILED(result))
 		return;
 
 	memcpy(bufferPtr, wavData, waveHeaderStruct.dataSize);
 
-	(*pSecondaryBuffer)->Unlock((void*)bufferPtr, bufferSize, nullptr, 0);
+	(*pSecondaryBuffer)->Unlock(static_cast<void*>(bufferPtr), bufferSize, nullptr, 0);
 
 	if (wavData != nullptr)
 	{
@@ -166,7 +165,7 @@ void Sound::play(const std::string& name, bool infiniteLoop, int times)
 	if (isMute)
 		return;
 
-	std::map<std::string, IDirectSoundBuffer8*>::iterator it = soundBufferMap.find(name);
+	auto it = soundBufferMap.find(name);
 	if (it == soundBufferMap.end())
 		return;
 	if (infiniteLoop)
@@ -185,7 +184,7 @@ void Sound::stop(const std::string& name)
 {
 	if (name.empty())
 	{
-		for (std::map<std::string, IDirectSoundBuffer8*>::iterator it = soundBufferMap.begin(); it != soundBufferMap.
+		for (auto it = soundBufferMap.begin(); it != soundBufferMap.
 		     end(); ++it)
 		{
 			it->second->Stop();
@@ -194,7 +193,7 @@ void Sound::stop(const std::string& name)
 	}
 	else
 	{
-		std::map<std::string, IDirectSoundBuffer8*>::iterator it = soundBufferMap.find(name);
+		auto it = soundBufferMap.find(name);
 		if (it == soundBufferMap.end())
 			return;
 		it->second->Stop();
@@ -206,20 +205,19 @@ void Sound::setVolume(float percentage, const std::string& name)
 	volume = percentage;
 	if (name.empty())
 	{
-		long volumne = (percentage) / 100 * (- DSBVOLUME_MIN) + DSBVOLUME_MIN;
-		for (std::map<std::string, IDirectSoundBuffer8*>::iterator it = soundBufferMap.begin(); it != soundBufferMap.
-		     end(); ++it)
+		long volume = (percentage) / 100 * (- DSBVOLUME_MIN) + DSBVOLUME_MIN;
+		for (auto it = soundBufferMap.begin(); it != soundBufferMap.end(); ++it)
 		{
-			it->second->SetVolume(volumne);
+			it->second->SetVolume(volume);
 		}
 	}
 	else
 	{
-		std::map<std::string, IDirectSoundBuffer8*>::iterator it = soundBufferMap.find(name);
+		auto it = soundBufferMap.find(name);
 		if (it == soundBufferMap.end())
 			return;
-		long volumne = (percentage) / 100 * (- DSBVOLUME_MIN) + DSBVOLUME_MIN;
-		it->second->SetVolume(volumne);
+		long volume = (percentage) / 100 * (- DSBVOLUME_MIN) + DSBVOLUME_MIN;
+		it->second->SetVolume(volume);
 	}
 }
 

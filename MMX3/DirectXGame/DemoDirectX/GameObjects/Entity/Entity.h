@@ -7,93 +7,103 @@ class Entity
 {
 public:
 	virtual ~Entity() = default;
-
 	Entity();
 
-    enum SideCollisions
-    {
-        Left, //0
-        Right, //1
-        Top, //2
-        Bottom, //3
-        TopLeft, //4
-        TopRight, //5
-        BottomLeft, //6
-        BottomRight, //7
+	enum SideCollisions
+	{
+		Left,
+		Right,
+		Top,
+		Bottom,
+		TopLeft,
+		TopRight,
+		BottomLeft,
+		BottomRight,
 		None
-    };
+	};
 
-    struct CollisionReturn
-    {
-        bool IsCollided;
-        RECT RegionCollision;
-    };
-
-    enum EntityTypes
-    {
+	enum Tag
+	{
 		RockMan,
-    	Brick,
-    	Enemy,
-    	Mario,
-    	Static,
-    	BrickGoldNormal,
-    	BrickGoldBeEaten,
-		Unknown
-    };
+		Enemy,
+		EnemyBullet,
+		RockManBullet,
+		Brick,
+		Static,
+		BrickGoldNormal,
+		BrickGoldEaten,
+		TagNone
+	};
 
-	//To confirm type of Entity
-    EntityTypes Tag;
+	struct CollisionReturn
+	{
+		bool isCollision;
+		RECT regionCollision;
+	};
 
-    virtual RECT getBound();
+	virtual RECT getBound();
 
-	virtual D3DXVECTOR3 getPosition();
-    virtual void setPosition(float x, float y);
-    virtual void setPosition(D3DXVECTOR2 pos);
-    virtual void setPosition(D3DXVECTOR3 pos);
+	virtual D3DXVECTOR3 getPosition() 						{ return { x, y, 0 }; }
+	virtual void setPosition(float x, float y)				{ setPosition({ x, y }); }
+	virtual void setPosition(D3DXVECTOR2 pos)				{ setPosition({ pos.x, pos.y, 0 }); }
+	virtual void setPosition(D3DXVECTOR3 pos)				{ this->x = pos.x; this->y = pos.y; onSetPosition(pos); }
 
-	virtual void addPosition(float x, float y);
-	virtual void addPosition(D3DXVECTOR2 pos);
-    virtual void addPosition(D3DXVECTOR3 pos);
+	virtual void addPosition(float x, float y)				{ addPosition({ x, y }); }
+	virtual void addPosition(D3DXVECTOR2 pos)				{ addPosition({ pos.x, pos.y, 0 }); }
+	virtual void addPosition(D3DXVECTOR3 pos)				{ setPosition(this->getPosition() + pos); }
 
-    virtual void setWidth(int width);
-    virtual int getWidth();
+	virtual void setWidth(int width)						{ this->width = width; }
+	virtual int getWidth() 									{ return this->width; }
 
-    virtual void setHeight(int height);
-    virtual int getHeight();
+	virtual void setHeight(int height)						{ this->height = height; }
+	virtual int getHeight() 								{ return this->height; }
 
-    virtual float getVx();
-    virtual void setVx(float vx);
-    virtual void addVx(float vx);
+	virtual float getVx() 									{ return this->vx; }
+	virtual void setVx(float vx)							{ this->vx = vx; }
+	virtual void addVx(float vx)							{ this->vx += vx; }
 
-    virtual float getVy();
-    virtual void setVy(float vy);
-    virtual void addVy(float vy);
+	virtual float getVy() 									{ return this->vy; }
+	virtual void setVy(float vy)							{ this->vy = vy; }
+	virtual void addVy(float vy)							{ this->vy += vy; }
 
-	virtual void checkTimeCollision(float collision_time, SideCollisions side, Entity *other);
+	virtual void setDrawSprite(bool isDraw)					{ this->allowDrawSprite = isDraw; }
+	virtual bool getDrawSprite() 							{ return this->allowDrawSprite; }
 
-    virtual void update(float dt);
+	virtual void setTag(Tag tags)							{ this->tag = tags; }
+	virtual Tag getTag() 									{ return this->tag; }
 
-    //Control collision
+	virtual void checkTimeCollision(float collisionTime, SideCollisions side, Entity *other);
+
+	virtual void update(float dt);
+
+	//Control collision
 	//When entity collide, this function will be called
-    virtual void onCollision(SideCollisions side);
-	virtual void onCollision(Entity *enemy);
+	virtual void onCollision(SideCollisions side);
+	virtual void onCollision(Entity *obj);
+	virtual void onNoCollisionWithBottom() { }
+
 protected:
 
 	//duoc goi khi set position cua Entity, dung cho ke thua
-	virtual void onSetPosition(D3DXVECTOR3 pos);
+	virtual void onSetPosition(D3DXVECTOR3 pos) { }
 
 	//vi tri tam position x va y
 	float x, y;
 
 	//phan toc vx, vy
 	float vx, vy;
-	//xu ly va cham
-	float collision_time_minX;
-	float collision_time_minY;
+
+	//size cua entity
+	float width, height;
+
+	float collisionTimeMinX;
+	float collisionTimeMinY;
+
+	bool allowDrawSprite;	// allow to draw the sprite when the Camera contain Enemies
+
 	SideCollisions sideX;
 	SideCollisions sideY;
 	Entity *entityX;
 	Entity *entityY;
-	//size cua entity
-	float width, height;
+	Tag tag;
 };

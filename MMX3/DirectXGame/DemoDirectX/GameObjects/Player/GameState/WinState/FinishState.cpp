@@ -1,7 +1,6 @@
 #include "FinishState.h"
 
-
-MegaManState::StateName FinishState::getState()
+GamePlayer::StateName FinishState::getState()
 {
-	return MegaManState::Win;
+	return GamePlayer::Win;
 }

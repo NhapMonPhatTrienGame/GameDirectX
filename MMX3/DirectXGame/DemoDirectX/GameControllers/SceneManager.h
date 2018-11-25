@@ -5,9 +5,6 @@
 
 class SceneManager
 {
-	static SceneManager*	 m_Instance;
-	Scene*					 m_CurrentScene;
-
 public:
 	static SceneManager* getInstance();
 
@@ -17,6 +14,10 @@ public:
 	Scene* getCurrentScene() const;
 	void Update(float dt) const;
 	void ReplaceScene(Scene* scene);
+
+private:
+	static SceneManager*	 m_Instance;
+	Scene*					 m_CurrentScene;
 };
 
 #endif

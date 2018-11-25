@@ -6,7 +6,21 @@
 
 class QuadTree
 {
+public:
+
+	QuadTree(int level, RECT bound);
+	~QuadTree();
+	void Clear() const;
+	void insertEntity(Entity* entity);
+
+	/*lay danh sach nhung Entity co kha nang xay ra va cham
+	tra ve danh sach cac phan tu nam trong vung va cham */
+	void getEntitiesCollideAble(std::vector<Entity*>& entitiesOut, Entity* entity);
+	void getAllEntities(std::vector<Entity*>& entitiesOut);
+	int getTotalEntities() const;
+
 protected:
+
 	QuadTree** Nodes;
 	std::vector<Entity*> mListEntity; //danh sach cac phan tu co trong vung va cham (Bound)
 
@@ -22,21 +36,5 @@ protected:
 
 	bool isContain(Entity* entity) const;
 	int mLevel; //tuong ung voi so node
-
-public:
-
-	QuadTree(int level, RECT bound);
-	~QuadTree();
-	void Clear() const;
-	void insertEntity(Entity* entity);
-
-	/*lay danh sach nhung Entity co kha nang xay ra va cham
-	tra ve danh sach cac phan tu nam trong vung va cham */
-	void getEntitiesCollideAble(std::vector<Entity*>& entitiesOut, Entity* entity);
-
-	void getAllEntities(std::vector<Entity*>& entitiesOut);
-
-	int getTotalEntities() const;
-
 	RECT Bound;
 };

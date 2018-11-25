@@ -4,8 +4,6 @@
 
 class AppearState : public GameState
 {
-protected:
-	float translateY;
 public:
 	explicit AppearState(GamePlayer* gp);
 	~AppearState() = default;
@@ -16,7 +14,10 @@ public:
 
 	void onCollision(Entity::SideCollisions side) override;
 
-	MegaManState::StateName getState() override;
+	GamePlayer::StateName getState() override;
+
+protected:
+	float translateY;
 };
 
 #endif

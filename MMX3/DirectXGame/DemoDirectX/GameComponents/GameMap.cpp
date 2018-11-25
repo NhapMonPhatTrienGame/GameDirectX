@@ -106,13 +106,13 @@ void GameMap::LoadMap(const char* filePath)
 							if (layer->GetName() == "coin")
 							{
 								brick = new BrickGold(position);
-								brick->Tag = Entity::EntityTypes::BrickGoldNormal;
+								brick->setTag(Entity::BrickGoldNormal);
 								ListBricks.push_back(brick);
 							}
 							else
 							{
 								brick = new BrickNormal(position);
-								brick->Tag = Entity::EntityTypes::Brick;
+								brick->setTag(Entity::Brick);
 								ListBricks.push_back(brick);
 							}
 							if (brick)
@@ -144,7 +144,7 @@ void GameMap::LoadMap(const char* filePath)
 			entity->setWidth(object->GetWidth());
 			entity->setHeight(object->GetHeight());
 
-			entity->Tag = Entity::EntityTypes::Static;
+			entity->setTag(Entity::Static);
 
 			pQuadTree->insertEntity(entity);
 		}
@@ -222,7 +222,8 @@ void GameMap::update(float dt)
 
 void GameMap::draw()
 {
-	const auto trans = pCamera->getTrans();
+	const auto trans = D3DXVECTOR2(GameGlobal::getWidth() / 2.0f - pCamera->getPosition().x,
+	                               GameGlobal::getHeight() / 2.0f - pCamera->getPosition().y);
 
 #pragma region DRAW TILESET
 	for (size_t i = 0; i < pTmxMap->GetNumTileLayers(); i++)
@@ -272,7 +273,7 @@ void GameMap::draw()
 							objRECT.right = objRECT.left + tileWidth;
 							objRECT.bottom = objRECT.top + tileHeight;
 
-							if (!GameCollision::RectAndRect(pCamera->getBound(), objRECT).IsCollided)
+							if (!GameCollision::collisionRectangle(pCamera->getBound(), objRECT).isCollision)
 								continue;
 						}
 

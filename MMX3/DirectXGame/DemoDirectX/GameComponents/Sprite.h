@@ -5,30 +5,7 @@
 
 class Sprite
 {
-protected:
-
-	D3DXVECTOR3						position; //Position of the sprite is located in the middle of texture image
-	LPDIRECT3DTEXTURE9				texture; //Image will be saved here
-	LPD3DXSPRITE					spriteHandler; //SpriteHandler: Image drawing support
-	D3DXIMAGE_INFO					imageInfo; //The actual information of the image is taken
-	RECT							sourceRect; //Rectangle is cut from the texture image
-
-	int								width, 
-									height; //Size of texture image
-
-	float							rotation; //The spin angle of the sprite is calculated in radians
-
-	D3DXVECTOR2						scale; // Vector custom zoom in or zoom out of texture
-	D3DXVECTOR2						translation; //Image is translated from the sprite + mTranslate
-	D3DXMATRIX						matrix; //Matrix of the sprite support for geometry
-	D3DXVECTOR2						rotationCenter; // (origin vector)
-
-	bool							isFlipX;
-
-	static bool isCheckRect(RECT SourceRect);
-
 public:
-	Sprite() = default;
 	explicit Sprite(const char* filePath, RECT sourceRect = RECT(), int width = 0, int height = 0,
 		D3DCOLOR colorKey = NULL);
 	virtual ~Sprite();
@@ -72,6 +49,28 @@ public:
 	//True: Flip horizontally
 	//False: Don't flip
 	void setFlip(bool flag);
+
+protected:
+
+	D3DXVECTOR3						position; //Position of the sprite is located in the middle of texture image
+	LPDIRECT3DTEXTURE9				texture; //Image will be saved here
+	LPD3DXSPRITE					spriteHandler; //SpriteHandler: Image drawing support
+	D3DXIMAGE_INFO					imageInfo; //The actual information of the image is taken
+	RECT							sourceRect; //Rectangle is cut from the texture image
+
+	int								width,
+									height; //Size of texture image
+
+	float							rotation; //The spin angle of the sprite is calculated in radians
+
+	D3DXVECTOR2						scale; // Vector custom zoom in or zoom out of texture
+	D3DXVECTOR2						translation; //Image is translated from the sprite + mTranslate
+	D3DXMATRIX						matrix; //Matrix of the sprite support for geometry
+	D3DXVECTOR2						rotationCenter; // (origin vector)
+
+	bool							isFlipX;
+
+	static bool isCheckRect(RECT SourceRect);
 };
 
 #endif

@@ -1,12 +1,9 @@
-﻿#pragma once
+﻿#ifndef __DASH_STATE_H__
+#define __DASH_STATE_H__
 #include "../GameState.h"
 
 class DashState : public GameState
 {
-protected:
-	float translateX;
-	float timePress;
-
 public:
 	explicit DashState(GamePlayer* gp);
 	~DashState() = default;
@@ -15,5 +12,11 @@ public:
 
 	void onCollision(Entity::SideCollisions side) override;
 
-	MegaManState::StateName getState() override;
+	GamePlayer::StateName getState() override;
+
+protected:
+	float translateX;
+	float timePress;
+
 };
+#endif

@@ -1,29 +1,20 @@
 #include "BleedState.hpp"
-#include "../../GamePlayer.h"
-#include "../DieState/DieState.h"
+#include "../StandState/StandState.h"
 
-
-void BleedState::onCollision(Entity::SideCollisions side)
+BleedState::BleedState(GamePlayer* gp, int Direction) :GameState(gp)
 {
-	switch (side)
-	{
-	case Entity::Left: case Entity::Right: case Entity::Top: case Entity::Bottom: case Entity::TopLeft:
-	case Entity::TopRight: case Entity::BottomLeft: case Entity::BottomRight:
-	{
-		if (gp->Tag == Entity::Enemy)
-		{
-			gp->addHP(-1.0f);
-			gp->getAnimation()->setAnimation(19, 2, 0.15, false);
-		}
-		if (gp->getHP() <= 0)
-			gp->setState(new DieState(gp));
-		break;
-	}
-	default: break;
-	}
+	gp->setVx(30.0f*Direction);
+	gp->setVy(5.0f);
+	timeBleed = 0.0f;
 }
 
-StateName BleedState::getState()
+void BleedState::update(float dt)
 {
-	return Bleed;
+	if (gp->getAnimation()->getCurrentColumn() >= 8)
+		gp->setState(new StandState(gp));
+}
+
+GamePlayer::StateName BleedState::getState()
+{
+	return GamePlayer::Bleed;
 }
