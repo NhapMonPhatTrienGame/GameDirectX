@@ -13,9 +13,13 @@ c:\users\dell\gamedirectx\mmx3\directxgame\demodirectx\enemies.cpp(60): warning 
   EnemiesJumpState.cpp
   EnemiesStandState.cpp
   EnemiesState.cpp
+  Camera.cpp
+c:\users\dell\gamedirectx\mmx3\directxgame\demodirectx\gamecomponents\camera.cpp(41): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+c:\users\dell\gamedirectx\mmx3\directxgame\demodirectx\gamecomponents\camera.cpp(43): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
   Game.cpp
 c:\users\dell\gamedirectx\mmx3\directxgame\demodirectx\gamecomponents\game.cpp(10): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 c:\users\dell\gamedirectx\mmx3\directxgame\demodirectx\gamecomponents\game.cpp(71): warning C4244: 'argument': conversion from 'float' to 'DWORD', possible loss of data
+  GameGlobal.cpp
   Sprite.cpp
 c:\users\dell\gamedirectx\mmx3\directxgame\demodirectx\gamecomponents\sprite.cpp(95): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   Brick.cpp
@@ -44,10 +48,10 @@ c:\users\dell\gamedirectx\mmx3\directxgame\demodirectx\gameobjects\player\gamest
   ClingState.cpp
 c:\users\dell\gamedirectx\mmx3\directxgame\demodirectx\gameobjects\player\gamestate\jumpstate\clingstate.cpp(38): warning C4305: '=': truncation from 'double' to 'float'
 c:\users\dell\gamedirectx\mmx3\directxgame\demodirectx\gameobjects\player\gamestate\jumpstate\clingstate.cpp(47): warning C4305: '=': truncation from 'double' to 'float'
-  JumpState.cpp
-  RunState.cpp
   Generating Code...
   Compiling...
+  JumpState.cpp
+  RunState.cpp
   SlipDownState.cpp
   StandState.cpp
   FinishState.cpp
