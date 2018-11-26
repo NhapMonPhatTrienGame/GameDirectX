@@ -1,8 +1,8 @@
 #include "ClingState.h"
 #include "../FallState/FallState.h"
 #include "../StandState/StandState.h"
-#include "../../GamePlayer.h"
 #include "../SlipDownState/SlipDownState.h"
+#include "../../../../GameDefines/GameDefine.h"
 
 ClingState::ClingState(GamePlayer* gp, bool dash) : GameState(gp)
 {
@@ -18,10 +18,7 @@ ClingState::ClingState(GamePlayer* gp, bool dash) : GameState(gp)
 void ClingState::update(float dt)
 {
 	if (gp->getVy() > 0)
-	{
 		gp->setState(new FallState(gp, Pressed));
-		return;
-	}
 }
 
 void ClingState::handlerKeyBoard(std::map<int, bool> keys, float dt)
@@ -32,20 +29,16 @@ void ClingState::handlerKeyBoard(std::map<int, bool> keys, float dt)
 		if (gp->getReverse())
 		{
 			speed = Define::PLAYER_MAX_CLING_SPEED;
-
+			
 			if (keys[VK_RIGHT])
-			{
 				countPress = 0.3;
-			}
 		}
 		else
 		{
 			speed = -Define::PLAYER_MAX_CLING_SPEED;
 
 			if (keys[VK_LEFT])
-			{
 				countPress = 0.3;
-			}
 		}
 		gp->setVx(speed);
 		gp->addVy(translateY);
@@ -97,7 +90,7 @@ void ClingState::onCollision(Entity::SideCollisions side)
 	}
 }
 
-StateName ClingState::getState()
+GamePlayer::StateName ClingState::getState()
 {
-	return Cling;
+	return GamePlayer::Cling;
 }

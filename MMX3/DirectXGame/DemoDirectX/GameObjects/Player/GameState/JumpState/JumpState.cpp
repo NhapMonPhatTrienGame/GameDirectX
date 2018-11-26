@@ -1,8 +1,8 @@
 ﻿#include "JumpState.h"
 #include "../FallState/FallState.h"
 #include "../StandState/StandState.h"
-#include "../../GamePlayer.h"
 #include "../SlipDownState/SlipDownState.h"
+#include "../../../../GameDefines/GameDefine.h"
 
 JumpState::JumpState(GamePlayer* gp) : GameState(gp)
 {
@@ -10,7 +10,7 @@ JumpState::JumpState(GamePlayer* gp) : GameState(gp)
 	translateY = 15.0f;
 	timePress = 0;
 	Pressed = false;
-	if (gp->getState() == Dash)
+	if (gp->getState() == GamePlayer::Dash)
 		Pressed = true;
 }
 
@@ -52,27 +52,27 @@ void JumpState::onCollision(Entity::SideCollisions side)
 	{
 	case Entity::Left:
 	case Entity::Right:
-	{
-		if (timePress < 0.3f)
+		{
+			if (timePress < 0.3f)
+				break;
+			gp->setState(new SlipDownState(gp));
 			break;
-		gp->setState(new SlipDownState(gp));
-		break;
-	}
+		}
 	case Entity::Top:
-	{
-		gp->setState(new FallState(gp, Pressed));
-		break;
-	}
+		{
+			gp->setState(new FallState(gp, Pressed));
+			break;
+		}
 	case Entity::Bottom:
-	{
-		gp->setState(new StandState(gp));
-		break;
-	}
+		{
+			gp->setState(new StandState(gp));
+			break;
+		}
 	default: break;
 	}
 }
 
-StateName JumpState::getState()
+GamePlayer::StateName JumpState::getState()
 {
-	return Jumping;
+	return GamePlayer::Jump;
 }

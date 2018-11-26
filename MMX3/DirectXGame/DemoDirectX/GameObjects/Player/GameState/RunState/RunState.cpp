@@ -1,6 +1,6 @@
 ﻿#include "RunState.h"
 #include "../StandState/StandState.h"
-#include "../../GamePlayer.h"
+#include "../../../../GameDefines/GameDefine.h"
 
 
 void RunState::handlerKeyBoard(std::map<int, bool> keys, float dt)
@@ -23,23 +23,19 @@ void RunState::handlerKeyBoard(std::map<int, bool> keys, float dt)
 	}
 }
 
-StateName RunState::getState()
-{
-	return Running;
-}
-
 void RunState::onCollision(Entity::SideCollisions side)
 {
 	switch (side)
 	{
 	case Entity::Left:
 	case Entity::Right:
-	{
 		gp->setState(new StandState(gp));
-		//ko set ve stand loi va cham enemy
-		//gp->setPosition(gp->getPosition());
 		break;
-	}
 	default: break;
 	}
+}
+
+GamePlayer::StateName RunState::getState()
+{
+	return GamePlayer::Run;
 }

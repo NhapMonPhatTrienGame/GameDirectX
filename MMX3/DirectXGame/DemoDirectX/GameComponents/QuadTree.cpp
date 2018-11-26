@@ -1,12 +1,14 @@
 #include "QuadTree.h"
 #include "GameGlobal.h"
 
-QuadTree::~QuadTree() {}
+QuadTree::~QuadTree()
+{
+	Clear();
+}
 
 QuadTree::QuadTree(int level, RECT bound)
 {
 	//chia lam 4
-
 	this->Bound = bound;
 	this->mLevel = level;
 }

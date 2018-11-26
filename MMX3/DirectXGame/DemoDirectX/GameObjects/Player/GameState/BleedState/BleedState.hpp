@@ -6,11 +6,15 @@
 class BleedState : public GameState
 {
 public:
-	explicit BleedState(GamePlayer* gp) :GameState(gp) {}
+	explicit BleedState(GamePlayer* gp, int Direction);
 	~BleedState() = default;
 
-	void onCollision(Entity::SideCollisions side) override;
-	MegaManState::StateName getState() override;
+	void update(float dt) override;
+	GamePlayer::StateName getState() override;
+
+protected:
+	float timeBleed;
+
 };
 
 #endif

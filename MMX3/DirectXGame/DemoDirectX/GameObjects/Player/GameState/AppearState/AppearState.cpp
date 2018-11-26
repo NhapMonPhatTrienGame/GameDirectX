@@ -1,6 +1,6 @@
 #include "AppearState.h"
-#include "../../GamePlayer.h"
 #include "../StandState/StandState.h"
+#include "../../../../GameDefines/GameDefine.h"
 
 AppearState::AppearState(GamePlayer* gp) : GameState(gp)
 {
@@ -29,15 +29,15 @@ void AppearState::onCollision(Entity::SideCollisions side)
 	switch (side)
 	{
 	case Entity::Bottom:
-	{
-		gp->getAnimation()->setPause(false);
-		break;
-	}
+		{
+			gp->getAnimation()->setPause(false);
+			break;
+		}
 	default: break;
 	}
 }
 
-StateName AppearState::getState()
+GamePlayer::StateName AppearState::getState()
 {
-	return Appear;
+	return GamePlayer::Appear;
 }

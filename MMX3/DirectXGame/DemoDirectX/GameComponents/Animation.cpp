@@ -1,55 +1,5 @@
 #include "Animation.h"
 
-//------------------------------------------------------------------------------------------------------------//
-
-Animation::Animation(const char* filePath, int frameWidth, int frameHeight, int cols)
-	:Sprite(filePath, RECT(), frameWidth, frameHeight)
-{
-	startFrames = 0;
-	endFrames = 0;
-	currentFrame = 0;
-
-	animComplete = false;
-	isLoop = true;
-
-	animTimer = 0.0f;
-	frameDelay = 1.0f;
-
-	this->frameWidth = frameWidth;
-	this->frameHeight = frameHeight;
-	this->cols = cols;
-}
-
-void Animation::updateAnimation(float dt)
-{
-	rect.left = (currentFrame % cols) * frameWidth;
-	rect.top = (currentFrame / cols) * frameHeight;
-	rect.right = rect.left + frameWidth;
-	rect.bottom = rect.top + frameHeight;
-
-	this->setSourceRect(rect);
-
-	if (endFrames - startFrames > 0)          // if animated sprite
-	{
-		animTimer += dt;					// total elapsed time
-		if (animTimer > frameDelay)
-		{
-			animTimer -= frameDelay;
-			++currentFrame;
-			if (currentFrame < startFrames || currentFrame > endFrames)
-			{
-				if (isLoop)							// if looping animation
-					currentFrame = startFrames;
-				else								// not looping animation
-				{
-					currentFrame = endFrames;
-					animComplete = true;			// animation complete
-				}
-			}			
-		}
-	}
-}
-//------------------------------------------------------------------------------------------------------------//
 
 Animation::Animation(const char* filePath, int rows, int columns, int frameWidth, int frameHeight, float timePerFrame, D3DCOLOR colorKey) : Sprite(filePath, RECT(), frameWidth, frameHeight, colorKey)
 {
@@ -71,6 +21,13 @@ Animation::Animation(const char* filePath, int rows, int columns, int frameWidth
 	this->isShoot = false;
 }
 
+void Animation::setFrames(int frameW, int frameH)
+{
+	this->frameWidth = frameW;
+	this->frameHeight = frameH;
+	this->setWidth(frameW);
+	this->setHeight(frameH);
+}
 
 void Animation::setAnimation(int currentRow, int framePerRow, float timePerFrame, bool loopAnimation)
 {
@@ -111,7 +68,7 @@ void Animation::update(float dt)
 				currentIndex = framePerRow - 1;
 				isPause = true;
 			}
-		}		
+		}
 	}
 }
 

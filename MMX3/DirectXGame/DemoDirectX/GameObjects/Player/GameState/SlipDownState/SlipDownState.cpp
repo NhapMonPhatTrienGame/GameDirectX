@@ -1,7 +1,7 @@
 ﻿#include "SlipDownState.h"
 #include "../StandState/StandState.h"
 #include "../FallState/FallState.h"
-#include "../../GamePlayer.h"
+#include "../../../../GameDefines/GameDefine.h"
 
 SlipDownState::SlipDownState(GamePlayer* gp) : GameState(gp)
 {
@@ -43,20 +43,20 @@ void SlipDownState::onCollision(Entity::SideCollisions side)
 	{
 	case Entity::Left:
 	case Entity::Right:
-	{
-		isSlide = true;
-		break;
-	}
+		{
+			isSlide = true;
+			break;
+		}
 	case Entity::Bottom:
-	{
-		gp->setState(new StandState(gp));
-		break;
-	}
+		{
+			gp->setState(new StandState(gp));
+			break;
+		}
 	default: break;
 	}
 }
 
-MegaManState::StateName SlipDownState::getState()
+GamePlayer::StateName SlipDownState::getState()
 {
-	return MegaManState::SlipDown;
+	return GamePlayer::SlipDown;
 }

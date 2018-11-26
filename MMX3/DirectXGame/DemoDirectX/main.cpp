@@ -14,8 +14,7 @@ using namespace std;
 #define FPS 60
 #define KEYBOARD_BUFFERED_SIZE 1024
 
-
-int Init();
+int init();
 int initWindow(int cmdShow);
 int InitDevice();
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -27,11 +26,67 @@ LPDIRECT3DDEVICE9 mDevice;
 HINSTANCE mHInstance;
 int mCmdShow;
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int cmdShow)
+//int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int cmdShow)
+//{
+//    mHInstance = hInstance;
+//    initWindow(cmdShow);
+//    return 0;
+//}
+
+int main(int argc, char* argv[])
 {
-    mHInstance = hInstance;
-    initWindow(cmdShow);
-    return 0;
+	init();
+	return 0;
+}
+
+int init()
+{
+
+	WNDCLASSEX wc;
+	wc.cbSize = sizeof(WNDCLASSEX);
+
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	wc.hInstance = mHInstance;
+
+	wc.lpfnWndProc = WNDPROC(WndProc);
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hIcon = nullptr;
+
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wc.hbrBackground = HBRUSH(GetStockObject(WHITE_BRUSH));
+	wc.lpszMenuName = nullptr;
+	wc.lpszClassName = WIN_NAME;
+	wc.hIconSm = nullptr;
+
+	RegisterClassEx(&wc);
+
+	//WS_OVERLAPPEDWINDOW <=> WS_EX_TOPMOST | WS_POPUP | WS_VISIBLE
+	const auto hWnd = CreateWindow(
+		WIN_NAME,
+		WIN_NAME,
+		WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		GameGlobal::getWidth(),
+		GameGlobal::getHeight(),
+		NULL,
+		NULL,
+		mHInstance,
+		NULL);
+
+	GameGlobal::setCurrentHINSTANCE(mHInstance);
+	GameGlobal::setCurrentHWND(hWnd);
+
+	ShowWindow(hWnd, SW_NORMAL);
+	UpdateWindow(hWnd);
+
+	if (InitDevice())
+	{
+		Game game(FPS);
+	}
+
+	return 0;
 }
 
 int initWindow(int cmdShow)

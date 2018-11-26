@@ -1,7 +1,6 @@
 #include "ClimbState.h"
 
-
-MegaManState::StateName ClimbState::getState()
+GamePlayer::StateName ClimbState::getState()
 {
-	return MegaManState::Climb;
+	return GamePlayer::Climb;
 }

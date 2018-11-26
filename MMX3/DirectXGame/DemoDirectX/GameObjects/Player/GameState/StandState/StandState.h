@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#ifndef __STAND_STATE_H__
+#define __STAND_STATE_H__
 #include "../GameState.h"
 
 class StandState : public GameState
@@ -9,5 +10,6 @@ public:
 
 	void handlerKeyBoard(std::map<int, bool> keys, float dt) override;
 
-	MegaManState::StateName getState() override;
+	GamePlayer::StateName getState() override;
 };
+#endif

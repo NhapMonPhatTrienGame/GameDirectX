@@ -7,8 +7,7 @@ class FinishState : public GameState
 public:
 	explicit FinishState(GamePlayer* gp) :GameState(gp) {}
 	~FinishState() = default;
-
-	MegaManState::StateName getState() override;
+	GamePlayer::StateName getState() override;
 };
 
 #endif

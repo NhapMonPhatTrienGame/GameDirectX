@@ -1,7 +1,6 @@
 #include "Camera.h"
 #include "GameGlobal.h"
 
-Camera::Camera() = default;
 
 Camera::Camera(int width, int height)
 {
@@ -10,8 +9,6 @@ Camera::Camera(int width, int height)
 
 	mPositionWorld = D3DXVECTOR3(0, 0, 0);
 }
-
-Camera::~Camera() = default;
 
 void Camera::setPosition(float x, float y)
 {
@@ -23,15 +20,17 @@ void Camera::setPosition(D3DXVECTOR3 pos)
 	mPositionWorld = pos;
 }
 
+D3DXVECTOR2 Camera::getTrans() const
+{
+	return {
+		GameGlobal::getWidth() / 2.0f - mPositionWorld.x,
+		GameGlobal::getHeight() / 2.0f - mPositionWorld.y
+	};
+}
+
 D3DXVECTOR3 Camera::getPosition() const
 {
 	return mPositionWorld;
-}
-
-D3DXVECTOR2 Camera::getTrans()
-{
-	return D3DXVECTOR2(GameGlobal::getWidth() / 2.0f - mPositionWorld.x,
-		GameGlobal::getHeight() / 2.0f - mPositionWorld.y);
 }
 
 RECT Camera::getBound() const

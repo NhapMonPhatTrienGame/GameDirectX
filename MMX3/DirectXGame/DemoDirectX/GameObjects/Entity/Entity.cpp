@@ -2,177 +2,96 @@
 
 Entity::Entity()
 {
-	Tag = Unknown;
+	tag = TagNone;
 	vx = 0, vy = 0;
-	collision_time_minX = 1.0f;
-	collision_time_minY = 1.0f;
+	collisionTimeMinX = 1.0f;
+	collisionTimeMinY = 1.0f;
 	sideX = None;
 	sideY = None;
+	allowDrawSprite = true;
 }
 
 RECT Entity::getBound()
 {
 	RECT bound;
 
-	bound.left = x - width / 2;
-	bound.right = x + width / 2;
-	bound.top = y - height / 2;
-	bound.bottom = y + height / 2;
+	bound.left = x - width / 2.0f;
+	bound.right = x + width / 2.0f;
+	bound.top = y - height / 2.0f;
+	bound.bottom = y + height / 2.0f;
 
 	return bound;
 }
 
-void Entity::onCollision(Entity::SideCollisions side)
+void Entity::onCollision(SideCollisions side)
 {
 	vx = 0, vy = 0;
 }
-void Entity::onCollision(Entity *enemy)
-{
 
+void Entity::onCollision(Entity* obj)
+{
 }
 
 void Entity::update(float dt)
 {
-	if (sideX != None)
+	if(sideX != None)
 	{
-		if (collision_time_minY == 0.0f)
-			if (getBound().bottom <= entityX->getBound().top ||
-				getBound().top >= entityX->getBound().bottom)
+		if(collisionTimeMinX == 0.0f)
+		{
+			if(getBound().bottom <= entityX->getBound().top || getBound().top >= entityX->getBound().bottom)
 			{
-				collision_time_minX = 1.0f;
+				collisionTimeMinX = 1.0f;
 				sideX = None;
 			}
+		}
 		onCollision(sideX);
 	}
-	if (sideY != None)
+	if(sideY != None)
 	{
-		if (collision_time_minX == 0.0f)
-			if (getBound().right <= entityY->getBound().left ||
-				getBound().left >= entityY->getBound().right)
+		if(collisionTimeMinY == 0.0f)
+		{
+			if(getBound().right <= entityY->getBound().left || getBound().left >= entityY->getBound().right)
 			{
-				collision_time_minY = 1.0f;
+				collisionTimeMinY = 1.0f;
 				sideY = None;
 			}
+		}
 		onCollision(sideY);
 	}
-	//velocity = pixel / s
-	x += vx * dt * collision_time_minX;
-	y += vy * dt * collision_time_minY;
-	collision_time_minX = 1.0f;
-	collision_time_minY = 1.0f;
+
+	x += vx * dt * collisionTimeMinX;
+	y += vy * dt * collisionTimeMinY;
+	collisionTimeMinX = 1.0f;
+	collisionTimeMinY = 1.0f;
 	sideX = None;
 	sideY = None;
 }
 
-void Entity::checkTimeCollision(float collision_time, SideCollisions side, Entity *other)
+void Entity::checkTimeCollision(float collisionTime, SideCollisions side, Entity *other)
 {
 	switch (side)
 	{
-	case Entity::Left:
-	case Entity::Right:
-	{
-		if (collision_time >= collision_time_minX)
-			return;
-		collision_time_minX = collision_time;
-		sideX = side;
-		entityX = other;
-		return;
-		break;
+	case Left:
+	case Right:
+		{
+			if (collisionTime > collisionTimeMinX)
+				return;
+			collisionTimeMinX = collisionTime;
+			sideX = side;
+			entityX = other;
+			break;
+		}
+	case Top:
+	case Bottom:
+		{
+			if (collisionTime > collisionTimeMinY)
+				return;
+			collisionTimeMinY = collisionTime;
+			sideY = side;
+			entityY = other;
+			break;
+		}
+
+	default: break;
 	}
-	case Entity::Top:
-	case Entity::Bottom:
-	{
-		if (collision_time >= collision_time_minY)
-			return;
-		collision_time_minY = collision_time;
-		sideY = side;
-		entityY = other;
-		return;
-		break;
-	}
-
-	default:break;
-	}
-}
-
-void Entity::onSetPosition(D3DXVECTOR3 pos)
-{}
-
-D3DXVECTOR3 Entity::getPosition()
-{
-	return{ x, y, 0 };
-}
-void Entity::setPosition(float x, float y)
-{
-	const auto pos = D3DXVECTOR2(x, y);
-	setPosition(pos);
-}
-void Entity::setPosition(D3DXVECTOR2 pos)
-{
-	const auto position = D3DXVECTOR3(pos);
-	setPosition(position);
-}
-void Entity::setPosition(D3DXVECTOR3 pos)
-{
-	this->x = pos.x;
-	this->y = pos.y;
-	onSetPosition(pos);
-}
-void Entity::addPosition(float x, float y)
-{
-	const auto pos = D3DXVECTOR2(x, y);
-	addPosition(pos);
-}
-void Entity::addPosition(D3DXVECTOR2 pos)
-{
-	const auto position = D3DXVECTOR3(pos);
-	addPosition(position);
-}
-void Entity::addPosition(D3DXVECTOR3 pos)
-{
-	this->setPosition(this->getPosition() + pos);
-}
-
-void Entity::setWidth(int width)
-{
-	this->width = width;
-}
-int Entity::getWidth()
-{
-	return width;
-}
-
-void Entity::setHeight(int height)
-{
-	this->height = height;
-}
-int Entity::getHeight()
-{
-	return height;
-}
-
-float Entity::getVx()
-{
-	return vx;
-}
-void Entity::setVx(float vx)
-{
-	this->vx = vx;
-}
-void Entity::addVx(float vx)
-{
-	this->vx += vx;
-}
-
-float Entity::getVy()
-{
-	return vy;
-}
-void Entity::setVy(float vy)
-{
-	this->vy = vy;
-}
-void Entity::addVy(float vy)
-{
-	this->vy += vy;
 }

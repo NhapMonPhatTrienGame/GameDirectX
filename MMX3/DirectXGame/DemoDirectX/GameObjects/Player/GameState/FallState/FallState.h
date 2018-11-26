@@ -1,8 +1,19 @@
-﻿#pragma once
+﻿#ifndef __FALL_STATE_H__
+#define __FALL_STATE_H__
 #include "../GameState.h"
 
 class FallState : public GameState
 {
+public:
+	explicit FallState(GamePlayer* gp, bool dash = false);
+	~FallState() = default;
+
+	void handlerKeyBoard(std::map<int, bool> keys, float dt) override;
+
+	void onCollision(Entity::SideCollisions side) override;
+
+	GamePlayer::StateName getState() override;
+
 protected:
 
 	float translateY;
@@ -12,13 +23,6 @@ protected:
 	bool allowMoveX;
 
 	bool isLeftOrRightKeyPressed;
-public:
-	explicit FallState(GamePlayer* gp, bool dash = false);
-	~FallState() = default;
 
-	void handlerKeyBoard(std::map<int, bool> keys, float dt) override;
-
-	void onCollision(Entity::SideCollisions side) override;
-
-	MegaManState::StateName getState() override;
 };
+#endif

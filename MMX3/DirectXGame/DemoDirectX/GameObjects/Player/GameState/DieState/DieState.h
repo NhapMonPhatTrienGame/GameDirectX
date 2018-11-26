@@ -6,11 +6,15 @@
 class DieState : public GameState
 {
 public:
-	explicit DieState(GamePlayer* gp) :GameState(gp) {}
+	explicit DieState(GamePlayer* gp);
 	~DieState() = default;
 
 	void update(float dt) override;
-	MegaManState::StateName getState() override;
+	GamePlayer::StateName getState() override;
+
+protected:
+	float timeDie;
+
 };
 
 #endif

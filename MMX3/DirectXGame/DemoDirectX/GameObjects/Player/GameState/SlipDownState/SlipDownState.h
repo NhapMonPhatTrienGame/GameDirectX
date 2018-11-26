@@ -5,8 +5,6 @@
 
 class SlipDownState : public GameState
 {
-protected:
-	bool isSlide;
 public:
 	explicit SlipDownState(GamePlayer* gp);
 	~SlipDownState() = default;
@@ -17,6 +15,10 @@ public:
 
 	void onCollision(Entity::SideCollisions side) override;
 
-	MegaManState::StateName getState() override;
+	GamePlayer::StateName getState() override;
+
+protected:
+	bool isSlide;
+
 };
 #endif

@@ -1,13 +1,23 @@
 #include "DieState.h"
-#include "../../GamePlayer.h"
 
+DieState::DieState(GamePlayer* gp) :GameState(gp)
+{
+	gp->setVx(0);
+	gp->setVy(0);
+	timeDie = 0.0f;
+}
 
 void DieState::update(float dt)
 {
-	gp->getAnimation()->setAnimation(20, 3, 0.15, false);
+	timeDie += dt;
+	if (timeDie >= 3.0f)
+	{
+		gp->getAnimation()->setAnimation(20, 3, 0.3);
+	}
+		
 }
 
-StateName DieState::getState()
+GamePlayer::StateName DieState::getState()
 {
-	return Die;
+	return GamePlayer::Die;
 }
