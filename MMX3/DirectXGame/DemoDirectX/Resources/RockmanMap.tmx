@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="70" tileheight="20" infinite="0" nextlayerid="4" nextobjectid="152">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="70" tileheight="20" infinite="0" nextlayerid="17" nextobjectid="230">
  <tileset firstgid="1" source="Rockmantileset.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="100">
   <data encoding="csv">
@@ -219,10 +219,6 @@
   <object id="127" x="4432" y="1596.67" width="120" height="17.3333"/>
   <object id="128" x="4496" y="1672" width="113.333" height="12.6667"/>
   <object id="129" x="4490.67" y="1818.67" width="352.667" height="35.3333"/>
-  <object id="130" x="4844" y="1823.33" width="8" height="32"/>
-  <object id="131" x="4852.67" y="1827.33" width="10.6667" height="30"/>
-  <object id="132" x="4866" y="1830" width="9.33333" height="27.3333"/>
-  <object id="133" x="4875.33" y="1831.33" width="12" height="24"/>
   <object id="134" x="4589.33" y="1688" width="284.667" height="28"/>
   <object id="135" x="4666" y="1717.33" width="208" height="17.3333"/>
   <object id="136" x="4937.33" y="1687.33" width="94" height="46"/>
@@ -241,5 +237,117 @@
   <object id="149" x="5777.33" y="1820" width="172.667" height="38"/>
   <object id="150" x="5776.67" y="1688" width="172.667" height="11.3333"/>
   <object id="151" x="5943.33" y="1698" width="6.66667" height="120.667"/>
+  <object id="184" x="4888" y="1832.67" width="37.3333" height="26"/>
+  <object id="185" x="5047.33" y="1832.67" height="0.666667"/>
+  <object id="186" x="5050" y="1832.67" width="30.6667" height="23.3333"/>
+  <object id="187" x="5198" y="1834" width="82.6667" height="24.6667"/>
+  <object id="188" x="4933.33" y="1830.67">
+   <polygon points="0,0 48.6667,-13.3333 109.333,2.66667 -6,2"/>
+  </object>
+  <object id="189" x="5092.67" y="1830">
+   <polygon points="0,0 -7.33333,2 101.333,2 48.6667,-10.6667"/>
+  </object>
+  <object id="190" x="5242.67" y="1832">
+   <polygon points="0,0 42,-13.3333 36.6667,2"/>
+  </object>
+  <object id="191" x="4592" y="1708">
+   <polygon points="0,0 70,24.6667 70.6667,0"/>
+  </object>
+  <object id="197" x="2978.67" y="1086">
+   <polygon points="0,0 0,-10.6667 16.6667,-23.3333 34,-34 60.6667,-44.6667 80.6667,-44.6667 91.3333,-47.3333 108.667,-45.3333 118,-46.6667 148,-47.3333 186.667,-34.6667 212.667,-16.6667 218,-10"/>
+  </object>
+  <object id="198" x="2643.33" y="1084.67">
+   <polygon points="0,0 -2,-10 9.33333,-16.6667 33.3333,-34.6667 59.3333,-43.3333 78.6667,-46 144.667,-44 180.667,-36 203.333,-20 214.667,-10 214.667,-4"/>
+  </object>
+  <object id="199" x="2308" y="1075.33">
+   <polygon points="0,0 26.6667,-21.3333 54.6667,-32.6667 91.3333,-37.3333 133.333,-37.3333 154,-34 182.667,-24 206.667,-6.66667 218.667,2.66667"/>
+  </object>
+  <object id="212" x="4845.33" y="1820">
+   <polygon points="0,0 42,11.3333 42,35.3333 -1.33333,34.6667 -6.66667,22.6667"/>
+  </object>
+  <object id="217" x="2162" y="920.667" width="791.333" height="8.66667"/>
+  <object id="219" x="2948" y="920.667" width="319.333" height="10"/>
+  <object id="220" x="3260" y="932.667" width="28.6667" height="180"/>
+  <object id="221" x="3288.67" y="1098.67" width="554.667" height="12.6667"/>
+  <object id="222" x="3841.33" y="904" width="8.66667" height="194"/>
+  <object id="223" x="3851.33" y="901.333" width="261.333" height="17.3333"/>
+  <object id="224" x="4108.67" y="900" width="161.333" height="18"/>
+  <object id="225" x="4227.33" y="919.333" width="42" height="193.333"/>
+ </objectgroup>
+ <objectgroup id="4" name="Stairs machine">
+  <object id="153" x="1288.67" y="859.333" width="216.667" height="20.6667"/>
+  <object id="154" x="1178.67" y="955.333" width="240.667" height="22.6667"/>
+  <object id="155" x="1290" y="1052" width="222.667" height="20"/>
+  <object id="157" x="4491.33" y="1662.67" width="108" height="22"/>
+  <object id="158" x="4431.33" y="1592" width="120.667" height="21.3333"/>
+  <object id="159" x="4458" y="1448.67" width="94.6667" height="23.3333"/>
+  <object id="160" x="4469.33" y="1376" width="120" height="20.6667"/>
+  <object id="161" x="4457.33" y="1448" width="94.6667" height="23.3333"/>
+ </objectgroup>
+ <objectgroup id="5" name="Trap">
+  <object id="162" x="1499.33" y="660.667" width="14.6667" height="64.6667"/>
+  <object id="163" x="1500.67" y="999.333" width="13.3333" height="50.6667"/>
+  <object id="164" x="4596" y="1602.67" width="16.6667" height="60.6667"/>
+ </objectgroup>
+ <objectgroup id="6" name="Gate">
+  <object id="165" x="5561.33" y="1785.33" width="22.6667" height="34.6667"/>
+  <object id="166" x="5754" y="1783.33" width="23.3333" height="36"/>
+  <object id="167" x="4216.67" y="1208" width="22.6667" height="31.3333"/>
+  <object id="168" x="4408.67" y="1208.67" width="22.6667" height="30.6667"/>
+  <object id="169" x="1720.67" y="1209.33" width="21.3333" height="32.6667"/>
+  <object id="170" x="1910" y="1207.33" width="24.6667" height="37.3333"/>
+ </objectgroup>
+ <objectgroup id="7" name="Brick">
+  <object id="171" x="641.333" y="1045.33" width="68" height="30.6667"/>
+  <object id="213" x="2390" y="1637.33" width="52" height="20"/>
+ </objectgroup>
+ <objectgroup id="14" name="Robot">
+  <object id="214" x="2596" y="1547.33" width="52" height="70"/>
+ </objectgroup>
+ <objectgroup id="8" name="Heart">
+  <object id="173" x="1188" y="1229.33" width="22" height="12"/>
+  <object id="180" x="4197.33" y="964" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="9" name="Box">
+  <object id="174" x="2608.67" y="1170" width="35.3333" height="70"/>
+  <object id="175" x="2547.33" y="1050" width="72.6667" height="33.3333"/>
+  <object id="176" x="2884.67" y="1052" width="69.3333" height="34.6667"/>
+  <object id="177" x="2716.67" y="1207.33" width="34.6667" height="34"/>
+  <object id="178" x="2942.67" y="1171.33" width="37.3333" height="69.3333"/>
+  <object id="179" x="3051.33" y="1206.67" width="70.6667" height="36"/>
+  <object id="181" x="4888.67" y="1689.33" width="34" height="142"/>
+  <object id="182" x="5045.33" y="1688.67" width="34.6667" height="140.667"/>
+  <object id="183" x="5200" y="1687.33" width="38.6667" height="143.333"/>
+ </objectgroup>
+ <objectgroup id="10" name="Stairs Climb">
+  <object id="200" x="4084.67" y="1199.33" width="24.6667" height="40"/>
+  <object id="201" x="4157.33" y="1202" width="22" height="37.3333"/>
+  <object id="202" x="4084.67" y="920" width="24.6667" height="57.3333"/>
+  <object id="203" x="4154.67" y="918.667" width="25.3333" height="60"/>
+  <object id="204" x="1982.67" y="1204.67" width="26" height="35.3333"/>
+  <object id="205" x="2104" y="1205.33" width="24.6667" height="35.3333"/>
+ </objectgroup>
+ <objectgroup id="11" name="Cracked Wall">
+  <object id="206" x="2499.33" y="1168.67" width="24" height="72.6667"/>
+  <object id="207" x="2644" y="1170.67" width="24.6667" height="69.3333"/>
+  <object id="208" x="2836" y="1172" width="22.6667" height="68.6667"/>
+  <object id="209" x="2980" y="1171.33" width="24.6667" height="70"/>
+ </objectgroup>
+ <objectgroup id="12" name="Energy">
+  <object id="210" x="1057.33" y="468" width="70.6667" height="20.6667"/>
+ </objectgroup>
+ <objectgroup id="13" name="Energy Zero">
+  <object id="211" x="1665.33" y="586.667" width="36" height="69.3333"/>
+ </objectgroup>
+ <objectgroup id="15" name="Boss Room">
+  <object id="215" x="5776.67" y="1689.33">
+   <polygon points="0,0 0,167.333 172.667,167.333 174,-1.33333"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="16" name="Deadzone">
+  <object id="226" x="639.333" y="1081.33" width="70.6667" height="16"/>
+  <object id="227" x="1228" y="1268.67" width="59.3333" height="12"/>
+  <object id="228" x="2379.33" y="1678.67" width="71.3333" height="22"/>
+  <object id="229" x="4442" y="1846.67" width="48.6667" height="16.6667"/>
  </objectgroup>
 </map>
