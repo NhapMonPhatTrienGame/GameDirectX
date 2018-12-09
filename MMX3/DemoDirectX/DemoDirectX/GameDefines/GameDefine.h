@@ -17,6 +17,7 @@ namespace Define
 {
 	const char ANIMATION_ROCKMAN[] = "Resources/rockman/Rockman_49x49_backfround(100,100,100).png";
 	const char PLAYER_BULLET[] = "Resources/rockman/RockManBullet.png";
+	const char EFFECTS_BULLET[] = "Resources/rockman/RockMan.png";
 
 	const char NOTOR_BANGER_BULLET[] = "Resources/Enemies/NotorBanger/NotorBangerBullet.png";
 	const char NOTOR_BANGER_SPRITE[] = "Resources/Enemies/NotorBanger/NotorBangerSprite.png";

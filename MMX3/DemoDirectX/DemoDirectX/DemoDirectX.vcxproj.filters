@@ -139,6 +139,15 @@
     <Filter Include="FrameWork\GameObjects\Enemies\Helit\HelitState\HelitAttack">
       <UniqueIdentifier>{45cb6b40-ce8a-40e6-abd6-41fcab03ca62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FrameWork\GameObjects\Enemies\Genjibo">
+      <UniqueIdentifier>{7631954d-570f-4369-9f7c-c1104d10d378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Enemies\Genjibo\GenjiboState">
+      <UniqueIdentifier>{eeba4f77-a667-4b6c-a5f8-b8806df35b45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\GameObjects\Player\GameEffect">
+      <UniqueIdentifier>{48b28f7b-b202-4363-a22b-7f3f5ebdb406}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameComponents\Game.cpp">
@@ -384,6 +393,15 @@
     </ClCompile>
     <ClCompile Include="CarryArms.cpp" />
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Genjibo.cpp">
+      <Filter>FrameWork\GameObjects\Enemies\Genjibo</Filter>
+    </ClCompile>
+    <ClCompile Include="GenjiboState.cpp">
+      <Filter>FrameWork\GameObjects\Enemies\Genjibo\GenjiboState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEffect.cpp">
+      <Filter>FrameWork\GameObjects\Player\GameEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameComponents\Game.h">
@@ -634,6 +652,15 @@
     </ClInclude>
     <ClInclude Include="CarryArms.h" />
     <ClInclude Include="Box.h" />
+    <ClInclude Include="Genjibo.h">
+      <Filter>FrameWork\GameObjects\Enemies\Genjibo</Filter>
+    </ClInclude>
+    <ClInclude Include="GenjiboState.h">
+      <Filter>FrameWork\GameObjects\Enemies\Genjibo\GenjiboState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEffect.h">
+      <Filter>FrameWork\GameObjects\Player\GameEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="MapReader\Tmx.h.in">
